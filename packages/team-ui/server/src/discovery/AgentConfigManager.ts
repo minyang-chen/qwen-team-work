@@ -1,13 +1,25 @@
-import type { IAgentDiscovery, AgentConfig } from '////shared/dist/types/AcpTypes';
+import type { IAgentDiscovery, AgentConfig } from '@qwen-team/shared';
 import { promises as fs } from 'fs';
 import path from 'path';
 
+// Extended agent config with additional properties from JSON
+interface ExtendedAgentConfig extends AgentConfig {
+  priority?: number;
+  healthCheck?: string;
+  maxSessions?: number;
+  metadata?: {
+    name: string;
+    version: string;
+    region: string;
+  };
+}
+
 export class AgentConfigManager implements IAgentDiscovery {
-  private agents: AgentConfig[] = [];
+  private agents: ExtendedAgentConfig[] = [];
   private configPath: string;
 
   constructor(configPath?: string) {
-    this.configPath = configPath || path.join(process.cwd(), 'config', 'agentsjson');
+    this.configPath = configPath || path.join(process.cwd(), 'config', 'agents.json');
     this.loadConfiguration();
   }
 
@@ -15,7 +27,9 @@ export class AgentConfigManager implements IAgentDiscovery {
     try {
       const configData = await fs.readFile(this.configPath, 'utf-8');
       const config = JSON.parse(configData);
-      this.agents = configagentssort((a: AgentConfig, b: AgentConfig) => apriority - bpriority);
+      this.agents = config.agents.sort((a: ExtendedAgentConfig, b: ExtendedAgentConfig) => 
+        (a.priority || 0) - (b.priority || 0)
+      );
       console.log(`Loaded ${this.agents.length} agent configurations`);
     } catch (error) {
       console.warn('Failed to load agent configuration, using defaults:', error);
@@ -23,7 +37,7 @@ export class AgentConfigManager implements IAgentDiscovery {
     }
   }
 
-  private getDefaultAgents(): AgentConfig[] {
+  private getDefaultAgents(): ExtendedAgentConfig[] {
     return [{
       id: 'qwen-core-local',
       endpoint: 'ws://localhost:8080',
@@ -48,19 +62,20 @@ export class AgentConfigManager implements IAgentDiscovery {
           healthyAgents.push(agent);
         }
       } catch (error) {
-        console.warn(`Agent ${agentid} health check failed:`, error.message);
+        console.warn(`Agent ${agent.id} health check failed:`, (error as Error).message);
       }
     }
 
     return healthyAgents;
   }
 
-  async selectBestAgent(capabilities: string[]): Promise<AgentConfig | null> {
+  async selectBestAgent(capability: string): Promise<AgentConfig | null> {
+    const capabilities = Array.isArray(capability) ? capability : [capability];
     const healthyAgents = await this.discoverAgents();
 
     for (const agent of healthyAgents) {
       if (this.hasCapabilities(agent, capabilities)) {
-        console.log(`Selected agent: ${agentid} at ${agentendpoint}`);
+        console.log(`Selected agent: ${agent.id} at ${agent.endpoint}`);
         return agent;
       }
     }
@@ -69,29 +84,29 @@ export class AgentConfigManager implements IAgentDiscovery {
     return null;
   }
 
-  getAvailableAgents(): AgentConfig[] {
-    return [this.agents];
+  getAvailableAgents(): ExtendedAgentConfig[] {
+    return this.agents;
   }
 
   private hasCapabilities(agent: AgentConfig, required: string[]): boolean {
-    return required.every(cap => agentcapabilities.includes(cap));
+    return required.every(cap => agent.capabilities.includes(cap));
   }
 
-  private async healthCheck(agent: AgentConfig, timeout: number = 2000): Promise<boolean> {
+  private async healthCheck(agent: ExtendedAgentConfig, timeout: number = 2000): Promise<boolean> {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controllerabort(), timeout);
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-      const response = await fetch(agenthealthCheck, {
+      const response = await fetch(agent.healthCheck || `${agent.endpoint}/health`, {
         method: 'GET',
-        signal: controllersignal,
+        signal: controller.signal,
         headers: {
           'Accept': 'application/json'
         }
       });
 
       clearTimeout(timeoutId);
-      return responseok;
+      return response.ok;
     } catch (error) {
       return false;
     }
@@ -101,18 +116,23 @@ export class AgentConfigManager implements IAgentDiscovery {
     await this.loadConfiguration();
   }
 
-  addAgent(agent: AgentConfig): void {
+  addAgent(agent: ExtendedAgentConfig): void {
     this.agents.push(agent);
-    this.agentssort((a, b) => apriority - bpriority);
+    this.agents.sort((a, b) => (a.priority || 0) - (b.priority || 0));
   }
 
   removeAgent(agentId: string): boolean {
     const initialLength = this.agents.length;
-    this.agents = this.agents.filter(agent => agentid !== agentId);
+    this.agents = this.agents.filter(agent => agent.id !== agentId);
     return this.agents.length < initialLength;
   }
 
-  getAgentById(agentId: string): AgentConfig | null {
-    return this.agents.find(agent => agentid === agentId) || null;
+  getAgentById(agentId: string): ExtendedAgentConfig | null {
+    return this.agents.find(agent => agent.id === agentId) || null;
+  }
+
+  // Required by IAgentDiscovery interface
+  async registerAgent(agent: AgentConfig): Promise<void> {
+    this.addAgent(agent as ExtendedAgentConfig);
   }
 }

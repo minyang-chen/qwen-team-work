@@ -15,7 +15,7 @@ interface SandboxEntry {
 
 export class SandboxManager {
   private sandboxes = new Map<string, SandboxEntry>();
-  private cleanupInterval: NodeJSTimeout | null = null;
+  private cleanupInterval: NodeJS.Timeout | null = null;
 
   constructor() {
     this.startCleanupTask();
@@ -28,7 +28,7 @@ export class SandboxManager {
     userId: string,
     workspaceDir: string,
   ): Promise<DockerSandbox> {
-    let entry = this.sandboxesget(userId);
+    let entry = this.sandboxes.get(userId);
 
     if (!entry) {
       const sandbox = new DockerSandbox({
@@ -40,7 +40,7 @@ export class SandboxManager {
         cpus: SANDBOX_CPUS,
       });
 
-      await sandboxstart();
+      await sandbox.start();
       console.log('🐳 Created sandbox for user:', userId);
 
       entry = {
@@ -48,22 +48,22 @@ export class SandboxManager {
         lastActivity: Date.now(),
       };
 
-      this.sandboxesset(userId, entry);
+      this.sandboxes.set(userId, entry);
     } else {
       // Update last activity
-      entrylastActivity = Date.now();
+      entry.lastActivity = Date.now();
     }
 
-    return entrysandbox;
+    return entry.sandbox;
   }
 
   /**
    * Update last activity time for user's sandbox
    */
   updateActivity(userId: string): void {
-    const entry = this.sandboxesget(userId);
+    const entry = this.sandboxes.get(userId);
     if (entry) {
-      entrylastActivity = Date.now();
+      entry.lastActivity = Date.now();
     }
   }
 
@@ -76,7 +76,7 @@ export class SandboxManager {
       const toRemove: string[] = [];
 
       for (const [userId, entry] of this.sandboxes.entries()) {
-        const idleTime = now - entrylastActivity;
+        const idleTime = now - entry.lastActivity;
 
         if (idleTime > SANDBOX_IDLE_TIMEOUT) {
           console.log(
@@ -84,7 +84,7 @@ export class SandboxManager {
           );
 
           try {
-            await entrysandboxstop();
+            await entry.sandbox.stop();
             toRemove.push(userId);
           } catch (error) {
             console.error(`Failed to stop sandbox for user ${userId}:`, error);
@@ -93,7 +93,7 @@ export class SandboxManager {
       }
 
       // Remove stopped sandboxes
-      toRemove.forEach((userId) => this.sandboxesdelete(userId));
+      toRemove.forEach((userId) => this.sandboxes.delete(userId));
 
       if (toRemove.length > 0) {
         console.log(`🐳 Cleaned up ${toRemove.length} idle sandbox(es)`);
@@ -128,6 +128,6 @@ export class SandboxManager {
     );
 
     await Promise.all(promises);
-    this.sandboxesclear();
+    this.sandboxes.clear();
   }
 }

@@ -6,17 +6,17 @@ class RateLimiter {
 
   isAllowed(userId: string): boolean {
     const now = Date.now();
-    const userRequests = this.requestsget(userId) || [];
+    const userRequests = this.requests.get(userId) || [];
     
     // Remove old requests outside the window
-    const validRequests = userRequests.filter(time => now - time < this.windowMs);
+    const validRequests = userRequests.filter((time: number) => now - time < this.windowMs);
     
     if (validRequests.length >= this.maxRequests) {
       return false;
     }
     
     validRequests.push(now);
-    this.requestsset(userId, validRequests);
+    this.requests.set(userId, validRequests);
     return true;
   }
 }

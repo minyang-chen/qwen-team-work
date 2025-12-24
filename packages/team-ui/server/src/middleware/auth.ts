@@ -1,6 +1,6 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from './config.js';
+import { JWT_SECRET } from '../config.js';
 
 export interface AuthenticatedRequest extends FastifyRequest {
   user?: {
@@ -16,10 +16,10 @@ export async function authenticateRequest(
 ): Promise<void> {
   try {
     // Extract JWT token from Authorization header or cookie
-    let token = request.headersauthorization?.replace('Bearer ', '');
+    let token = request.headers.authorization?.replace('Bearer ', '');
     
-    if (!token && request.cookies?.token) {
-      token = request.cookies.token;
+    if (!token && request.cookies?.['token']) {
+      token = request.cookies['token'];
     }
     
     if (!token) {
@@ -31,7 +31,7 @@ export async function authenticateRequest(
     }
     
     try {
-      const decoded = jwtverify(token, JWT_SECRET) as any;
+      const decoded = jwt.verify(token, JWT_SECRET) as any;
       request.user = {
         userId: decoded.userId || decoded.id,
         username: decoded.username,

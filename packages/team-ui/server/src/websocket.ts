@@ -13,30 +13,30 @@ import { nanoid } from 'nanoid';
 
 // JWT Authentication middleware
 function authenticateSocket(socket: Socket, next: (err?: Error) => void) {
-  const token = sockethandshakeauthtoken || sockethandshakeheadersauthorization?.replace('Bearer ', '');
+  const token = socket.handshake.auth['token'] || socket.handshake.headers.authorization?.replace('Bearer ', '');
   
   if (!token) {
-    return next(new AppError(ErrorCodeUNAUTHORIZED, 'Authentication token required'));
+    return next(new AppError(ErrorCode.UNAUTHORIZED, 'Authentication token required'));
   }
 
   try {
-    const decoded = jwtverify(token, process.envJWT_SECRET || 'dev-secret-change-in-production');
-    socketdatauser = decoded;
+    const decoded = jwt.verify(token, process.env['JWT_SECRET'] || 'dev-secret-change-in-production');
+    socket.data.user = decoded;
     next();
   } catch (err) {
-    next(new AppError(ErrorCodeTOKEN_EXPIRED, 'Invalid authentication token'));
+    next(new AppError(ErrorCode.TOKEN_EXPIRED, 'Invalid authentication token'));
   }
 }
 
 async function extractTextFromPDF(base64Data: string): Promise<string> {
   try {
-    const buffer = Bufferfrom(base64Data, 'base64');
+    const buffer = Buffer.from(base64Data, 'base64');
     const { PDFParse } = await import('pdf-parse');
     const parser = new PDFParse({ data: buffer });
-    const result = await parsergetText();
-    return resulttext;
+    const result = await parser.getText();
+    return result.text;
   } catch (error) {
-    uiServerLoggererror('PDF extraction failed', {}, error as Error);
+    uiServerLogger.error('PDF extraction failed', {}, error as Error);
     return '';
   }
 }
@@ -49,87 +49,87 @@ export function setupWebSocket(
   userSessionManager: UserSessionManager,
 ) {
   // Apply authentication middleware
-  iouse(authenticateSocket);
+  io.use(authenticateSocket);
 
-  ioon('connection', (socket: Socket) => {
-    const logger = uiServerLoggerchild({ 
-      socketId: socketid, 
-      userId: socketdatauser?.userId 
+  io.on('connection', (socket: Socket) => {
+    const logger = uiServerLogger.child({ 
+      socketId: socket.id, 
+      userId: socket.data.user?.userId 
     });
     
-    loggerinfo('Client connected');
+    logger.info('Client connected');
 
-    socketon(
+    socket.on(
       'chat:message',
       async (data: unknown) => {
         // Generate correlation ID for request tracing
         const correlationId = nanoid();
-        const userId = socketdatauseruserId;
-        const requestLogger = loggerchild({ correlationId });
+        const userId = socket.data.user.userId;
+        const requestLogger = logger.child({ correlationId });
         
         try {
           // Rate limiting check
-          if (!rateLimiterisAllowed(userId)) {
-            const error = AppErrorrateLimit('Rate limit exceeded Please wait before sending another message', correlationId);
-            socket.emit('error', errortoResponse());
+          if (!rateLimiter.isAllowed(userId)) {
+            const error = AppError.rateLimit('Rate limit exceeded Please wait before sending another message', correlationId);
+            socket.emit('error', error.toResponse());
             return;
           }
 
           // Input sanitization
-          const sanitizedData = inputSanitizersanitizeMessage(data);
+          const sanitizedData = inputSanitizer.sanitizeMessage(String(data));
           
           // Validate message structure
-          if (!inputSanitizervalidateMessageStructure(sanitizedData)) {
-            const error = AppErrorvalidation('Invalid message structure or size', undefined, correlationId);
-            socket.emit('error', errortoResponse());
+          if (!inputSanitizer.validateMessageStructure(sanitizedData)) {
+            const error = AppError.validation('Invalid message structure or size', undefined, correlationId);
+            socket.emit('error', error.toResponse());
             return;
           }
           
           // Validate message format
           const validation = validateMessage(ChatMessageSchema, sanitizedData);
-          if (!validationvalid) {
-            const error = AppErrorvalidation(`Invalid message format: ${validationerror}`, undefined, correlationId);
-            socket.emit('error', errortoResponse());
+          if (!validation.valid) {
+            const error = AppError.validation(`Invalid message format: ${validation.error}`, undefined, correlationId);
+            socket.emit('error', error.toResponse());
             return;
           }
 
-          const validatedData = validationdata!;
+          const validatedData = validation.data!;
 
           // Verify user authorization
-          if (userId !== validatedDatauserId) {
-            const error = AppErrorforbidden('User ID mismatch', correlationId);
-            socket.emit('error', errortoResponse());
+          if (userId !== validatedData.userId) {
+            const error = AppError.forbidden('User ID mismatch', correlationId);
+            socket.emit('error', error.toResponse());
             return;
           }
 
-          requestLoggerinfo('Processing chat message', { 
-            sessionId: validatedDatasessionId, 
-            messageLength: validatedDatamessage.length 
+          requestLogger.info('Processing chat message', { 
+            sessionId: validatedData.sessionId, 
+            messageLength: validatedData.message.length 
           });
 
-          let finalMessage = validatedDatamessage;
+          let finalMessage = validatedData.message;
 
           // Extract text from PDF files
-          if (validatedDatafiles && validatedDatafiles.length > 0) {
+          if (validatedData.files && validatedData.files.length > 0) {
             const fileContents: string[] = [];
 
-            for (const file of validatedDatafiles) {
-              if (filetype === 'application/pdf') {
-                const base64Data = filedata.includes(',')
-                  ? filedata.split(',')[1]
-                  : filedata;
+            for (const file of validatedData.files) {
+              if (file.type === 'application/pdf') {
+                const base64Data = file.data.includes(',')
+                  ? file.data.split(',')[1]
+                  : file.data;
 
                 const text = await extractTextFromPDF(base64Data);
                 if (text) {
                   fileContents.push(
-                    `\n\n--- Content from ${filename} ---\n${text}\n--- End of ${filename} ---\n`,
+                    `\n\n--- Content from ${file.name || 'unknown'} ---\n${text}\n--- End of ${file.name || 'unknown'} ---\n`,
                   );
                 }
               }
             }
 
             if (fileContents.length > 0) {
-              finalMessage = `${validatedDatamessage}\n${fileContents.join('\n')}`;
+              finalMessage = `${validatedData.message}\n${fileContents.join('\n')}`;
             }
           }
 
@@ -155,15 +155,15 @@ export function setupWebSocket(
           };
 
           // Send message via backend with streaming
-          await userSessionManagersendMessageWithStreaming(
-            validatedDatauserId,
-            validatedDatasessionId,
+          await userSessionManager.sendMessageWithStreaming(
+            validatedData.userId,
+            validatedData.sessionId,
             finalMessage,
             streamHandler
           );
 
           // Store message in conversation history
-          const session = userSessionManagergetUserSession(validatedDatauserId);
+          const session = userSessionManager.getUserSession(validatedData.userId);
           if (session) {
             const userMessage: any = {
               messageId: `msg_${Date.now()}_user`,
@@ -180,19 +180,19 @@ export function setupWebSocket(
           }
 
         } catch (error) {
-          requestLoggererror('Chat message processing failed', {}, error as Error);
+          requestLogger.error('Chat message processing failed', {}, error as Error);
           
           const appError = error instanceof AppError ? 
             error : 
-            AppErrorinternal('Message processing failed', correlationId);
+            AppError.internal('Message processing failed', correlationId);
             
-          socket.emit('error', appErrortoResponse());
+          socket.emit('error', appError.toResponse());
         }
       },
     );
 
-    socketon('disconnect', () => {
-      loggerinfo('Client disconnected');
+    socket.on('disconnect', () => {
+      logger.info('Client disconnected');
     });
   });
 };

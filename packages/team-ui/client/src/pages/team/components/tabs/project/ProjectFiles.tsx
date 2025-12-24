@@ -69,13 +69,13 @@ const ProjectFiles: React.FC<ProjectFilesProps> = ({
     const projectId = activeProject?.id || 
                      activeProject?.projectId || 
                      activeProject?._id ||
-                     activeProject?.ID;
+                     activeProject?.id;
                      
       const projectData = {
         id: activeProject.id,
         projectId: activeProject.projectId,
         _id: activeProject._id,
-        ID: activeProject.ID
+        ID: activeProject.id
       };
     
     if (!projectId) {
@@ -150,7 +150,7 @@ const ProjectFiles: React.FC<ProjectFilesProps> = ({
   };
 
   const handleCreateAllFolders = async () => {
-    const projectId = activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.ID;
+    const projectId = activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.id;
     if (!projectId) return;
     
     setIsCreating(true);
@@ -172,7 +172,7 @@ const ProjectFiles: React.FC<ProjectFilesProps> = ({
   };
 
   const handleCreateFolder = async (folderName: string) => {
-    const projectId = activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.ID;
+    const projectId = activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.id;
     if (!projectId) return;
     
     try {
@@ -203,7 +203,7 @@ const ProjectFiles: React.FC<ProjectFilesProps> = ({
 
   const handleFolderSelect = (folderName: string) => {
     setSelectedFolder(folderName);
-    const projectId = activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.ID;
+    const projectId = activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.id;
     if (projectId) {
       loadFilesFromNFS(projectId, folderName);
     }
@@ -419,7 +419,7 @@ const ProjectFiles: React.FC<ProjectFilesProps> = ({
 
           <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <h4 className="font-medium text-blue-800 mb-2">NFS Project Path</h4>
-            <code className="text-sm text-blue-700">/nfs/projects/{activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.ID || 'undefined'}/</code>
+            <code className="text-sm text-blue-700">/nfs/projects/{activeProject?.id || activeProject?.projectId || activeProject?._id || activeProject?.id || 'undefined'}/</code>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

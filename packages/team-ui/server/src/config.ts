@@ -2,33 +2,45 @@ import { config } from 'dotenv';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
-import { configManager, uiServerLogger } from '@qwen-team/shared';
 
 // Get __dirname equivalent in ES modules
-const __filename = fileURLToPath(importmetaurl);
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load local env file
-const localEnvPath = resolve(__dirname, '/env');
-const logger = uiServerLoggerchild({ service: 'config' });
-loggerinfo('UI Server loading local env', { path: localEnvPath, exists: existsSync(localEnvPath) });
+// Load local env file FIRST, before any other imports
+const localEnvPath = resolve(__dirname, '../.env');
 config({ path: localEnvPath });
 
-// Use validated configuration
-const uiConfig = configManagergetUIServerConfig();
+console.log('🔥 CONFIG.TS LOADED - ENV VARS:', {
+  BACKEND_URL: process.env['BACKEND_URL'],
+  ACP_WEBSOCKET_URL: process.env['ACP_WEBSOCKET_URL']
+});
 
-export const PORT = uiConfigPORT;
-export const BASE_URL = uiConfigBASE_URL;
-export const JWT_SECRET = uiConfigJWT_SECRET;
-export const QWEN_CLIENT_ID = uiConfigQWEN_CLIENT_ID;
-export const QWEN_CLIENT_SECRET = uiConfigQWEN_CLIENT_SECRET;
-export const OPENAI_API_KEY = uiConfigOPENAI_API_KEY;
-export const OPENAI_BASE_URL = uiConfigOPENAI_BASE_URL;
-export const OPENAI_MODEL = uiConfigOPENAI_MODEL;
-export const CORS_ORIGIN = uiConfigCORS_ORIGIN;
-export const NFS_BASE_PATH = uiConfigNFS_BASE_PATH;
-export const MESSAGE_WINDOW_SIZE = uiConfigMESSAGE_WINDOW_SIZE;
-export const SESSION_TOKEN_LIMIT = uiConfigSESSION_TOKEN_LIMIT;
+// Now import after env is loaded
+import { configManager, uiServerLogger } from '@qwen-team/shared';
+
+const logger = uiServerLogger.child({ service: 'config' });
+logger.info('UI Server loading local env', { path: localEnvPath, exists: existsSync(localEnvPath) });
+
+// Use validated configuration
+const uiConfig = configManager.getUIServerConfig();
+
+export const PORT = uiConfig.PORT;
+export const BASE_URL = uiConfig.BASE_URL;
+export const JWT_SECRET = uiConfig.JWT_SECRET;
+export const QWEN_CLIENT_ID = uiConfig.QWEN_CLIENT_ID;
+export const QWEN_CLIENT_SECRET = uiConfig.QWEN_CLIENT_SECRET;
+export const OPENAI_API_KEY = uiConfig.OPENAI_API_KEY;
+export const OPENAI_BASE_URL = uiConfig.OPENAI_BASE_URL;
+export const OPENAI_MODEL = uiConfig.OPENAI_MODEL;
+export const CORS_ORIGIN = uiConfig.CORS_ORIGIN;
+export const NFS_BASE_PATH = uiConfig.NFS_BASE_PATH || '../../infrastructure/nfs-data';
+export const MESSAGE_WINDOW_SIZE = uiConfig.MESSAGE_WINDOW_SIZE;
+export const SESSION_TOKEN_LIMIT = uiConfig.SESSION_TOKEN_LIMIT;
+
+// Additional environment variables not in uiConfig
+export const BACKEND_URL = process.env['BACKEND_URL'];
+export const ACP_WEBSOCKET_URL = process.env['ACP_WEBSOCKET_URL'];
 
 // Sandbox Configuration
 export const SANDBOX_ENABLED = process.env['SANDBOX_ENABLED'] !== 'false';
@@ -42,11 +54,3 @@ export const SANDBOX_IDLE_TIMEOUT = parseInt(
 export const SANDBOX_CLEANUP_INTERVAL = parseInt(
   process.env['SANDBOX_CLEANUP_INTERVAL'] || '300000',
 ); // 5 minutes
-
-// Session Configuration
-export const SESSION_TOKEN_LIMIT = parseInt(
-  process.env['SESSION_TOKEN_LIMIT'] || '32000',
-);
-export const MESSAGE_WINDOW_SIZE = parseInt(
-  process.env['MESSAGE_WINDOW_SIZE'] || '100',
-);

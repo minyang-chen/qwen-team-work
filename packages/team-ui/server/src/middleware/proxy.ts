@@ -2,8 +2,8 @@ import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { AuthenticatedRequest } from './auth.js';
 import { requestLogger } from './logging.js';
 
-const BACKEND_URL = process.envBACKEND_URL || 'http://localhost:8000';
-const BACKEND_TIMEOUT = parseInt(process.envBACKEND_TIMEOUT || '30000');
+const BACKEND_URL = process.env['BACKEND_URL'] || 'http://localhost:8000';
+const BACKEND_TIMEOUT = parseInt(process.env['BACKEND_TIMEOUT'] || '30000');
 
 interface ProxyOptions {
   timeout?: number;
@@ -42,10 +42,10 @@ class APIGateway {
         {
           method: request.method,
           headers,
-          body,
-          signal: AbortSignaltimeout(optstimeout!)
+          body: body || undefined,
+          signal: AbortSignal.timeout(opts.timeout!)
         },
-        optsretries!
+        opts.retries!
       );
 
       // Handle streaming responses
@@ -55,7 +55,7 @@ class APIGateway {
         await this.handleRegularResponse(response, reply);
       }
 
-      requestLoggerlogRequest(request, startTime, responsestatus);
+      requestLogger.logRequest(request, startTime, response.status);
 
     } catch (error) {
       await this.handleProxyError(error as Error, request, reply, startTime);
@@ -68,7 +68,7 @@ class APIGateway {
     // Copy relevant headers
     Object.entries(request.headers).forEach(([key, value]) => {
       if (!this.defaultOptions.stripHeaders!.includes(key.toLowerCase()) && value) {
-        headers[key] = Array.isArray(value) ? value[0] : value;
+        headers[key] = Array.isArray(value) ? value[0] : (value || '');
       }
     });
 
@@ -84,7 +84,7 @@ class APIGateway {
     return headers;
   }
 
-  private async prepareBody(request: FastifyRequest): Promise<string> {
+  private async prepareBody(request: FastifyRequest): Promise<string | undefined> {
     if (['GET', 'HEAD', 'DELETE'].includes(request.method)) {
       return undefined;
     }
@@ -110,12 +110,12 @@ class APIGateway {
         const response = await fetch(url, options);
         
         // Don't retry on client errors (4xx)
-        if (responsestatus >= 400 && responsestatus < 500) {
+        if (response.status >= 400 && response.status < 500) {
           return response;
         }
         
         // Retry on server errors (5xx) or network issues
-        if (responsestatus >= 500 && attempt < retries) {
+        if (response.status >= 500 && attempt < retries) {
           await this.delay(Math.pow(2, attempt) * 1000); // Exponential backoff
           continue;
         }
@@ -135,40 +135,40 @@ class APIGateway {
   }
 
   private isStreamingResponse(response: Response): boolean {
-    const contentType = responseheadersget('content-type') || '';
+    const contentType = response.headers.get('content-type') || '';
     return contentType.includes('text/event-stream') || 
            contentType.includes('application/stream');
   }
 
   private async handleStreamingResponse(response: Response, reply: FastifyReply): Promise<void> {
     // Copy streaming headers
-    replyheader('content-type', responseheadersget('content-type') || 'text/event-stream');
-    replyheader('cache-control', 'no-cache');
-    replyheader('connection', 'keep-alive');
-    replyheader('access-control-allow-origin', '*');
+    reply.header('content-type', response.headers.get('content-type') || 'text/event-stream');
+    reply.header('cache-control', 'no-cache');
+    reply.header('connection', 'keep-alive');
+    reply.header('access-control-allow-origin', '*');
     
-    reply.code(responsestatus);
+    reply.code(response.status);
 
-    if (!responsebody) {
+    if (!response.body) {
       reply.send();
       return;
     }
 
-    const reader = responsebodygetReader();
+    const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
     try {
       while (true) {
-        const { done, value } = await readerread();
+        const { done, value } = await reader.read();
         
         if (done) break;
         
-        const chunk = decoderdecode(value, { stream: true });
-        replyrawwrite(chunk);
+        const chunk = decoder.decode(value, { stream: true });
+        reply.raw.write(chunk);
       }
     } finally {
-      readerreleaseLock();
-      replyrawend();
+      reader.releaseLock();
+      reply.raw.end();
     }
   }
 
@@ -185,14 +185,14 @@ class APIGateway {
     const contentType = response.headers.get('content-type') || '';
     
     if (contentType.includes('application/json')) {
-      const data = await responsejson();
+      const data = await response.json();
       reply.send(data);
     } else if (contentType.includes('text/')) {
-      const text = await responsetext();
+      const text = await response.text();
       reply.send(text);
     } else {
-      const buffer = await responsearrayBuffer();
-      reply.send(Bufferfrom(buffer));
+      const buffer = await response.arrayBuffer();
+      reply.send(Buffer.from(buffer));
     }
   }
 
@@ -216,7 +216,7 @@ class APIGateway {
       message = 'Backend service unavailable';
     }
 
-    requestLoggerlogRequest(request, startTime, statusCode, error);
+    requestLogger.logRequest(request, startTime, statusCode, error);
 
     reply.code(statusCode).send({
       error: message,

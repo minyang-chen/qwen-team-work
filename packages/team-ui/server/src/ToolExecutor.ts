@@ -12,7 +12,7 @@ export class ToolExecutor {
   constructor(config: Config) {
     this.scheduler = new CoreToolScheduler({
       config,
-      chatRecordingService: configgetChatRecordingService(),
+      chatRecordingService: config.getChatRecordingService(),
       outputUpdateHandler: () => {}, // No live output for web-ui
       onAllToolCallsComplete: async () => {}, // Handled via promise
       onToolCallsUpdate: () => {}, // No UI updates needed
@@ -40,7 +40,7 @@ export class ToolExecutor {
         outputUpdateHandler: () => {},
         onAllToolCallsComplete: async (completedCalls: CompletedToolCall[]) => {
           for (const call of completedCalls) {
-            completedResults.push(callresponse);
+            completedResults.push(call.response);
           }
           resolve(completedResults);
         },
@@ -49,7 +49,7 @@ export class ToolExecutor {
         onEditorClose: () => {},
       });
 
-      schedulerWithHandlerschedule(toolRequests, signal);
+      schedulerWithHandler.schedule(toolRequests, signal);
     });
   }
 }

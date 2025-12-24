@@ -66,16 +66,16 @@ export class SessionManager {
       const path = await import('path');
       const os = await import('os');
 
-      const qwenDir = path.join(oshomedir(), 'qwen');
-      const credsPath = path.join(qwenDir, 'oauth_credsjson');
+      const qwenDir = path.join(os.homedir(), '.qwen');
+      const credsPath = path.join(qwenDir, 'oauth_creds.json');
 
       // If new credentials provided, save them
-      if (userCredentialsaccessToken) {
+      if (userCredentials.accessToken) {
         const oauthCreds = {
-          access_token: userCredentialsaccessToken,
-          refresh_token: userCredentialsrefreshToken,
+          access_token: userCredentials.accessToken,
+          refresh_token: userCredentials.refreshToken,
           token_type: 'Bearer',
-          resource_url: 'portalqwenai',
+          resource_url: 'portal.qwen.ai',
           expiry_date: Date.now() + 3600 * 1000,
         };
 
@@ -85,19 +85,19 @@ export class SessionManager {
 
       // Use QWEN_OAUTH auth type to leverage QwenContentGenerator
       apiKey = 'oauth-placeholder';
-      baseUrl = 'https://dashscopealiyuncscom/compatible-mode/v1';
+      baseUrl = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
       model = 'qwen-plus';
-      authType = AuthTypeQWEN_OAUTH;
+      authType = AuthType.QWEN_OAUTH;
     } else if (userCredentials?.type === 'openai') {
-      apiKey = userCredentialsapiKey;
-      baseUrl = userCredentialsbaseUrl || OPENAI_BASE_URL;
-      model = userCredentialsmodel || OPENAI_MODEL;
-      authType = AuthTypeUSE_OPENAI;
+      apiKey = userCredentials.apiKey!;
+      baseUrl = userCredentials.baseUrl || OPENAI_BASE_URL || 'https://api.openai.com/v1';
+      model = userCredentials.model || OPENAI_MODEL || 'gpt-4';
+      authType = AuthType.USE_OPENAI;
     } else {
-      apiKey = OPENAI_API_KEY;
-      baseUrl = OPENAI_BASE_URL;
+      apiKey = OPENAI_API_KEY || 'dummy-key';
+      baseUrl = OPENAI_BASE_URL || 'https://api.openai.com/v1';
       model = OPENAI_MODEL || 'gpt-4';
-      authType = AuthTypeUSE_OPENAI;
+      authType = AuthType.USE_OPENAI;
     }
 
     console.log('Resolved credentials:', {
@@ -136,7 +136,7 @@ export class SessionManager {
       cwd = workingDirectory;
     } else {
       // Create individual user workspace in NFS
-      const userWorkspace = pathresolve(
+      const userWorkspace = path.resolve(
         process.cwd(),
         NFS_BASE_PATH,
         'individual',
@@ -165,7 +165,7 @@ export class SessionManager {
       targetDir,
       cwd,
       debugMode: false,
-      approvalMode: ApprovalModeYOLO,
+      approvalMode: ApprovalMode.YOLO,
       mcpServers: {},
       includeDirectories: [],
       model,
@@ -179,21 +179,21 @@ export class SessionManager {
       sessionId,
       targetDir,
       cwd,
-      sandbox: configgetSandbox(),
+      sandbox: config.getSandbox(),
     });
 
-    await configinitialize();
+    await config.initialize();
 
-    configupdateCredentials({
+    config.updateCredentials({
       apiKey,
       baseUrl,
       model,
     });
 
-    await configrefreshAuth(authType, true);
+    await config.refreshAuth(authType, true);
 
     const client = new Client(config);
-    await clientinitialize();
+    await client.initialize();
 
     const session: Session = {
       id: sessionId,
@@ -209,12 +209,12 @@ export class SessionManager {
       },
       messageCount: 0,
     };
-    this.session.sset(session.id, session);
+    this.sessions.set(session.id, session);
     return session;
   }
 
   getSession(sessionId: string): Session | undefined {
-    const session = this.session.sget(sessionId);
+    const session = this.sessions.get(sessionId);
     if (session) {
       session.lastActivity = new Date();
     }
@@ -222,11 +222,11 @@ export class SessionManager {
   }
 
   deleteSession(sessionId: string): void {
-    this.session.s.delete(sessionId);
+    this.sessions.delete(sessionId);
   }
 
   getUserSessions(userId: string): Session[] {
-    return Array.from(this.session.s.values()).filter(
+    return Array.from(this.sessions.values()).filter(
       (s) => s.userId === userId,
     );
   }
@@ -236,16 +236,16 @@ export class SessionManager {
     inputTokens: number,
     outputTokens: number,
   ): void {
-    const session = this.session.sget(sessionId);
+    const session = this.sessions.get(sessionId);
     if (session) {
-      session.tokenUsageinputTokens += inputTokens;
-      session.tokenUsageoutputTokens += outputTokens;
-      session.tokenUsagetotalTokens += inputTokens + outputTokens;
+      session.tokenUsage.inputTokens += inputTokens;
+      session.tokenUsage.outputTokens += outputTokens;
+      session.tokenUsage.totalTokens += inputTokens + outputTokens;
     }
   }
 
   incrementMessageCount(sessionId: string): void {
-    const session = this.session.sget(sessionId);
+    const session = this.sessions.get(sessionId);
     if (session) {
       session.messageCount++;
       session.lastActivity = new Date();
@@ -253,7 +253,7 @@ export class SessionManager {
   }
 
   getSessionStats(sessionId: string) {
-    const session = this.session.sget(sessionId);
+    const session = this.sessions.get(sessionId);
     if (!session) return null;
 
     return {
@@ -266,9 +266,9 @@ export class SessionManager {
 
   cleanup(maxAge: number = 3600000): void {
     const now = Date.now();
-    for (const [id, session] of this.session.s) {
+    for (const [id, session] of this.sessions) {
       if (now - session.lastActivity.getTime() > maxAge) {
-        this.session.s.delete(id);
+        this.sessions.delete(id);
       }
     }
   }

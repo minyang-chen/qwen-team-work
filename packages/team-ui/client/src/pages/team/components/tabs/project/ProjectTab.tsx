@@ -720,7 +720,7 @@ export const ProjectTab: React.FC<ProjectTabProps> = (props) => {
                     activeProject={activeProject}
                     onUpdateProject={(project) => {
                       setActiveProject(project);
-                      const projectId = project.id || project.projectId || project._id || project.ID;
+                      const projectId = project.id || project.projectId || project._id || project.id;
                       props.onUpdateProject(projectId, project);
                     }}
                   />
@@ -731,7 +731,7 @@ export const ProjectTab: React.FC<ProjectTabProps> = (props) => {
                     activeProject={activeProject}
                     onUpdateProject={(project) => {
                       setActiveProject(project);
-                      const projectId = project.id || project.projectId || project._id || project.ID;
+                      const projectId = project.id || project.projectId || project._id || project.id;
                       props.onUpdateProject(projectId, project);
                     }}
                   />
@@ -742,7 +742,7 @@ export const ProjectTab: React.FC<ProjectTabProps> = (props) => {
                     activeProject={activeProject}
                     onUpdateProject={(project) => {
                       setActiveProject(project);
-                      const projectId = project.id || project.projectId || project._id || project.ID;
+                      const projectId = project.id || project.projectId || project._id || project.id;
                       props.onUpdateProject(projectId, project);
                     }}
                   />

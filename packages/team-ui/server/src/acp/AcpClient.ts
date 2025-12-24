@@ -1,8 +1,16 @@
 import WebSocket from 'ws';
 import type { AcpMessage } from '@qwen-team/shared';
-import type { AgentConfig, AcpResponse, IAgentDiscovery } from '////shared/dist/types/AcpTypes';
-import type { ISessionService } from '////shared/dist/interfaces/ISessionService';
+import type { AgentConfig, AcpResponse, IAgentDiscovery } from '@qwen-team/shared';
+import type { ISessionService } from '@qwen-team/shared';
 import { nanoid } from 'nanoid';
+
+// Extended message type for internal ACP operations
+type ExtendedAcpMessage = {
+  id: string;
+  type: 'session.create' | 'chat.send' | 'tool.execute' | 'tools.execute' | 'session.destroy' | 'session.updateTokens' | 'session.getStats' | 'health.check';
+  data: any;
+  timestamp: number;
+};
 
 export class AcpClient {
   private ws: WebSocket | null = null;
@@ -15,10 +23,11 @@ export class AcpClient {
   constructor(private agentDiscovery: IAgentDiscovery) {}
 
   async connect(capabilities: string[]): Promise<void> {
-    // Discover and connect to best agent
-    const agent = await this.agentDiscoveryselectBestAgent(capabilities);
-    if (!agent) {
-      throw new Error('No compatible agents found');
+    // Discover and connect to best agent (use first capability as primary)
+    const capability = capabilities[0] || 'session.create';
+    const agent = await this.agentDiscovery.selectBestAgent(capability);
+    if (!agent?.endpoint) {
+      throw new Error('No compatible agents found or agent missing endpoint');
     }
 
     this.connectionState = 'connecting';
@@ -52,21 +61,21 @@ export class AcpClient {
     });
   }
 
-  async request(type: string, payload: any): Promise<any> {
+  async request(type: 'chat.send' | 'tool.execute' | 'tools.execute' | 'session.create' | 'session.destroy' | 'session.updateTokens' | 'session.getStats' | 'health.check', payload: any): Promise<any> {
     if (this.connectionState !== 'connected') {
       await this.ensureConnection();
     }
 
     const id = nanoid();
-    const message: AcpMessage = {
+    const message: ExtendedAcpMessage = {
       id,
       type,
-      payload,
+      data: payload,
       timestamp: Date.now()
     };
 
     return new Promise((resolve, reject) => {
-      this.pendingRequestsset(id, { resolve, reject });
+      this.pendingRequests.set(id, { resolve, reject });
       
       try {
         this.ws!.send(JSON.stringify(message));
@@ -78,7 +87,7 @@ export class AcpClient {
       // Request timeout
       setTimeout(() => {
         if (this.pendingRequests.has(id)) {
-          this.pendingRequestsdelete(id);
+          this.pendingRequests.delete(id);
           reject(new Error(`Request timeout for ${type}`));
         }
       }, 30000);
@@ -122,24 +131,28 @@ export class AcpClient {
   }
 
   private handleResponse(response: AcpResponse): void {
-    const pending = this.pendingRequestsget(responseid);
+    const pending = this.pendingRequests.get(response.id);
     
     if (pending) {
-      if (responsesuccess) {
-        pendingresolve(responsedata);
+      if (response.success) {
+        pending.resolve(response.data);
       } else {
-        pendingreject(new Error(responseerror?.message || 'Request failed'));
+        pending.reject(new Error(
+          typeof response.error === 'string' 
+            ? response.error 
+            : (response.error as any)?.message || 'Request failed'
+        ));
       }
-      this.pendingRequestsdelete(responseid);
+      this.pendingRequests.delete(response.id);
     }
   }
 
   private handleDisconnection(): void {
     // Reject all pending requests
     for (const [id, pending] of this.pendingRequests) {
-      pendingreject(new Error('Connection lost'));
+      pending.reject(new Error('Connection lost'));
     }
-    this.pendingRequestsclear();
+    this.pendingRequests.clear();
 
     // Attempt reconnection if not intentionally disconnected
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
@@ -161,7 +174,7 @@ export class AcpClient {
     }
 
     if (this.ws) {
-      this.wsclose();
+      this.ws.close();
       this.ws = null;
     }
 
@@ -174,7 +187,7 @@ export class AcpClient {
   }
 
   isConnected(): boolean {
-    return this.connectionState === 'connected' && this.ws?.readyState === WebSocketOPEN;
+    return this.connectionState === 'connected' && this.ws?.readyState === WebSocket.OPEN;
   }
 }
 

@@ -1,17 +1,14 @@
 {
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "editor.tabSize": 2,
-  "editor.rulers": [80],
-  "editor.detectIndentation": false,
-  "editor.insertSpaces": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "typescript.preferences.noSemicolons": "off",
+  "typescript.validate.enable": true,
+  "typescript.format.enable": true,
+  "typescript.suggest.autoImports": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
   },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "vitest.disableWorkspaceWarning": true
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "files.associations": {
+    "*.ts": "typescript"
+  }
 }

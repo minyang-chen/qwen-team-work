@@ -4,7 +4,7 @@ import { existsSync } from 'fs';
 import { configManager } from '@qwen-team/shared';
 
 // Load local .env file first
-const localEnvPath = path.join(__dirname, '../.env');
+const localEnvPath = path.join(__dirname, '../../.env');
 console.log('Backend loading local .env from:', localEnvPath);
 console.log('Local .env exists:', existsSync(localEnvPath));
 dotenv.config({ path: localEnvPath });

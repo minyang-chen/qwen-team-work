@@ -1,12 +1,33 @@
-import type { ISessionManager, IAgentDiscovery, UserCredentials, ExecutionResult } from '////shared/dist/types/AcpTypes';
-import type { ISessionService } from '////shared/dist/interfaces/ISessionService';
-import { AcpClient } from '/acp/AcpClient';
-import { SandboxManager } from '/SandboxManager';
-import { DockerSandbox } from '/DockerSandbox';
+import type { IAgentDiscovery } from '@qwen-team/shared';
+import { AcpClient } from '../acp/AcpClient.js';
+import { SandboxManager } from '../SandboxManager.js';
+import { DockerSandbox } from '../DockerSandbox.js';
+
+// Local type definitions for missing shared types
+interface ISessionManager {
+  createUserSession(userId: string, credentials: UserCredentials, workingDirectory?: string): Promise<string>;
+  deleteUserSession(userId: string): Promise<void>;
+  getUserSessions(userId: string): string[];
+}
+
+interface UserCredentials {
+  type: string;
+  apiKey?: string;
+  baseUrl?: string;
+  model?: string;
+  accessToken?: string;
+  refreshToken?: string;
+}
+
+interface ExecutionResult {
+  stdout: string;
+  stderr: string;
+  exitCode: number;
+}
 
 export class UserSessionManager implements ISessionManager {
   private userSessions = new Map<string, AcpClient>();
-  private sessionCleanupInterval: NodeJSTimeout;
+  private sessionCleanupInterval!: NodeJS.Timeout;
   private sandboxManager = new SandboxManager();
   private executionSessions = new Map<string, ExecutionSession>();
 
@@ -20,27 +41,27 @@ export class UserSessionManager implements ISessionManager {
     workingDirectory?: string
   ): Promise<string> {
     // Check existing session
-    const existingClient = this.userSessionsget(userId);
-    if (existingClient && existingClientconnectionState === 'connected') {
-      return existingClientsessionId!;
+    const existingClient = this.userSessions.get(userId);
+    if (existingClient && existingClient.connectionState === 'connected') {
+      return existingClient.sessionId!;
     }
 
     // Create ACP client
     const acpClient = new AcpClient(this.agentDiscovery);
-    await acpClientconnect(['session.create', 'chatsend', 'toolsexecute']);
+    await acpClient.connect(['session.create', 'chat.send', 'tools.execute']);
 
     // Create session via protocol
-    const sessionId = await acpClientrequest('session.create', {
+    const sessionId = await acpClient.request('session.create', {
       userId,
       credentials,
       workingDirectory
     });
 
     // Create sandbox
-    const sandbox = await this.sandboxManagergetSandbox(userId, workingDirectory);
+    const sandbox = await this.sandboxManager.getSandbox(userId, workingDirectory || `/tmp/qwen-workspace-${userId}`);
 
     // Link session and sandbox
-    this.executionSessionsset(sessionId, {
+    this.executionSessions.set(sessionId, {
       userId,
       sessionId,
       sandbox,
@@ -55,28 +76,28 @@ export class UserSessionManager implements ISessionManager {
       }
     });
 
-    this.userSessionsset(userId, acpClient);
+    this.userSessions.set(userId, acpClient);
     return sessionId;
   }
 
   getUserSession(userId: string): AcpClient | null {
-    return this.userSessionsget(userId) || null;
+    return this.userSessions.get(userId) || null;
   }
 
   async deleteUserSession(userId: string): Promise<void> {
-    const acpClient = this.userSessionsget(userId);
+    const acpClient = this.userSessions.get(userId);
     if (acpClient) {
-      await acpClientrequest('session.destroy', {
-        sessionId: acpClientsessionId
+      await acpClient.request('session.destroy', {
+        sessionId: acpClient.sessionId
       });
-      await this.cleanupExecutionSession(acpClientsessionId!);
-      this.userSessionsdelete(userId);
+      await this.cleanupExecutionSession(acpClient.sessionId!);
+      this.userSessions.delete(userId);
     }
   }
 
   getUserSessions(userId: string): string[] {
-    const acpClient = this.userSessionsget(userId);
-    return acpClient ? [acpClientsessionId!] : [];
+    const acpClient = this.userSessions.get(userId);
+    return acpClient ? [acpClient.sessionId!] : [];
   }
 
   async updateTokenUsage(
@@ -85,9 +106,9 @@ export class UserSessionManager implements ISessionManager {
     inputTokens: number,
     outputTokens: number
   ): Promise<void> {
-    const acpClient = this.userSessionsget(userId);
+    const acpClient = this.userSessions.get(userId);
     if (acpClient) {
-      await acpClientrequest('session.updateTokens', {
+      await acpClient.request('session.updateTokens', {
         sessionId,
         inputTokens,
         outputTokens
@@ -96,19 +117,19 @@ export class UserSessionManager implements ISessionManager {
   }
 
   async getSessionStats(userId: string, sessionId: string): Promise<any> {
-    const acpClient = this.userSessionsget(userId);
+    const acpClient = this.userSessions.get(userId);
     if (acpClient) {
-      return await acpClientrequest('session.getStats', { sessionId });
+      return await acpClient.request('session.getStats', { sessionId });
     }
     return null;
   }
 
   async sendMessage(userId: string, sessionId: string, message: string): Promise<any> {
-    const acpClient = this.userSessionsget(userId);
+    const acpClient = this.userSessions.get(userId);
     if (!acpClient) {
       throw new Error('User session not found');
     }
-    return await acpClientrequest('chatsend', { sessionId, content: message });
+    return await acpClient.request('chat.send', { sessionId, content: message });
   }
 
   async sendMessageWithStreaming(
@@ -121,16 +142,16 @@ export class UserSessionManager implements ISessionManager {
       onError: (error: Error) => void;
     }
   ): Promise<void> {
-    const acpClient = this.userSessionsget(userId);
+    const acpClient = this.userSessions.get(userId);
     if (!acpClient) {
       throw new Error('User session not found');
     }
 
     try {
       // For now, use the existing sendMessage and simulate streaming
-      const response = await acpClientrequest('chatsend', { sessionId, content: message });
+      const response = await acpClient.request('chat.send', { sessionId, content: message });
       
-      if (response && responsecontent) {
+      if (response && response.content) {
         // Extract content after <|end|> token
         let content = response.content;
         const endTokenIndex = content.indexOf('<|end|>');
@@ -148,18 +169,18 @@ export class UserSessionManager implements ISessionManager {
         }
       }
       
-      streamHandleronComplete();
+      streamHandler.onComplete();
     } catch (error) {
-      streamHandleronError(error as Error);
+      streamHandler.onError(error as Error);
     }
   }
 
   async executeCode(userId: string, sessionId: string, code: string, language: string): Promise<ExecutionResult> {
-    const acpClient = this.userSessionsget(userId);
+    const acpClient = this.userSessions.get(userId);
     if (!acpClient) {
       throw new Error('User session not found');
     }
-    return await acpClientrequest('toolsexecute', { sessionId, code, language });
+    return await acpClient.request('tools.execute', { sessionId, code, language });
   }
 
   async cleanup(maxAge: number = 3600000): Promise<void> {
@@ -167,8 +188,8 @@ export class UserSessionManager implements ISessionManager {
     const usersToCleanup: string[] = [];
 
     for (const [userId, acpClient] of this.userSessions) {
-      const stats = await this.getSessionStats(userId, acpClientsessionId!);
-      if (stats && (now - statslastActivity) > maxAge) {
+      const stats = await this.getSessionStats(userId, acpClient.sessionId!);
+      if (stats && (now - stats.lastActivity) > maxAge) {
         usersToCleanup.push(userId);
       }
     }
@@ -209,7 +230,7 @@ export class UserSessionManager implements ISessionManager {
   deleteSession(sessionId: string): void {
     // Find user by sessionId and delete
     for (const [userId, acpClient] of this.userSessions) {
-      if (acpClientsessionId === sessionId) {
+      if (acpClient.sessionId === sessionId) {
         this.deleteUserSession(userId);
         break;
       }
@@ -217,10 +238,10 @@ export class UserSessionManager implements ISessionManager {
   }
 
   private async cleanupExecutionSession(sessionId: string): Promise<void> {
-    const execSession = this.executionSessionsget(sessionId);
+    const execSession = this.executionSessions.get(sessionId);
     if (execSession) {
-      await execSessionsandboxstop();
-      this.executionSessionsdelete(sessionId);
+      await execSession.sandbox.stop();
+      this.executionSessions.delete(sessionId);
     }
   }
 

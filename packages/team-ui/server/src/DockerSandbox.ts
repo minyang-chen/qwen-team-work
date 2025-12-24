@@ -26,9 +26,9 @@ export class DockerSandbox {
   constructor(config: DockerSandboxConfig) {
     this.config = {
       ...config,
-      memory: config.memory || thisMAX_MEMORY,
-      cpus: config.cpus || thisMAX_CPUS,
-      timeout: config.timeout || thisDEFAULT_TIMEOUT,
+      memory: config.memory || this.MAX_MEMORY,
+      cpus: config.cpus || this.MAX_CPUS,
+      timeout: config.timeout || this.DEFAULT_TIMEOUT,
       readOnly: config.readOnly ?? true,
       noNetwork: config.noNetwork ?? true
     };
@@ -42,7 +42,7 @@ export class DockerSandbox {
     if (this.isRunning) return;
 
     try {
-      console.log(`🐳 Starting sandbox for user ${this.configuserId}`);
+      console.log(`🐳 Starting sandbox for user ${this.config.userId}`);
 
       // Check if container already exists
       const { stdout } = await execAsync(
@@ -56,8 +56,8 @@ export class DockerSandbox {
       } else {
         // Create new container
         console.log(`🐳 Creating new container: ${this.containerName}`);
-        console.log(`   - Image: ${this.configimage}`);
-        console.log(`   - Workspace: ${this.configworkspaceDir}`);
+        console.log(`   - Image: ${this.config.image}`);
+        console.log(`   - Workspace: ${this.config.workspaceDir}`);
 
         await execAsync(`docker run -d \
           --name ${this.containerName} \
@@ -81,7 +81,7 @@ export class DockerSandbox {
       this.isRunning = true;
     } catch (error) {
       console.error(
-        `🐳 ❌ Failed to start container for user ${this.configuserId}:`,
+        `🐳 ❌ Failed to start container for user ${this.config.userId}:`,
         error,
       );
       throw error;
@@ -123,15 +123,15 @@ export class DockerSandbox {
       let stdout = '';
       let stderr = '';
 
-      procstdouton('data', (data) => {
+      proc.stdout.on('data', (data: any) => {
         stdout += data.toString();
       });
 
-      procstderron('data', (data) => {
+      proc.stderr.on('data', (data: any) => {
         stderr += data.toString();
       });
 
-      procon('close', (code) => {
+      proc.on('close', (code) => {
         resolve({
           stdout,
           stderr,
@@ -139,13 +139,13 @@ export class DockerSandbox {
         });
       });
 
-      procon('error', (error) => {
+      proc.on('error', (error) => {
         reject(error);
       });
 
       if (signal) {
-        signaladdEventListener('abort', () => {
-          prockill('SIGTERM');
+        signal.addEventListener('abort', () => {
+          proc.kill('SIGTERM');
         });
       }
     });
@@ -205,7 +205,7 @@ export class DockerSandbox {
       this.isRunning = false;
 
       // Create new container from snapshot
-      this.configimage = snapshotName;
+      this.config.image = snapshotName;
       await this.start();
       console.log(`🐳 Loaded snapshot: ${snapshotName}`);
     } catch (error) {
@@ -254,10 +254,10 @@ export class DockerSandbox {
 
       return {
         containerName: this.containerName,
-        image: this.configimage,
+        image: this.config.image,
         status,
-        workspaceDir: this.configworkspaceDir,
-        userId: this.configuserId,
+        workspaceDir: this.config.workspaceDir || '/tmp/workspace',
+        userId: this.config.userId || 'unknown',
         uptime:
           status === 'running'
             ? `${uptimeHours}h ${uptimeMinutes}m`
@@ -268,10 +268,10 @@ export class DockerSandbox {
     } catch {
       return {
         containerName: this.containerName,
-        image: this.configimage,
+        image: this.config.image,
         status: 'not created',
-        workspaceDir: this.configworkspaceDir,
-        userId: this.configuserId,
+        workspaceDir: this.config.workspaceDir || '/tmp/workspace',
+        userId: this.config.userId || 'unknown',
       };
     }
   }

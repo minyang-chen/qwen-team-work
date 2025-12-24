@@ -55,11 +55,11 @@ export class ClientAdapter {
             outputTokens: chunk.value.usageMetadata.candidatesTokenCount || 0,
           };
         } else if (chunk.type === 'tool_call_request') {
-          toolCallNames.set(chunk.valuecallId, chunk.valuename);
+          toolCallNames.set(chunk.value.callId, chunk.value.name);
           toolRequests.push(chunk.value);
           socket.emit('tool:call', {
-            name: chunk.valuename,
-            args: chunk.valueargs,
+            name: chunk.value.name,
+            args: chunk.value.args,
           });
         } else if (chunk.type === 'tool_call_response') {
           const result = chunk.value.resultDisplay
@@ -76,11 +76,11 @@ export class ClientAdapter {
       }
 
       // Execute tools if any were requested
-      if (toolRequests.length > 0 && !abortControllersignalaborted) {
+      if (toolRequests.length > 0 && !abortController.signal.aborted) {
         console.log('🔧 Executing tools:', toolRequests.length);
-        const toolResults = await this.toolExecutorexecuteTools(
+        const toolResults = await this.toolExecutor.executeTools(
           toolRequests,
-          abortControllersignal,
+          abortController.signal,
         );
         console.log(
           '🔧 Tool results received:',
@@ -89,9 +89,9 @@ export class ClientAdapter {
 
         // Emit tool results to frontend
         for (const result of toolResults) {
-          const toolName = toolCallNames.get(resultcallId) || 'unknown';
-          const resultText = resultresultDisplay
-            ? typeof resultresultDisplay === 'string'
+          const toolName = toolCallNames.get(result.callId) || 'unknown';
+          const resultText = result.resultDisplay
+            ? typeof result.resultDisplay === 'string'
               ? result.resultDisplay
               : JSON.stringify(result.resultDisplay)
             : result.error?.message || 'Tool execution completed';
@@ -103,7 +103,7 @@ export class ClientAdapter {
         }
 
         // Submit tool responses back to continue conversation
-        const responseParts = toolResultsflatMap((r) => rresponseParts);
+        const responseParts = toolResults.flatMap((r: any) => r.responseParts);
         console.log(
           '🔧 Sending response parts back to model:',
           JSON.stringify(responseParts, null, 2),
@@ -115,9 +115,9 @@ export class ClientAdapter {
       }
 
       // Emit token usage if available
-      if (tokenUsageinputTokens > 0 || tokenUsageoutputTokens > 0) {
+      if (tokenUsage.inputTokens > 0 || tokenUsage.outputTokens > 0) {
         if (this.onTokenUsage) {
-          this.onTokenUsage(tokenUsageinputTokens, tokenUsageoutputTokens);
+          this.onTokenUsage(tokenUsage.inputTokens, tokenUsage.outputTokens);
         }
         socket.emit('token:usage', tokenUsage);
       }
@@ -136,11 +136,11 @@ export class ClientAdapter {
   }
 
   getHistory() {
-    return this.clientgetHistory();
+    return this.client.getHistory();
   }
 
   async compressHistory() {
     const promptId = nanoid();
-    return this.clienttryCompressChat(promptId, true);
+    return this.client.tryCompressChat(promptId, true);
   }
 }

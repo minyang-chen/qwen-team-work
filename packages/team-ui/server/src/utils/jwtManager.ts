@@ -23,13 +23,13 @@ class JWTManager {
     accessToken: string;
     refreshToken: string;
   } {
-    const accessToken = jwtsign(payload, this.secret, {
+    const accessToken = jwt.sign(payload, this.secret, {
       expiresIn: this.accessTokenExpiry,
       jwtid: nanoid()
     });
 
-    const refreshToken = jwtsign(
-      { userId: payloaduserId, type: 'refresh' },
+    const refreshToken = jwt.sign(
+      { userId: payload.userId, type: 'refresh' },
       this.secret,
       {
         expiresIn: this.refreshTokenExpiry,
@@ -42,9 +42,9 @@ class JWTManager {
 
   verifyAccessToken(token: string): TokenPayload | null {
     try {
-      return jwtverify(token, this.secret) as TokenPayload;
+      return jwt.verify(token, this.secret) as TokenPayload;
     } catch (error) {
-      if (error instanceof jwtTokenExpiredError) {
+      if (error instanceof jwt.TokenExpiredError) {
         console.log('Access token expired');
       }
       return null;
@@ -53,9 +53,9 @@ class JWTManager {
 
   verifyRefreshToken(token: string): { userId: string } | null {
     try {
-      const payload = jwtverify(token, this.secret) as any;
-      if (payloadtype !== 'refresh') return null;
-      return { userId: payloaduserId };
+      const payload = jwt.verify(token, this.secret) as any;
+      if (payload.type !== 'refresh') return null;
+      return { userId: payload.userId };
     } catch {
       return null;
     }
@@ -65,9 +65,9 @@ class JWTManager {
     const payload = this.verifyRefreshToken(refreshToken);
     if (!payload) return null;
 
-    const newAccessToken = jwtsign(
+    const newAccessToken = jwt.sign(
       {
-        userId: payloaduserId,
+        userId: payload.userId,
         credentials: userCredentials
       },
       this.secret,
@@ -82,10 +82,10 @@ class JWTManager {
 
   isTokenExpiringSoon(token: string, thresholdMinutes = 5): boolean {
     try {
-      const payload = jwtdecode(token) as TokenPayload;
+      const payload = jwt.decode(token) as TokenPayload;
       if (!payload?.exp) return true;
       
-      const expiryTime = payloadexp * 1000;
+      const expiryTime = payload.exp * 1000;
       const thresholdTime = Date.now() + (thresholdMinutes * 60 * 1000);
       
       return expiryTime < thresholdTime;
@@ -97,6 +97,6 @@ class JWTManager {
 
 import { configManager } from '@qwen-team/shared';
 
-const config = configManagergetUIServerConfig();
+const config = configManager.getUIServerConfig();
 
 export const jwtManager = new JWTManager(config.JWT_SECRET);

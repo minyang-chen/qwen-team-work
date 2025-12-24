@@ -23,7 +23,7 @@ export class SandboxedToolExecutor extends ToolExecutor {
     signal: AbortSignal,
   ): Promise<ToolCallResponseInfo[]> {
     if (!this.sandbox) {
-      return superexecuteTools(toolRequests, signal);
+      return super.executeTools(toolRequests, signal);
     }
 
     console.log('🐳 Tool requests:', JSON.stringify(toolRequests, null, 2));
@@ -32,8 +32,8 @@ export class SandboxedToolExecutor extends ToolExecutor {
       toolRequests.map(async (request) => {
         // Intercept run_shell_command for all shell commands
         if (
-          requestname === 'run_shell_command' ||
-          requestname === 'execute_bash'
+          request.name === 'run_shell_command' ||
+          request.name === 'execute_bash'
         ) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const command = (request as any).args?.command;
@@ -53,7 +53,7 @@ export class SandboxedToolExecutor extends ToolExecutor {
               request,
               _sandboxResult: {
                 output: result.stdout || result.stderr,
-                exitCode: resultexitCode,
+                exitCode: result.exitCode,
               },
             };
           } catch (error) {
@@ -70,7 +70,7 @@ export class SandboxedToolExecutor extends ToolExecutor {
 
         // Intercept fs_write for code files - ensure they're written to workspace
         if (
-          requestname === 'fs_write' &&
+          request.name === 'fs_write' &&
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (request as any).args?.path &&
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -124,7 +124,7 @@ export class SandboxedToolExecutor extends ToolExecutor {
     }
 
     // Fall back to normal execution for non-bash tools
-    return superexecuteTools(toolRequests, signal);
+    return super.executeTools(toolRequests, signal);
   }
 
   private isCodeFile(path: string): boolean {

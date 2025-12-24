@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit",
+    "type-check:strict": "tsc --noEmit --strict --noImplicitAny",
+    "lint:dots": "grep -r -n --include='*.ts' --include='*.tsx' -E '[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]+' src/ | grep -v -E 'import|export|interface|type|class|function|const|let|var' || echo 'No suspicious patterns found'"
   },
   "dependencies": {
     "@fastify/cookie": "^9.3.0",

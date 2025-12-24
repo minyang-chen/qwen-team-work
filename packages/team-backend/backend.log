@@ -1,0 +1,10 @@
+
+> @qwen-team/backend@1.0.0 dev
+> tsx watch src/index.ts
+
+Backend loading local .env from: /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-backend/.env
+Local .env exists: true
+✅ Backend configuration validated successfully
+MongoDB connected successfully
+Vector search, image search, and full-text search indexes created successfully for MongoDB Community Edition
+[INFO] {"timestamp":"2025-12-24T23:38:00.178Z","level":2,"message":"Backend server started","service":"team-backend","context":{"service":"team-backend","port":8000,"env":"development","allowedOrigins":["http://localhost:8002","http://team-ui-server:8002","http://localhost:3001"]}}

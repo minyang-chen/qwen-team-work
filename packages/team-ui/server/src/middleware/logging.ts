@@ -25,22 +25,22 @@ class RequestLogger {
     const isSuccess = statusCode >= 200 && statusCode < 400;
 
     // Update metrics
-    this.metricstotalRequests++;
-    this.metricslastRequestTime = new Date();
+    this.metrics.totalRequests++;
+    this.metrics.lastRequestTime = new Date();
     
     if (isSuccess) {
-      this.metricssuccessfulRequests++;
+      this.metrics.successfulRequests++;
     } else {
-      this.metricsfailedRequests++;
+      this.metrics.failedRequests++;
     }
 
     // Track response times (keep last 100)
     this.responseTimes.push(duration);
     if (this.responseTimes.length > 100) {
-      this.responseTimesshift();
+      this.responseTimes.shift();
     }
     
-    this.metricsaverageResponseTime = 
+    this.metrics.averageResponseTime = 
       this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
 
     // Log request
@@ -55,7 +55,7 @@ class RequestLogger {
       statusCode,
       duration: `${duration}ms`,
       userAgent: request.headers['user-agent'],
-      ip: requestip,
+      ip: request.ip,
       error: error?.message
     });
   }
@@ -98,8 +98,8 @@ export async function logRequestMiddleware(
 ): Promise<void> {
   const startTime = Date.now();
   
-  replyaddHook('onSend', async (request, reply, payload) => {
-    requestLoggerlogRequest(request, startTime, replystatusCode);
-    return payload;
+  // Use reply.raw.on to listen for the finish event
+  reply.raw.on('finish', () => {
+    requestLogger.logRequest(request, startTime, reply.statusCode);
   });
 }
