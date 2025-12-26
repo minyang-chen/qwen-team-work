@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Router } from 'express';
-import { authenticate, requireTeamAccess } from '../middleware/authMiddleware';
+import { authenticate, requireTeamAccess } from '../middleware/authMiddleware.js';
 import {
   createTeam,
   joinTeam,
@@ -13,7 +13,7 @@ import {
   addTeamMember,
   removeTeamMember,
   updateMemberStatus,
-} from '../controllers/teamController';
+} from '../controllers/teamController.js';
 
 const router = Router();
 

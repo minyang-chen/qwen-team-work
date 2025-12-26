@@ -1,6 +1,6 @@
 // @ts-nocheck
 import crypto from 'crypto';
-import { ApiKey } from '../models/UnifiedModels';
+import { ApiKey } from '../models/UnifiedModels.js';
 
 export const apiKeyService = {
   generateApiKey(): string {

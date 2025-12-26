@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Router } from 'express';
-import { createNewConversation, getConversationList, switchConversation, renameConversation, deleteConversation, searchConversations } from '../controllers/conversationController';
-import { authenticate } from '../middleware/authMiddleware';
+import { createNewConversation, getConversationList, switchConversation, renameConversation, deleteConversation, searchConversations } from '../controllers/conversationController.js';
+import { authenticate } from '../middleware/authMiddleware.js';
 
 const router = Router();
 

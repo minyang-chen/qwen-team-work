@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Router } from 'express';
-import { authenticate } from '../middleware/authMiddleware';
-import { getChatHistory, sendMessage } from '../controllers/chatController';
+import { authenticate } from '../middleware/authMiddleware.js';
+import { getChatHistory, sendMessage } from '../controllers/chatController.js';
 
 const router = Router();
 

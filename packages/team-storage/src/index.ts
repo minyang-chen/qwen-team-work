@@ -3,9 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { connectMongoDB } from './config/database';
+import { connectMongoDB } from './config/database.js';
 import { configManager, backendLogger, errorHandler } from '@qwen-team/shared';
-import routes from './routes/index';
+import routes from './routes/index.js';
 
 // Load and validate configuration
 const config = configManager.getBackendConfig();

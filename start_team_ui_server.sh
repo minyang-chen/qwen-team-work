@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "🔄 Starting Team UI Server..."
-cd packages/team-web/server
+echo "🔄 Starting Team Service..."
+cd packages/team-service
 
 # Load environment variables
 if [ -f .env ]; then

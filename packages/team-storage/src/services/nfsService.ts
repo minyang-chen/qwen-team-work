@@ -1,7 +1,7 @@
 // @ts-nocheck
 import fs from 'fs/promises';
 import path from 'path';
-import { NFS_BASE_PATH } from '../config/env';
+import { NFS_BASE_PATH } from '../config/env.js';
 
 export const nfsService = {
   async createPrivateWorkspace(userId: string) {

@@ -1,18 +1,18 @@
 // Export all types
-export * from './types/AcpTypes';
+export * from './types/AcpTypes.js';
 
 // Export all interfaces
-export * from './interfaces/ISessionService';
+export * from './interfaces/ISessionService.js';
 
 // Export error handling
-export * from './errors/StandardError';
+export * from './errors/StandardError.js';
 
 // Export config management
-export * from './config/ConfigManager';
+export * from './config/ConfigManager.js';
 
 // Export utilities
-export * from './utils/logger';
-export * from './utils/errorHandler';
+export * from './utils/logger.js';
+export * from './utils/errorHandler.js';
 
 // Re-export commonly used types for convenience
 export type {
@@ -42,4 +42,4 @@ export type {
   IUserService,
   ITeamService
 } from './interfaces/ISessionService';
-export { StandardError as AppError } from './errors/StandardError';
+export { StandardError as AppError } from './errors/StandardError.js';

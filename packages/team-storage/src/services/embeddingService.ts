@@ -4,8 +4,8 @@ import {
   EMBEDDING_API_KEY,
   EMBEDDING_BASE_URL,
   EMBEDDING_MODEL
-} from '../config/env';
-import { FileEmbedding } from '../models/UnifiedModels';
+} from '../config/env.js';
+import { FileEmbedding } from '../models/UnifiedModels.js';
 import * as mongoose from 'mongoose';
 import { EmbeddingQuery, MongoMatchStage } from '@qwen-team/shared';
 import { backendLogger } from '@qwen-team/shared';
@@ -46,9 +46,9 @@ export const embeddingService = {
 
   async storeFileEmbedding(filePath: string, fileName: string, workspaceType: string, ownerId: string | null, teamId: string | null, fileHash: string, embedding: number[]) {
     // Read file content for full-text search
-    const fs = require('fs').promises;
-    const path = require('path');
-    const { NFS_BASE_PATH } = require('../config/env');
+    const fs = await import('fs/promises');
+    const path = await import('path');
+    const { NFS_BASE_PATH } = await import('../config/env.js');
     
     let content = '';
     let fileType = 'application/octet-stream';

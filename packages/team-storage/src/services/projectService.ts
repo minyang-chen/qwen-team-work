@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { mongoService } from './mongoService';
-import { Project, ProjectSection, ProjectStats } from '../models/Project';
+import { mongoService } from './mongoService.js';
+import { Project, ProjectSection, ProjectStats } from '../models/Project.js';
 import mongoose from 'mongoose';
 
 const { ObjectId } = mongoose.mongo;

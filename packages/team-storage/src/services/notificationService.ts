@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { mongoService } from './mongoService';
+import { mongoService } from './mongoService.js';
 import mongoose from 'mongoose';
 
 const { ObjectId } = mongoose.Types;

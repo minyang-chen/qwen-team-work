@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "🔄 Starting Team Backend..."
-cd packages/team-backend
+echo "🔄 Starting Team Storage..."
+cd packages/team-storage
 
 # Load environment variables
 if [ -f .env ]; then

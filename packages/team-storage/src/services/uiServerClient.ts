@@ -1,7 +1,7 @@
 // @ts-nocheck
 import WebSocket from 'ws';
 import { nanoid } from 'nanoid';
-import { coreAgentCircuitBreaker } from '../utils/circuitBreaker';
+import { coreAgentCircuitBreaker } from '../utils/circuitBreaker.js';
 import { backendLogger, AppError, ErrorCode } from '@qwen-team/shared';
 
 interface StreamHandler {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check for clean build flag
-if [ "$1" = "--clean" ]; then
+if [ "$1" = "--clean" ] || [ "$2" = "--clean" ]; then
   echo "🧹 Performing clean build..."
   ./clean_build.sh
   echo ""
@@ -20,6 +20,11 @@ sleep 2
 
 echo ""
 echo "🚀 Starting all services with unified API gateway..."
+echo ""
+echo "Usage: ./start_team_all.sh [--clean] [--test]"
+echo "  --clean: Clean build before starting"
+echo "  --test:  Run E2E tests after services start"
+echo ""
 
 # Start services in correct order with dependencies
 echo "🤖 Starting Core Agent..."
@@ -81,10 +86,38 @@ echo "   Each service uses its own .env file"
 echo "   Development environment active"
 echo ""
 echo "📋 UI Server Environment Variables:"
-echo "   BACKEND_URL: $(grep BACKEND_URL packages/team-web/server/.env | cut -d'=' -f2)"
-echo "   ACP_WEBSOCKET_URL: $(grep ACP_WEBSOCKET_URL packages/team-web/server/.env | cut -d'=' -f2)"
-echo "   PORT: $(grep '^PORT=' packages/team-web/server/.env | cut -d'=' -f2)"
+echo "   BACKEND_URL: $(grep BACKEND_URL packages/team-service/.env | cut -d'=' -f2)"
+echo "   ACP_WEBSOCKET_URL: $(grep ACP_WEBSOCKET_URL packages/team-service/.env | cut -d'=' -f2)"
+echo "   PORT: $(grep '^PORT=' packages/team-service/.env | cut -d'=' -f2)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "⏳ Waiting for services to be ready..."
+echo "⏳ Waiting for services to start..."
+sleep 10
+
+# Run tests if --test flag is provided
+if [ "$1" = "--test" ] || [ "$2" = "--test" ]; then
+  echo ""
+  echo "🧪 Running E2E tests..."
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  cd packages/team-test
+  npm test
+  TEST_EXIT=$?
+  cd ../..
+  
+  echo ""
+  if [ $TEST_EXIT -eq 0 ]; then
+    echo "✅ All tests passed!"
+  else
+    echo "❌ Tests failed with exit code $TEST_EXIT"
+  fi
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Stopping all services..."
+  kill $AGENT_PID $BACKEND_PID $WEBUI_SERVER_PID $WEBUI_CLIENT_PID 2>/dev/null
+  exit $TEST_EXIT
+fi
+
 echo ""
 echo "Press Ctrl+C to stop all services"
 

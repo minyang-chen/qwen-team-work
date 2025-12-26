@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { AuthSession, Session } from '../models/UnifiedModels';
+import { AuthSession, Session } from '../models/UnifiedModels.js';
 import mongoose from 'mongoose';
 import { configManager, backendLogger } from '@qwen-team/shared';
 

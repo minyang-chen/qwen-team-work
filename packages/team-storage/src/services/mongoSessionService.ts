@@ -1,4 +1,4 @@
-import { Session } from '../models/UnifiedModels';
+import { Session } from '../models/UnifiedModels.js';
 import { EnhancedSessionData, ConversationMessage } from '@qwen-team/shared';
 
 export class MongoSessionService {

@@ -1,8 +1,8 @@
 // @ts-nocheck
 import bcrypt from 'bcrypt';
-const { v4: uuidv4 } = require('uuid');
-import { User } from '../models/UnifiedModels';
-import { BCRYPT_ROUNDS } from '../config/env';
+import { v4 as uuidv4 } from 'uuid';
+import { User } from '../models/UnifiedModels.js';
+import { BCRYPT_ROUNDS } from '../config/env.js';
 import { CreateUserData, UserUpdateData, UserDocument } from '@qwen-team/shared';
 import { backendLogger } from '@qwen-team/shared';
 
@@ -79,12 +79,12 @@ export const userService = {
 
   async getApiKey(userId: string): Promise<string | null> {
     // This should integrate with apiKeyService
-    const { apiKeyService } = require('./apiKeyService');
+    const { apiKeyService } = await import('./apiKeyService.js');
     return await apiKeyService.getUserApiKey(userId);
   },
 
   async regenerateApiKey(userId: string): Promise<string> {
-    const { apiKeyService } = require('./apiKeyService');
+    const { apiKeyService } = await import('./apiKeyService.js');
     return await apiKeyService.regenerateApiKey(userId);
   },
 

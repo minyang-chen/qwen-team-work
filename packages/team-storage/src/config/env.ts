@@ -1,6 +1,11 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+
+// ESM __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load local .env file FIRST before any imports that use env vars
 const localEnvPath = path.join(__dirname, '../../.env');

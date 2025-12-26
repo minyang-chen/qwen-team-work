@@ -2,8 +2,8 @@
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
-import { NFS_BASE_PATH } from '../config/env';
-import { FileEmbedding } from '../models/UnifiedModels';
+import { NFS_BASE_PATH } from '../config/env.js';
+import { FileEmbedding } from '../models/UnifiedModels.js';
 import { backendLogger } from '@qwen-team/shared';
 
 const logger = backendLogger.child({ service: 'fileService' });
@@ -75,7 +75,7 @@ export const fileService = {
     try {
       await fs.unlink(fullPath);
       // Also remove from embeddings
-      const { FileEmbedding } = require('../models/UnifiedModels');
+      const { FileEmbedding } = await import('../models/UnifiedModels.js');
       await FileEmbedding.deleteMany({ filePath });
       return true;
     } catch (error) {

@@ -1,0 +1,140 @@
+🔄 Cleaning up ports 8000-8003...
+
+🚀 Starting all services with unified API gateway...
+
+Usage: ./start_team_all.sh [--clean] [--test]
+  --clean: Clean build before starting
+  --test:  Run E2E tests after services start
+
+🤖 Starting Core Agent...
+🔄 Starting Team Core Agent...
+🚀 Starting Core Agent on port 8001...
+
+> @qwen-team/ai-agent@1.0.0 start
+> node dist/index.js
+
+[INFO] Starting Core Agent server { port: 8001, env: 'development', agentCount: 1 }
+[INFO] Loaded 1 agents from configuration
+[INFO] ACP Server started on port 8001
+📦 Starting Backend...
+🔄 Starting Team Storage...
+🚀 Starting Backend on port 8000...
+
+> @qwen-team/storage@1.0.0 start
+> node dist/index.js
+
+Backend loading local .env from: /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-storage/.env
+Local .env exists: true
+Routes type: function isFunction: true
+MongoDB connected successfully
+Vector search, image search, and full-text search indexes created successfully for MongoDB Community Edition
+[INFO] Backend server started {
+  port: 8000,
+  env: 'development',
+  allowedOrigins: [ 'http://localhost:8002', 'http://team-ui-server:8002' ]
+}
+🌐 Starting UI Server (API Gateway)...
+🔄 Starting Team Service...
+🚀 Starting UI Server on port 8002...
+
+> @qwen-team/service@0.3.0 start
+> node dist/index.js
+
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+🔥 CONFIG.TS LOADED - ENV VARS: {
+  BACKEND_URL: 'http://localhost:8000',
+  ACP_WEBSOCKET_URL: 'ws://localhost:8001'
+}
+🐳 Sandbox cleanup task started (timeout: 60m, interval: 5m)
+[INFO] UI Server configuration loaded {
+  port: 8002,
+  env: 'development',
+  baseUrl: undefined,
+  corsOrigin: undefined
+}
+[INFO] AIService initialized { model: 'gpt-3.5-turbo', maxSessions: 1000 }
+[INFO] AI Service initialized { model: 'gpt-3.5-turbo', baseUrl: 'http://10.0.0.139:8080/v1' }
+🔥 INDEX.TS LOADED - TESTING COMPILATION
+🐳 Sandbox cleanup task started (timeout: 60m, interval: 5m)
+🔌 Setting up WebSocket...
+✅ WebSocket setup complete
+Loaded 2 agent configurations
+💻 Starting UI Client...
+
+✅ All services started!
+Core Agent PID: 908256
+Backend PID: 908286
+UI Server PID: 908340
+UI Client PID: 908383
+
+🌐 Unified API Gateway Architecture:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💻 UI Client (Frontend):
+   URL: http://localhost:8003
+   → Routes ALL requests to UI Server
+
+🌐 UI Server (API Gateway):
+   URL: http://localhost:8002
+   WebSocket: ws://localhost:8002
+   Health: http://localhost:8002/health
+   Metrics: http://localhost:8002/metrics
+   → Proxies API calls to Backend
+   → Handles WebSocket connections
+
+📦 Backend (Internal API):
+   URL: http://localhost:8000 (internal only)
+   Health: http://localhost:8000/health
+   → Processes business logic
+   → Routes to Core Agent
+
+🤖 Core Agent (ACP Server):
+   WebSocket: ws://localhost:8001 (internal only)
+   → Handles LLM communication
+   → Manages agent sessions
+
+🔗 Communication Flow:
+   Client → UI Server → Backend → Core Agent → LLM
+
+⚙️  Configuration:
+   Each service uses its own .env file
+   Development environment active
+
+📋 UI Server Environment Variables:
+🔄 Starting Team Web...
+grep: packages/team-web/server/.env: No such file or directory
+   BACKEND_URL: 
+grep: packages/team-web/server/.env: No such file or directory
+   ACP_WEBSOCKET_URL: 
+🚀 Starting UI Client on port 8003...
+grep: packages/team-web/server/.env: No such file or directory
+   PORT: 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏳ Waiting for services to be ready...
+
+> @qwen-team/web@0.3.0 dev
+> vite
+
+Vite config - UI Server port: 8002
+
+  VITE v5.4.21  ready in 107 ms
+
+  ➜  Local:   http://localhost:8003/
+  ➜  Network: http://192.168.1.188:8003/
+  ➜  Network: http://172.19.0.1:8003/
+
+🧪 Running E2E tests...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+> @qwen-team/test@1.0.0 test
+> node run-tests.js
+
+[34m═══════════════════════════════════════[0m
+[34m  Team Layer E2E Test Suite[0m
+[34m═══════════════════════════════════════
+[0m
+[34m
+▶ Running storage.test.js...[0m
+Need to install the following packages:
+jest@30.2.0
+Ok to proceed? (y) 

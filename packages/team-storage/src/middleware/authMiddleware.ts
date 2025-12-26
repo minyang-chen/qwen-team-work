@@ -1,8 +1,8 @@
 // @ts-nocheck
 import type { Request, Response, NextFunction } from 'express';
-import { sessionService } from '../services/sessionService';
-import { userService } from '../services/userService';
-import { teamService } from '../services/teamService';
+import { sessionService } from '../services/sessionService.js';
+import { userService } from '../services/userService.js';
+import { teamService } from '../services/teamService.js';
 
 declare global {
   namespace Express {

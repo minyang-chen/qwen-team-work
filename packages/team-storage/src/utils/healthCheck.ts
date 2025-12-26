@@ -80,7 +80,7 @@ class HealthMonitor {
   async checkRedis(): Promise<ServiceHealth> {
     const start = Date.now();
     try {
-      const Redis = require('ioredis');
+      const { default: Redis } = await import('ioredis');
       const redis = new Redis({
         host: process.env.REDIS_HOST || 'localhost',
         port: parseInt(process.env.REDIS_PORT || '6379'),

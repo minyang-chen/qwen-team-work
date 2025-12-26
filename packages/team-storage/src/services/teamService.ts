@@ -1,6 +1,6 @@
 // @ts-nocheck
-const { v4: uuidv4 } = require('uuid');
-import { Team } from '../models/UnifiedModels';
+import { v4 as uuidv4 } from 'uuid';
+import { Team } from '../models/UnifiedModels.js';
 import mongoose from 'mongoose';
 
 export const teamService = {
@@ -67,7 +67,7 @@ export const teamService = {
   },
 
   async addMemberByEmail(teamId: string, email: string, role: string = 'member') {
-    const { userService } = require('./userService');
+    const { userService } = await import('./userService.js');
     const user = await userService.getUserByEmail(email);
     if (!user) throw new Error('User not found');
     return await this.addTeamMember(teamId, user._id.toString(), role);

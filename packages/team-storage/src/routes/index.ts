@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 import { Router } from 'express';
-import { signup, login } from '../controllers/authController';
+import { signup, login } from '../controllers/authController.js';
 import {
   createTeam,
   joinTeam,
@@ -13,16 +13,16 @@ import {
   addTeamMember,
   removeTeamMember,
   updateMemberStatus,
-} from '../controllers/teamController';
+} from '../controllers/teamController.js';
 import {
   listTeams,
   selectTeam,
   getActiveTeam,
-} from '../controllers/teamSelectionController';
+} from '../controllers/teamSelectionController.js';
 import {
   sendMessage,
   getChatHistory,
-} from '../controllers/chatController';
+} from '../controllers/chatController.js';
 import {
   createNewConversation,
   getConversationList,
@@ -30,34 +30,34 @@ import {
   renameConversation,
   deleteConversation,
   searchConversations,
-} from '../controllers/conversationController';
+} from '../controllers/conversationController.js';
 import {
   listFiles,
   uploadFile,
   downloadFile,
   deleteFile,
   searchFiles,
-} from '../controllers/fileController';
+} from '../controllers/fileController.js';
 import {
   getProfile,
   updateProfile,
   regenerateApiKey,
-} from '../controllers/userController';
+} from '../controllers/userController.js';
 import {
   getTodos,
   createTodo,
   updateTodo,
   deleteTodo,
-} from '../controllers/todoController';
+} from '../controllers/todoController.js';
 import {
   sendBroadcast,
   getNotifications,
   replyToNotification,
-} from '../controllers/notificationController';
-import { projectController } from '../controllers/projectController';
-import { authenticate } from '../middleware/authMiddleware';
-import { healthMonitor } from '../utils/healthCheck';
-import { OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL } from '../config/env';
+} from '../controllers/notificationController.js';
+import { projectController } from '../controllers/projectController.js';
+import { authenticate } from '../middleware/authMiddleware.js';
+import { healthMonitor } from '../utils/healthCheck.js';
+import { OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL } from '../config/env.js';
 
 const router = Router();
 

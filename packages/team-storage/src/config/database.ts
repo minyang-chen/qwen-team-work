@@ -1,6 +1,6 @@
 // @ts-nocheck
 import mongoose from 'mongoose';
-import { MONGODB_URI } from './env';
+import { MONGODB_URI } from './env.js';
 
 export const connectMongoDB = async () => {
   try {
