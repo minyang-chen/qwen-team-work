@@ -8,7 +8,7 @@ The current system has **catastrophic architectural flaws** requiring complete r
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│ team-ui/client  │    │ team-ui/server  │    │  team-backend   │    │ team-core-agent │
+│ team-web  │    │ team-service  │    │  team-storage   │    │ team-ai-agent │
 │                 │    │                 │    │                 │    │                 │
 │ Socket.IO       │◄──►│ Socket.IO       │◄──►│ HTTP/REST API   │◄──►│ Native WebSocket│
 │ Client          │    │ Server          │    │ + WebSocket     │    │ Server          │
@@ -18,9 +18,9 @@ The current system has **catastrophic architectural flaws** requiring complete r
 
 ## Phase 1: Critical Production Fixes (P0) - IMMEDIATE
 
-### 1.1 Fix team-ui/client WebSocket Connection
+### 1.1 Fix team-web WebSocket Connection
 
-**File**: `packages/team-ui/client/src/hooks/useWebSocket.ts`
+**File**: `packages/team-web/src/hooks/useWebSocket.ts`
 
 ```typescript
 import { useEffect, useRef, useState } from 'react';
@@ -92,9 +92,9 @@ export function useWebSocket(url?: string) {
 }
 ```
 
-### 1.2 Fix team-ui/client Environment Configuration
+### 1.2 Fix team-web Environment Configuration
 
-**File**: `packages/team-ui/client/.env`
+**File**: `packages/team-web/.env`
 
 ```bash
 # PRODUCTION CONFIGURATION
@@ -102,7 +102,7 @@ VITE_API_BASE_URL=http://localhost:8002
 VITE_WEBSOCKET_URL=http://localhost:8002
 ```
 
-**File**: `packages/team-ui/client/.env.production`
+**File**: `packages/team-web/.env.production`
 
 ```bash
 # PRODUCTION ENVIRONMENT
@@ -112,7 +112,7 @@ VITE_WEBSOCKET_URL=https://ws.yourcompany.com
 
 ### 1.3 Fix Vite Configuration for Production
 
-**File**: `packages/team-ui/client/vite.config.ts`
+**File**: `packages/team-web/vite.config.ts`
 
 ```typescript
 import { defineConfig, loadEnv } from 'vite';
@@ -179,9 +179,9 @@ export default defineConfig(({ mode }) => {
 });
 ```
 
-### 1.4 Production-Ready team-ui/server Configuration
+### 1.4 Production-Ready team-service Configuration
 
-**File**: `packages/team-ui/server/src/config.ts`
+**File**: `packages/team-service/src/config.ts`
 
 ```typescript
 import { config } from 'dotenv';
@@ -262,9 +262,9 @@ console.log(`[Config] CORS Origin: ${JSON.stringify(CORS_ORIGIN)}`);
 
 ## Phase 2: Production Architecture Restructure (P1) - HIGH PRIORITY
 
-### 2.1 Production-Ready team-ui/server WebSocket Handler
+### 2.1 Production-Ready team-service WebSocket Handler
 
-**File**: `packages/team-ui/server/src/websocket.ts`
+**File**: `packages/team-service/src/websocket.ts`
 
 ```typescript
 import type { Server as SocketServer, Socket } from 'socket.io';
@@ -565,7 +565,7 @@ async function extractTextFromPDF(base64Data: string): Promise<string> {
 
 ### 2.2 Remove Duplicate Session Management
 
-**File**: `packages/team-ui/server/src/session/UserSessionManager.js`
+**File**: `packages/team-service/src/session/UserSessionManager.js`
 
 ```typescript
 // COMPLETE REPLACEMENT - Remove all WebSocket logic, use backend API
@@ -711,9 +711,9 @@ export class UserSessionManager {
 }
 ```
 
-### 2.3 Production-Ready team-ui/server Main Application
+### 2.3 Production-Ready team-service Main Application
 
-**File**: `packages/team-ui/server/src/index.ts`
+**File**: `packages/team-service/src/index.ts`
 
 ```typescript
 import './config.js';
@@ -1114,9 +1114,9 @@ SERVICE_BACKEND_PORT=8000
 ACP_SERVER_PORT=8001
 
 # Service URLs (Internal Docker Network)
-BACKEND_URL=http://team-backend:8000
+BACKEND_URL=http://team-storage:8000
 BACKEND_TIMEOUT=30000
-ACP_WEBSOCKET_URL=ws://team-core-agent:8001
+ACP_WEBSOCKET_URL=ws://team-ai-agent:8001
 
 # External URLs (Public)
 BASE_URL=https://yourcompany.com
@@ -1187,15 +1187,15 @@ METRICS_ENABLED=true
 ### 4.1 Connection Tests
 
 ```bash
-# Test 1: team-ui/client → team-ui/server
+# Test 1: team-web → team-service
 curl -I http://localhost:8002/api/auth/info
 
-# Test 2: team-ui/server → team-backend  
+# Test 2: team-service → team-storage  
 curl -X POST http://localhost:8000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"apiKey":"test"}'
 
-# Test 3: team-backend → team-core-agent
+# Test 3: team-storage → team-ai-agent
 curl -X POST http://localhost:8000/api/chat/message \
   -H "Content-Type: application/json" \
   -d '{"message":"test","sessionId":"test"}'
@@ -1206,20 +1206,20 @@ curl -X POST http://localhost:8000/api/chat/message \
 ```javascript
 // Test Socket.IO connection from client
 const socket = io('http://localhost:8002');
-socket.on('connect', () => console.log('Connected to team-ui/server'));
+socket.on('connect', () => console.log('Connected to team-service'));
 socket.emit('chat:message', { message: 'test', sessionId: 'test' });
 ```
 
 ## Implementation Timeline
 
 ### Week 1: Critical Fixes
-- [ ] Fix team-ui/client port configuration
+- [ ] Fix team-web port configuration
 - [ ] Fix Vite proxy settings
 - [ ] Test basic connectivity
 
 ### Week 2: Architecture Changes
 - [ ] Remove duplicate WebSocket connections
-- [ ] Implement team-backend API integration
+- [ ] Implement team-storage API integration
 - [ ] Update authentication flow
 
 ### Week 3: Testing & Optimization
@@ -1229,9 +1229,9 @@ socket.emit('chat:message', { message: 'test', sessionId: 'test' });
 
 ## Success Criteria
 
-✅ **team-ui/client connects to team-ui/server on port 8002**
-✅ **team-ui/server communicates with team-backend via REST API**
-✅ **Only team-backend connects to team-core-agent**
+✅ **team-web connects to team-service on port 8002**
+✅ **team-service communicates with team-storage via REST API**
+✅ **Only team-storage connects to team-ai-agent**
 ✅ **Streaming works end-to-end**
 ✅ **No duplicate session management**
 ✅ **No port conflicts**
@@ -1240,8 +1240,8 @@ socket.emit('chat:message', { message: 'test', sessionId: 'test' });
 
 ### Backup Plan
 If layered architecture proves complex, implement **Option 3: Direct UI Architecture**:
-- Remove team-backend entirely
-- Keep team-ui/server → team-core-agent connection
+- Remove team-storage entirely
+- Keep team-service → team-ai-agent connection
 - Fix only the client-server connection issues
 
 ### Rollback Strategy

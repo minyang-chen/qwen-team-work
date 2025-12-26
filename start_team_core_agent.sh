@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🔄 Starting Team Core Agent..."
-cd packages/team-core-agent
+cd packages/team-ai-agent
 
 # Load environment variables
 if [ -f .env ]; then

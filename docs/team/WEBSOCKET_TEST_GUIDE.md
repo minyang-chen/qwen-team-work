@@ -16,9 +16,9 @@ Port 8003  Port 8002  Port 8000  Port 8001
 ## Prerequisites
 
 1. **All services must be running:**
-   - team-core-agent (port 8001)
+   - team-ai-agent (port 8001)
    - team-ui-server (port 8002)  
-   - team-backend (port 8000)
+   - team-storage (port 8000)
    - MongoDB (port 27017)
 
 2. **Environment variables configured:**
@@ -48,10 +48,10 @@ node test-websocket-flow.js
    docker-compose --env-file ../.env.production up -d
    
    # Or start individually for development
-   cd packages/team-core-agent && npm start &
-   cd packages/team-ui/server && npm start &
-   cd packages/team-backend && npm start &
-   cd packages/team-ui/client && npm run dev &
+   cd packages/team-ai-agent && npm start &
+   cd packages/team-service && npm start &
+   cd packages/team-storage && npm start &
+   cd packages/team-web && npm run dev &
    ```
 
 2. **Test WebSocket connection:**
@@ -64,9 +64,9 @@ node test-websocket-flow.js
 3. **Verify service logs:**
    ```bash
    # Check each service for proper message routing
-   docker logs team-core-agent
+   docker logs team-ai-agent
    docker logs team-ui-server  
-   docker logs team-backend
+   docker logs team-storage
    ```
 
 ## Expected Test Results

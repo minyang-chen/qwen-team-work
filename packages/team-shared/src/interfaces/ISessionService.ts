@@ -1,4 +1,4 @@
-import { UserCredentials, ExecutionResult } from '../types/AcpTypes';
+import { UserCredentials, ExecutionResult, AgentConfig } from '../types/AcpTypes';
 
 // Session service interface for dependency injection
 export interface ISessionService {
@@ -16,7 +16,7 @@ export interface ISessionService {
 // Agent discovery interface
 export interface IAgentDiscovery {
   discoverAgents(timeout?: number): Promise<any[]>;
-  selectBestAgent(capabilities: string[]): Promise<any | null>;
+  selectBestAgent(capabilities: string | string[]): Promise<AgentConfig | null>;
   getAvailableAgents(): any[];
 }
 

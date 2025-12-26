@@ -18,17 +18,17 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Build team-ui package
-echo "Building team-ui package..."
-cd ../team-ui && npm run build
+# Build team-web package
+echo "Building team-web package..."
+cd ../team-web && npm run build
 if [ $? -ne 0 ]; then
   echo "❌ Team-UI package build failed"
   exit 1
 fi
 
-# Build team-core-agent package
-echo "Building team-core-agent package..."
-cd ../team-core-agent && npm run build
+# Build team-ai-agent package
+echo "Building team-ai-agent package..."
+cd ../team-ai-agent && npm run build
 if [ $? -ne 0 ]; then
   echo "❌ Qwen-core-agent package build failed"
   exit 1

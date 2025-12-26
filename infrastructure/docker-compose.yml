@@ -75,11 +75,11 @@ services:
       retries: 3
 
   # Core Application Services
-  team-core-agent:
+  team-ai-agent:
     build:
-      context: ../packages/team-core-agent
+      context: ../packages/team-ai-agent
       dockerfile: Dockerfile
-    container_name: team-core-agent
+    container_name: team-ai-agent
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - ACP_SERVER_PORT=${ACP_SERVER_PORT:-8001}
@@ -109,21 +109,21 @@ services:
       timeout: 10s
       retries: 3
 
-  team-backend:
+  team-storage:
     build:
-      context: ../packages/team-backend
+      context: ../packages/team-storage
       dockerfile: Dockerfile
-    container_name: team-backend
+    container_name: team-storage
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - SERVICE_BACKEND_PORT=${SERVICE_BACKEND_PORT:-8000}
-      - UI_SERVER_URL=http://team-ui-server:${WEBUI_SERVER_PORT:-8002}
+      - UI_SERVER_URL=http://team-web-server:${WEBUI_SERVER_PORT:-8002}
       - MONGODB_URI=${MONGODB_URI}
       - JWT_SECRET=${JWT_SECRET}
-      - CORS_ORIGIN=http://team-ui-server:${WEBUI_SERVER_PORT:-8002}
+      - CORS_ORIGIN=http://team-web-server:${WEBUI_SERVER_PORT:-8002}
       - RATE_LIMIT_WINDOW=${RATE_LIMIT_WINDOW:-900000}
       - RATE_LIMIT_MAX=${RATE_LIMIT_MAX:-100}
-    # No external port exposure - only accessible via team-ui-server
+    # No external port exposure - only accessible via team-web-server
     expose:
       - "${SERVICE_BACKEND_PORT:-8000}"
     networks:
@@ -142,18 +142,18 @@ services:
       timeout: 10s
       retries: 3
 
-  team-ui-server:
+  team-web-server:
     build:
-      context: ../packages/team-ui/server
+      context: ../packages/team-web/server
       dockerfile: Dockerfile
-    container_name: team-ui-server
+    container_name: team-web-server
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - WEBUI_SERVER_PORT=${WEBUI_SERVER_PORT:-8002}
-      - BACKEND_URL=http://team-backend:${SERVICE_BACKEND_PORT:-8000}
-      - ACP_WEBSOCKET_URL=ws://team-core-agent:${ACP_SERVER_PORT:-8001}
+      - BACKEND_URL=http://team-storage:${SERVICE_BACKEND_PORT:-8000}
+      - ACP_WEBSOCKET_URL=ws://team-ai-agent:${ACP_SERVER_PORT:-8001}
       - JWT_SECRET=${JWT_SECRET}
-      - CORS_ORIGIN=http://team-ui-client:${WEBUI_CLIENT_PORT:-8003}
+      - CORS_ORIGIN=http://team-web-client:${WEBUI_CLIENT_PORT:-8003}
       - SESSION_TOKEN_LIMIT=${SESSION_TOKEN_LIMIT:-32000}
       - MESSAGE_WINDOW_SIZE=${MESSAGE_WINDOW_SIZE:-100}
       - SANDBOX_ENABLED=${SANDBOX_ENABLED:-true}
@@ -163,9 +163,9 @@ services:
     networks:
       - qwen-network
     depends_on:
-      team-core-agent:
+      team-ai-agent:
         condition: service_healthy
-      team-backend:
+      team-storage:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
@@ -174,14 +174,14 @@ services:
       timeout: 10s
       retries: 3
 
-  team-ui-client:
+  team-web-client:
     build:
-      context: ../packages/team-ui/client
+      context: ../packages/team-web/client
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://team-ui-server:${WEBUI_SERVER_PORT:-8002}
-        - VITE_WS_URL=http://team-ui-server:${WEBUI_SERVER_PORT:-8002}
-    container_name: team-ui-client
+        - VITE_API_URL=http://team-web-server:${WEBUI_SERVER_PORT:-8002}
+        - VITE_WS_URL=http://team-web-server:${WEBUI_SERVER_PORT:-8002}
+    container_name: team-web-client
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - WEBUI_CLIENT_PORT=${WEBUI_CLIENT_PORT:-8003}
@@ -190,7 +190,7 @@ services:
     networks:
       - qwen-network
     depends_on:
-      team-ui-server:
+      team-web-server:
         condition: service_healthy
     restart: unless-stopped
 

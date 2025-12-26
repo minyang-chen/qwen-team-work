@@ -8,14 +8,14 @@ Successfully implemented production-grade unified API gateway in team-ui-server 
 
 ### **Before (Problematic):**
 ```
-team-ui-client ──┬── WebSocket ──→ team-ui-server ──→ team-core-agent ──→ LLM
+team-ui-client ──┬── WebSocket ──→ team-ui-server ──→ team-ai-agent ──→ LLM
                  │
-                 └── HTTP API ──→ team-backend ──→ team-core-agent ──→ LLM
+                 └── HTTP API ──→ team-storage ──→ team-ai-agent ──→ LLM
 ```
 
 ### **After (Unified):**
 ```
-team-ui-client ──→ team-ui-server ──→ team-backend ──→ team-core-agent ──→ LLM
+team-ui-client ──→ team-ui-server ──→ team-storage ──→ team-ai-agent ──→ LLM
                    (API Gateway)      (Internal Only)   (Internal Only)
 ```
 
@@ -55,14 +55,14 @@ team-ui-client ──→ team-ui-server ──→ team-backend ──→ team-co
 ### 3. **Network Architecture**
 
 **Docker Configuration:**
-- `team-core-agent`: Internal only (`expose` port 8001)
-- `team-backend`: Internal only (`expose` port 8000)  
+- `team-ai-agent`: Internal only (`expose` port 8001)
+- `team-storage`: Internal only (`expose` port 8000)  
 - `team-ui-server`: External gateway (`ports` 8002)
 - `team-ui-client`: External frontend (`ports` 8003)
 
 **Service Dependencies:**
 ```
-databases → team-core-agent → team-backend → team-ui-server → team-ui-client
+databases → team-ai-agent → team-storage → team-ui-server → team-ui-client
 ```
 
 ## API Flow Details
@@ -70,14 +70,14 @@ databases → team-core-agent → team-backend → team-ui-server → team-ui-cl
 ### **HTTP API Requests:**
 1. Client sends request to `http://localhost:8002/api/*`
 2. team-ui-server validates JWT token
-3. team-ui-server proxies to `http://team-backend:8000/api/*`
-4. team-backend processes request
+3. team-ui-server proxies to `http://team-storage:8000/api/*`
+4. team-storage processes request
 5. Response streams back through gateway to client
 
 ### **WebSocket Communication:**
 1. Client connects to `ws://localhost:8002`
 2. team-ui-server validates JWT token
-3. team-ui-server routes to team-core-agent via ACP
+3. team-ui-server routes to team-ai-agent via ACP
 4. Streaming response flows back to client
 
 ## Production Features
@@ -105,11 +105,11 @@ databases → team-core-agent → team-backend → team-ui-server → team-ui-cl
 ### **Environment Variables:**
 ```bash
 # team-ui-server
-BACKEND_URL=http://team-backend:8000
+BACKEND_URL=http://team-storage:8000
 BACKEND_TIMEOUT=30000
 JWT_SECRET=your-jwt-secret
 
-# team-backend  
+# team-storage  
 UI_SERVER_URL=http://team-ui-server:8002
 CORS_ORIGIN=http://team-ui-server:8002
 

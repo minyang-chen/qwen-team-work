@@ -1,0 +1,21 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from 'react';
+export const CodeSection = ({ codeRepos, onUpdate, onDelete, onCreate }) => {
+    const [newRepo, setNewRepo] = useState({});
+    const handleCreate = () => {
+        if (newRepo.name) {
+            onCreate({
+                name: newRepo.name,
+                description: newRepo.description || '',
+                url: newRepo.url || '',
+                language: newRepo.language || 'JavaScript',
+                status: newRepo.status || 'Active',
+                projectId: ''
+            });
+            setNewRepo({});
+        }
+    };
+    return (_jsx("div", { className: "bg-white rounded-lg shadow border", children: _jsxs("div", { className: "p-6", children: [_jsx("h2", { className: "text-lg font-semibold mb-6", children: "Code Repositories" }), _jsxs("div", { className: "mb-6 p-4 bg-gray-50 rounded-lg", children: [_jsx("h3", { className: "text-md font-medium mb-3", children: "Add New Repository" }), _jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [_jsx("input", { type: "text", placeholder: "Repository Name", value: newRepo.name || '', onChange: (e) => setNewRepo({ ...newRepo, name: e.target.value }), className: "px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }), _jsx("input", { type: "url", placeholder: "Repository URL", value: newRepo.url || '', onChange: (e) => setNewRepo({ ...newRepo, url: e.target.value }), className: "px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" }), _jsxs("select", { value: newRepo.language || 'JavaScript', onChange: (e) => setNewRepo({ ...newRepo, language: e.target.value }), className: "px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", children: [_jsx("option", { value: "JavaScript", children: "JavaScript" }), _jsx("option", { value: "TypeScript", children: "TypeScript" }), _jsx("option", { value: "Python", children: "Python" }), _jsx("option", { value: "Java", children: "Java" }), _jsx("option", { value: "C#", children: "C#" }), _jsx("option", { value: "Go", children: "Go" }), _jsx("option", { value: "Rust", children: "Rust" })] }), _jsxs("select", { value: newRepo.status || 'Active', onChange: (e) => setNewRepo({ ...newRepo, status: e.target.value }), className: "px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", children: [_jsx("option", { value: "Active", children: "Active" }), _jsx("option", { value: "Archived", children: "Archived" }), _jsx("option", { value: "Deprecated", children: "Deprecated" })] })] }), _jsx("textarea", { placeholder: "Repository Description", value: newRepo.description || '', onChange: (e) => setNewRepo({ ...newRepo, description: e.target.value }), className: "mt-4 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", rows: 3 }), _jsx("button", { onClick: handleCreate, className: "mt-4 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700", children: "Add Repository" })] }), _jsx("div", { className: "space-y-4", children: codeRepos.map((repo) => (_jsxs("div", { className: "border border-gray-200 rounded-lg p-4", children: [_jsxs("div", { className: "flex justify-between items-start mb-2", children: [_jsx("h3", { className: "text-lg font-medium", children: repo.name }), _jsx("button", { onClick: () => onDelete(repo._id), className: "text-red-600 hover:text-red-800", children: "Delete" })] }), _jsx("p", { className: "text-gray-600 mb-3", children: repo.description }), repo.url && (_jsx("a", { href: repo.url, target: "_blank", rel: "noopener noreferrer", className: "text-blue-600 hover:text-blue-800 mb-3 block", children: repo.url })), _jsxs("div", { className: "flex gap-4 text-sm", children: [_jsx("span", { className: "px-2 py-1 rounded-full bg-gray-100 text-gray-800", children: repo.language }), _jsx("span", { className: `px-2 py-1 rounded-full ${repo.status === 'Active' ? 'bg-green-100 text-green-800' :
+                                            repo.status === 'Archived' ? 'bg-yellow-100 text-yellow-800' :
+                                                'bg-red-100 text-red-800'}`, children: repo.status })] })] }, repo._id))) })] }) }));
+};

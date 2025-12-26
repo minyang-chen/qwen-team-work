@@ -121,6 +121,30 @@ export interface ChatMessage {
   tokenUsage?: { input: number; output: number };
 }
 
+// Alias for compatibility
+export type ConversationMessage = ChatMessage;
+
+export interface SessionMetadata {
+  messageCount: number;
+  lastActivity: Date;
+  createdAt: Date;
+  correlationId?: string;
+  version?: string;
+}
+
+export interface EnhancedSessionData {
+  sessionId: string;
+  userId: string;
+  workspaceDir: string;
+  conversationHistory: ConversationMessage[];
+  metadata: SessionMetadata;
+  tokenUsage: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+}
+
 export interface SessionPreferences {
   model?: string;
   temperature?: number;

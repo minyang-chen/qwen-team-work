@@ -13,7 +13,7 @@ The current implementation has **inconsistent communication patterns**:
 │                 │    HTTP API      │                 │
 │                 │◄─────────────────┼─────────────────┤
 │                 │                  │                 │
-└─────────────────┘                  │ team-backend    │
+└─────────────────┘                  │ team-storage    │
                                      │                 │
                                      └─────────────────┘
 ```
@@ -22,12 +22,12 @@ The current implementation has **inconsistent communication patterns**:
 
 1. **HTTP API Calls** (Login, Settings, etc.):
    ```
-   team-ui-client → team-backend → team-core-agent → LLM
+   team-ui-client → team-storage → team-ai-agent → LLM
    ```
 
 2. **WebSocket Chat Messages**:
    ```
-   team-ui-client → team-ui-server → team-core-agent → LLM
+   team-ui-client → team-ui-server → team-ai-agent → LLM
    ```
 
 ### **Problems:**
@@ -45,39 +45,39 @@ The current implementation has **inconsistent communication patterns**:
 Route ALL requests through team-ui-server:
 
 ```
-team-ui-client → team-ui-server → team-backend → team-core-agent → LLM
+team-ui-client → team-ui-server → team-storage → team-ai-agent → LLM
 ```
 
 **Implementation:**
 - Add HTTP API proxy routes to team-ui-server
-- Forward all `/api/*` requests to team-backend
+- Forward all `/api/*` requests to team-storage
 - Single authentication point
 - Consistent error handling
 
 ### **Option 2: Direct Backend (Alternative)**
 
-Route ALL requests through team-backend:
+Route ALL requests through team-storage:
 
 ```
-team-ui-client → team-backend → team-core-agent → LLM
+team-ui-client → team-storage → team-ai-agent → LLM
 ```
 
 **Implementation:**
-- Move WebSocket handling to team-backend
+- Move WebSocket handling to team-storage
 - Remove team-ui-server WebSocket functionality
-- Consolidate all communication in team-backend
+- Consolidate all communication in team-storage
 
 ### **Option 3: Microservices (Complex)**
 
 Keep separate services but add proper API gateway:
 
 ```
-team-ui-client → API Gateway → {team-ui-server, team-backend} → team-core-agent → LLM
+team-ui-client → API Gateway → {team-ui-server, team-storage} → team-ai-agent → LLM
 ```
 
 ## Detailed Flow Analysis
 
-### **Current HTTP API Endpoints (team-backend):**
+### **Current HTTP API Endpoints (team-storage):**
 
 ```typescript
 // Authentication
@@ -121,7 +121,7 @@ socket.on('error', { message })
 
 ### **LLM Integration Points:**
 
-1. **team-core-agent → LLM**:
+1. **team-ai-agent → LLM**:
    ```typescript
    // Direct HTTP calls to LLM API
    fetch(OPENAI_BASE_URL + '/chat/completions', {
@@ -130,7 +130,7 @@ socket.on('error', { message })
    })
    ```
 
-2. **team-backend → LLM** (via team-core-agent):
+2. **team-storage → LLM** (via team-ai-agent):
    ```typescript
    // WebSocket ACP protocol
    acpConnectionManager.sendMessage(userId, message, workspacePath)
@@ -142,7 +142,7 @@ socket.on('error', { message })
 
 1. **Add HTTP Proxy to team-ui-server**:
    ```typescript
-   // Forward all /api/* requests to team-backend
+   // Forward all /api/* requests to team-storage
    app.all('/api/*', async (request, reply) => {
      const response = await fetch(`${BACKEND_URL}${request.url}`, {
        method: request.method,
@@ -162,13 +162,13 @@ socket.on('error', { message })
 3. **Consolidate Authentication**:
    ```typescript
    // Single JWT validation in team-ui-server
-   // Forward authenticated requests to team-backend
+   // Forward authenticated requests to team-storage
    ```
 
 ### **Phase 2: Optimize Communication**
 
 1. **Eliminate Redundant WebSocket Connection**:
-   - team-backend no longer needs Socket.IO client
+   - team-storage no longer needs Socket.IO client
    - Direct HTTP calls to team-ui-server for chat
 
 2. **Streamline Message Flow**:

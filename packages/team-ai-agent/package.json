@@ -1,0 +1,29 @@
+{
+  "name": "@qwen-team/ai-agent",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ACP server for qwen-code core integration",
+  "main": "dist/index.js",
+  "bin": {
+    "qwen-core-agent": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "node test/run-tests.js"
+  },
+  "dependencies": {
+    "@qwen-team/server-sdk": "file:../team-server-sdk",
+    "@qwen-team/shared": "file:../team-shared",
+    "dotenv": "^16.6.1",
+    "nanoid": "^5.0.0",
+    "ws": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
+  }
+}

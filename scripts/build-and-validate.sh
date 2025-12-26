@@ -18,8 +18,8 @@ echo "📦 Building web-ui package..."
 cd ../web-ui && npm run build
 echo "✅ Web-UI package built"
 
-echo "📦 Building team-core-agent package..."
-cd ../team-core-agent && npm run build
+echo "📦 Building team-ai-agent package..."
+cd ../team-ai-agent && npm run build
 echo "✅ Qwen-core-agent package built"
 
 # Return to root
@@ -32,5 +32,5 @@ echo "🎉 Build and validation complete!"
 echo ""
 echo "Next steps:"
 echo "1. Set up MongoDB: Update MONGODB_URI in .env.team"
-echo "2. Test ACP: cd packages/team-core-agent && npm start"
+echo "2. Test ACP: cd packages/team-ai-agent && npm start"
 echo "3. Deploy: ./scripts/deploy-acp.sh"

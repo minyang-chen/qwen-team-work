@@ -42,7 +42,7 @@ cd ../..
 
 # 4. ACP Core Agent (depends on shared)
 echo "🔧 Building ACP core agent..."
-cd packages/team-core-agent
+cd packages/team-ai-agent
 npm install --no-audit --no-fund
 npm run build
 cd ../..

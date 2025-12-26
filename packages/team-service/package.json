@@ -1,0 +1,33 @@
+{
+  "name": "@qwen-team/service",
+  "version": "0.3.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit",
+    "type-check:strict": "tsc --noEmit --strict --noImplicitAny",
+    "lint:dots": "grep -r -n --include='*.ts' --include='*.tsx' -E '[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]+' src/ | grep -v -E 'import|export|interface|type|class|function|const|let|var' || echo 'No suspicious patterns found'"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^9.3.0",
+    "@fastify/cors": "^9.0.0",
+    "@qwen-team/server-sdk": "file:../team-server-sdk",
+    "@qwen-team/shared": "file:../team-shared",
+    "dotenv": "^17.2.3",
+    "fastify": "^4.25.0",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.0.0",
+    "pdf-parse": "^2.4.5",
+    "socket.io": "^4.6.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.3.0"
+  }
+}

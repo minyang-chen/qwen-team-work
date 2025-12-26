@@ -2,11 +2,12 @@
   "name": "qwen-team-workspace",
   "private": true,
   "workspaces": [
-    "packages/shared",
-    "packages/team-backend", 
-    "packages/team-ui/server",
-    "packages/team-ui/client",
-    "packages/team-core-agent",
+    "packages/team-shared",
+    "packages/team-storage",
+    "packages/team-web",
+    "packages/team-service",
+    "packages/team-ai-agent",
+    "packages/team-server-sdk",
     "packages/core",
     "packages/cli",
     "packages/sdk-typescript"
@@ -18,5 +19,8 @@
   },
   "devDependencies": {
     "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "tsx": "^4.21.0"
   }
 }

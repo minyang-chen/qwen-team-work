@@ -13,9 +13,9 @@ cd packages/shared && npm run build && cd ../..
 echo "📦 Building backend package..."
 cd packages/team-backend && npm run build && cd ../..
 
-# Build team-core-agent package
-echo "📦 Building team-core-agent package..."
-cd packages/team-core-agent && npm run build && cd ../..
+# Build team-ai-agent package
+echo "📦 Building team-ai-agent package..."
+cd packages/team-ai-agent && npm run build && cd ../..
 
 echo "✅ All ACP packages built successfully!"
 echo ""
