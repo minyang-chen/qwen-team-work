@@ -68,10 +68,32 @@ export class AcpClient {
     }
 
     const id = nanoid();
+    
+    // Convert extended types to ACP protocol format
+    let messageType: string;
+    let messageData: any;
+    
+    if (type.startsWith('session.')) {
+      messageType = 'session';
+      const action = type.split('.')[1]; // 'create', 'destroy', 'updateTokens', 'getStats'
+      messageData = { action, ...payload };
+    } else if (type.startsWith('chat.')) {
+      messageType = 'chat';
+      const action = type.split('.')[1]; // 'send'
+      messageData = { action, ...payload };
+    } else if (type.startsWith('tool.') || type.startsWith('tools.')) {
+      messageType = 'tool';
+      const action = type.includes('.') ? type.split('.')[1] : 'execute';
+      messageData = { action, ...payload };
+    } else {
+      messageType = type;
+      messageData = payload;
+    }
+    
     const message: ExtendedAcpMessage = {
       id,
-      type,
-      data: payload,
+      type: messageType as any,
+      data: messageData,
       timestamp: Date.now()
     };
 

@@ -165,6 +165,11 @@ router.get('/api/teams/:teamId/projects', authenticate, projectController);
 router.get('/api/teams/:teamId/projects/:projectId', authenticate, projectController);
 router.put('/api/teams/:teamId/projects/:projectId', authenticate, projectController);
 
+// Backward-compatible project routes (teamId from query)
+router.post('/api/projects', authenticate, projectController);
+router.get('/api/projects', authenticate, projectController);
+router.put('/api/projects/:projectId', authenticate, projectController);
+
 // Project sections routes
 router.post('/api/teams/:teamId/sections', authenticate, projectController);
 router.get('/api/teams/:teamId/projects/:projectId/sections', authenticate, projectController);

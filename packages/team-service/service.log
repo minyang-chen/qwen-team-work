@@ -1,0 +1,263 @@
+
+> @qwen-team/service@0.3.0 start
+> node dist/index.js
+
+[dotenv@17.2.3] injecting env (31) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+🔥 CONFIG.TS LOADED - ENV VARS: {
+  BACKEND_URL: 'http://localhost:8000',
+  ACP_WEBSOCKET_URL: 'ws://localhost:8001'
+}
+🐳 Sandbox cleanup task started (timeout: 60m, interval: 5m)
+[INFO] UI Server configuration loaded {
+  port: 8002,
+  env: 'development',
+  baseUrl: 'http://localhost:8002',
+  corsOrigin: 'http://localhost:8003'
+}
+[INFO] AIService initialized { model: 'openai/gpt-oss-20b', maxSessions: 1000 }
+[INFO] AI Service initialized { model: 'openai/gpt-oss-20b', baseUrl: 'http://10.0.0.139:8080/v1' }
+🔥 INDEX.TS LOADED - TESTING COMPILATION
+Loaded 1 agent configurations
+🐳 Sandbox cleanup task started (timeout: 60m, interval: 5m)
+🔌 Setting up WebSocket...
+✅ WebSocket setup complete
+🚀 About to call app.listen()...
+🔌 Calling app.listen with port: 8002
+{"level":30,"time":1766812386346,"pid":1080964,"hostname":"amd9900x","msg":"Server listening at http://0.0.0.0:8002"}
+✅ app.listen() returned successfully
+[INFO] UI Server started successfully { port: 8002, host: '0.0.0.0' }
+{"level":30,"time":1766812409926,"pid":1080964,"hostname":"amd9900x","reqId":"req-1","req":{"method":"GET","url":"/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":43896},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:13:29.929Z',
+  method: 'GET',
+  url: '/health',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '2ms',
+  userAgent: 'curl/7.81.0',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812409929,"pid":1080964,"hostname":"amd9900x","reqId":"req-1","res":{"statusCode":200},"responseTime":2.465853989124298,"msg":"request completed"}
+{"level":30,"time":1766812419939,"pid":1080964,"hostname":"amd9900x","reqId":"req-2","req":{"method":"GET","url":"/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":54568},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:13:39.939Z',
+  method: 'GET',
+  url: '/health',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812419939,"pid":1080964,"hostname":"amd9900x","reqId":"req-2","res":{"statusCode":200},"responseTime":0.2611500024795532,"msg":"request completed"}
+{"level":30,"time":1766812419943,"pid":1080964,"hostname":"amd9900x","reqId":"req-3","req":{"method":"GET","url":"/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":54568},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:13:39.943Z',
+  method: 'GET',
+  url: '/health',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812419943,"pid":1080964,"hostname":"amd9900x","reqId":"req-3","res":{"statusCode":200},"responseTime":0.1764179766178131,"msg":"request completed"}
+{"level":30,"time":1766812419945,"pid":1080964,"hostname":"amd9900x","reqId":"req-4","req":{"method":"GET","url":"/api/info","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":54568},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:13:39.945Z',
+  method: 'GET',
+  url: '/api/info',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812419945,"pid":1080964,"hostname":"amd9900x","reqId":"req-4","res":{"statusCode":200},"responseTime":0.17875200510025024,"msg":"request completed"}
+[INFO] Client connected
+[INFO] Client disconnected
+[INFO] Client connected
+[INFO] Client disconnected
+{"level":30,"time":1766812449959,"pid":1080964,"hostname":"amd9900x","reqId":"req-5","req":{"method":"POST","url":"/api/sessions","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":57682},"msg":"incoming request"}
+Selected agent: qwen-core-primary at ws://localhost:8001
+🐳 Starting sandbox for user test-user-123
+🐳 ✅ Started existing container: qwen-sandbox-test-user-123
+🐳 Created sandbox for user: test-user-123
+{"level":30,"time":1766812450052,"pid":1080964,"hostname":"amd9900x","reqId":"req-5","res":{"statusCode":200},"responseTime":92.49860399961472,"msg":"request completed"}
+{
+  timestamp: '2025-12-27T05:14:10.052Z',
+  method: 'POST',
+  url: '/api/sessions',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '92ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812450054,"pid":1080964,"hostname":"amd9900x","reqId":"req-6","req":{"method":"GET","url":"/api/sessions","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":57682},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:10.055Z',
+  method: 'GET',
+  url: '/api/sessions',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812450055,"pid":1080964,"hostname":"amd9900x","reqId":"req-6","res":{"statusCode":200},"responseTime":0.8828210234642029,"msg":"request completed"}
+[INFO] Client connected
+[INFO] Client disconnected
+{"level":30,"time":1766812450061,"pid":1080964,"hostname":"amd9900x","reqId":"req-7","req":{"method":"GET","url":"/api/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":57682},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:10.062Z',
+  method: 'GET',
+  url: '/api/health',
+  userId: 'anonymous',
+  statusCode: 401,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812450061,"pid":1080964,"hostname":"amd9900x","reqId":"req-7","res":{"statusCode":401},"responseTime":0.33448100090026855,"msg":"request completed"}
+{"level":30,"time":1766812450064,"pid":1080964,"hostname":"amd9900x","reqId":"req-8","req":{"method":"GET","url":"/api/config","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":57682},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:10.064Z',
+  method: 'GET',
+  url: '/api/config',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812450064,"pid":1080964,"hostname":"amd9900x","reqId":"req-8","res":{"statusCode":200},"responseTime":0.27647900581359863,"msg":"request completed"}
+{"level":30,"time":1766812466043,"pid":1080964,"hostname":"amd9900x","reqId":"req-9","req":{"method":"GET","url":"/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":43110},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:26.044Z',
+  method: 'GET',
+  url: '/health',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812466044,"pid":1080964,"hostname":"amd9900x","reqId":"req-9","res":{"statusCode":200},"responseTime":0.5332019925117493,"msg":"request completed"}
+{"level":30,"time":1766812466047,"pid":1080964,"hostname":"amd9900x","reqId":"req-a","req":{"method":"GET","url":"/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":43110},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:26.047Z',
+  method: 'GET',
+  url: '/health',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812466047,"pid":1080964,"hostname":"amd9900x","reqId":"req-a","res":{"statusCode":200},"responseTime":0.15367400646209717,"msg":"request completed"}
+{"level":30,"time":1766812466049,"pid":1080964,"hostname":"amd9900x","reqId":"req-b","req":{"method":"GET","url":"/api/info","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":43110},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:26.049Z',
+  method: 'GET',
+  url: '/api/info',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812466049,"pid":1080964,"hostname":"amd9900x","reqId":"req-b","res":{"statusCode":200},"responseTime":0.10709500312805176,"msg":"request completed"}
+[INFO] Client connected
+[INFO] Client disconnected
+[INFO] Client connected
+[INFO] Client disconnected
+{"level":30,"time":1766812496059,"pid":1080964,"hostname":"amd9900x","reqId":"req-c","req":{"method":"POST","url":"/api/sessions","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":42094},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:56.060Z',
+  method: 'POST',
+  url: '/api/sessions',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812496060,"pid":1080964,"hostname":"amd9900x","reqId":"req-c","res":{"statusCode":200},"responseTime":0.9354320168495178,"msg":"request completed"}
+{"level":30,"time":1766812496062,"pid":1080964,"hostname":"amd9900x","reqId":"req-d","req":{"method":"GET","url":"/api/sessions","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":42094},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:56.063Z',
+  method: 'GET',
+  url: '/api/sessions',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812496063,"pid":1080964,"hostname":"amd9900x","reqId":"req-d","res":{"statusCode":200},"responseTime":0.6244459748268127,"msg":"request completed"}
+[INFO] Client connected
+[INFO] Client disconnected
+{"level":30,"time":1766812496067,"pid":1080964,"hostname":"amd9900x","reqId":"req-e","req":{"method":"GET","url":"/api/health","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":42094},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:56.067Z',
+  method: 'GET',
+  url: '/api/health',
+  userId: 'anonymous',
+  statusCode: 401,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812496067,"pid":1080964,"hostname":"amd9900x","reqId":"req-e","res":{"statusCode":401},"responseTime":0.11248499155044556,"msg":"request completed"}
+{"level":30,"time":1766812496069,"pid":1080964,"hostname":"amd9900x","reqId":"req-f","req":{"method":"GET","url":"/api/config","hostname":"localhost:8002","remoteAddress":"127.0.0.1","remotePort":42094},"msg":"incoming request"}
+{
+  timestamp: '2025-12-27T05:14:56.069Z',
+  method: 'GET',
+  url: '/api/config',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '0ms',
+  userAgent: 'axios/1.13.2',
+  ip: '127.0.0.1',
+  error: undefined
+}
+{"level":30,"time":1766812496069,"pid":1080964,"hostname":"amd9900x","reqId":"req-f","res":{"statusCode":200},"responseTime":0.08873000741004944,"msg":"request completed"}
+file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:141
+                pending.reject(new Error(typeof response.error === 'string'
+                               ^
+
+Error: Session not found
+    at AcpClient.handleResponse (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:141:32)
+    at ws.onmessage (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:127:22)
+    at callListener (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:209:9)
+    at WebSocket.emit (node:events:518:28)
+    at Receiver.receiverOnMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/websocket.js:1220:20)
+    at Receiver.emit (node:events:518:28)
+    at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
+    at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
+    at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)
+
+Node.js v22.16.0
+npm error Lifecycle script `start` failed with error:
+npm error code 1
+npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service
+npm error workspace @qwen-team/service@0.3.0
+npm error location /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service
+npm error command failed
+npm error command sh -c node dist/index.js

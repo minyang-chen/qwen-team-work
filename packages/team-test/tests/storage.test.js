@@ -26,7 +26,8 @@ describe('team-storage E2E Tests', () => {
     test('should return healthy status', async () => {
       const response = await axios.get(`${API}/health`);
       expect(response.status).toBe(200);
-      expect(response.data).toHaveProperty('status', 'healthy');
+      expect(response.data).toHaveProperty('status', 'ok');
+      expect(response.data).toHaveProperty('service', 'team-storage');
     });
   });
 
@@ -35,16 +36,13 @@ describe('team-storage E2E Tests', () => {
       const user = generateTestUser();
       const response = await axios.post(`${API}/api/auth/signup`, user);
       
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
+      expect(response.data).toHaveProperty('success', true);
       expect(response.data).toHaveProperty('token');
       expect(response.data).toHaveProperty('user');
       
       authToken = response.data.token;
       userId = response.data.user.id;
-      
-      cleanup.add('user', userId, async () => {
-        // User cleanup handled by test teardown
-      });
     });
 
     test('should login existing user', async () => {
@@ -57,6 +55,7 @@ describe('team-storage E2E Tests', () => {
       });
       
       expect(response.status).toBe(200);
+      expect(response.data).toHaveProperty('success', true);
       expect(response.data).toHaveProperty('token');
     });
 
@@ -68,7 +67,7 @@ describe('team-storage E2E Tests', () => {
         });
         fail('Should have thrown error');
       } catch (error) {
-        expect(error.response.status).toBe(401);
+        expect(error.response?.status).toBe(401);
       }
     });
   });

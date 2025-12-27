@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { configManager } from '@qwen-team/shared';
+import { MESSAGE_WINDOW_SIZE, SESSION_TOKEN_LIMIT } from '../config.js';
 
 export async function registerSystemRoutes(app: FastifyInstance) {
   // Health check
@@ -27,8 +27,8 @@ export async function registerSystemRoutes(app: FastifyInstance) {
     
     if (type === 'ui') {
       return {
-        messageWindowSize: configManager.get('MESSAGE_WINDOW_SIZE'),
-        sessionTokenLimit: configManager.get('SESSION_TOKEN_LIMIT')
+        messageWindowSize: MESSAGE_WINDOW_SIZE,
+        sessionTokenLimit: SESSION_TOKEN_LIMIT
       };
     }
 
@@ -38,8 +38,8 @@ export async function registerSystemRoutes(app: FastifyInstance) {
   // Settings
   app.get('/api/settings', async () => {
     return {
-      sessionTokenLimit: configManager.get('SESSION_TOKEN_LIMIT'),
-      messageWindowSize: configManager.get('MESSAGE_WINDOW_SIZE')
+      sessionTokenLimit: SESSION_TOKEN_LIMIT,
+      messageWindowSize: MESSAGE_WINDOW_SIZE
     };
   });
 }

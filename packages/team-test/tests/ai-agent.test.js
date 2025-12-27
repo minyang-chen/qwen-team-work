@@ -36,15 +36,18 @@ describe('team-ai-agent E2E Tests', () => {
 
       ws.on('open', () => {
         ws.send(JSON.stringify({
+          id: 'test-ping',
           type: 'ping',
+          data: {},
           timestamp: Date.now()
         }));
       });
 
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
-        if (message.type === 'pong') {
-          expect(message.type).toBe('pong');
+        if (message.data?.pong) {
+          expect(message.success).toBe(true);
+          expect(message.data.pong).toBe(true);
           done();
         }
       });
@@ -59,8 +62,10 @@ describe('team-ai-agent E2E Tests', () => {
 
       ws.on('open', () => {
         ws.send(JSON.stringify({
-          type: 'session.create',
-          payload: {
+          id: 'test-session-create',
+          type: 'session',
+          data: {
+            action: 'create',
             userId: 'test-user-123'
           },
           timestamp: Date.now()
@@ -69,9 +74,11 @@ describe('team-ai-agent E2E Tests', () => {
 
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
-        if (message.type === 'session.created') {
-          expect(message.payload).toHaveProperty('sessionId');
+        if (message.success && message.data?.session) {
+          expect(message.data.session).toHaveProperty('sessionId');
           done();
+        } else if (message.success === false) {
+          done(new Error(`Session creation failed: ${message.error?.message || 'Unknown error'}`));
         }
       });
 
@@ -80,13 +87,17 @@ describe('team-ai-agent E2E Tests', () => {
 
     test('should get session info', (done) => {
       ws = new WebSocket(WS_URL);
-      let sessionId;
+      const userId = 'test-user-456';
 
       ws.on('open', () => {
         // First create session
         ws.send(JSON.stringify({
-          type: 'session.create',
-          payload: { userId: 'test-user-456' },
+          id: 'test-session-create-2',
+          type: 'session',
+          data: { 
+            action: 'create',
+            userId 
+          },
           timestamp: Date.now()
         }));
       });
@@ -94,17 +105,20 @@ describe('team-ai-agent E2E Tests', () => {
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
         
-        if (message.type === 'session.created') {
-          sessionId = message.payload.sessionId;
-          
-          // Then get session info
+        if (message.id === 'test-session-create-2' && message.success) {
+          // Then get session info using userId
           ws.send(JSON.stringify({
-            type: 'session.get',
-            payload: { sessionId },
+            id: 'test-session-get',
+            type: 'session',
+            data: { 
+              action: 'get',
+              userId 
+            },
             timestamp: Date.now()
           }));
-        } else if (message.type === 'session.info') {
-          expect(message.payload).toHaveProperty('sessionId', sessionId);
+        } else if (message.id === 'test-session-get' && message.success) {
+          expect(message.data.session).toHaveProperty('sessionId');
+          expect(message.data.session).toHaveProperty('userId', userId);
           done();
         }
       });
@@ -163,15 +177,16 @@ describe('team-ai-agent E2E Tests', () => {
 
       ws.on('open', () => {
         ws.send(JSON.stringify({
+          id: 'test-invalid',
           type: 'invalid.type',
-          payload: {},
+          data: { action: 'invalid' },
           timestamp: Date.now()
         }));
       });
 
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
-        if (message.type === 'error') {
+        if (message.success === false && message.error) {
           expect(message.error).toHaveProperty('code');
           done();
         }

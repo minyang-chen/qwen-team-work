@@ -17,6 +17,8 @@ export class SessionHandler {
           return await this.createSession(message);
         case 'get':
           return await this.getSession(message);
+        case 'getStats':
+          return await this.getSessionStats(message);
         case 'delete':
           return await this.deleteSession(message);
         default:
@@ -37,13 +39,15 @@ export class SessionHandler {
   }
 
   private async createSession(message: AcpMessage): Promise<AcpResponse> {
-    const { sessionId, userId } = message.data;
-    const session = this.sessionManager.createSession(sessionId, userId);
-    return this.responseBuilder.createSuccessResponse(message.id, { session });
+    const { userId } = message.data;
+    const sessionId = await this.sessionManager.createSession(userId);
+    return this.responseBuilder.createSuccessResponse(message.id, { 
+      session: { sessionId, userId } 
+    });
   }
 
   private async getSession(message: AcpMessage): Promise<AcpResponse> {
-    const session = this.sessionManager.getUserSession(message.data.sessionId);
+    const session = this.sessionManager.getUserSession(message.data.userId);
     if (!session) {
       return this.errorHandler.createErrorResponse(
         message.id,
@@ -51,11 +55,42 @@ export class SessionHandler {
         'Session not found'
       );
     }
-    return this.responseBuilder.createSuccessResponse(message.id, { session });
+    return this.responseBuilder.createSuccessResponse(message.id, { 
+      session: {
+        sessionId: session.sessionId,
+        userId: session.userId,
+        createdAt: session.metadata.createdAt,
+        lastActivity: session.metadata.lastActivity
+      }
+    });
   }
 
   private async deleteSession(message: AcpMessage): Promise<AcpResponse> {
     this.sessionManager.deleteSession(message.data.sessionId);
     return this.responseBuilder.createSuccessResponse(message.id, { deleted: true });
+  }
+
+  private async getSessionStats(message: AcpMessage): Promise<AcpResponse> {
+    const { sessionId } = message.data;
+    const session = this.sessionManager.getSessionById(sessionId);
+    
+    if (!session) {
+      return this.errorHandler.createErrorResponse(
+        message.id,
+        'SESSION_NOT_FOUND',
+        'Session not found'
+      );
+    }
+
+    return this.responseBuilder.createSuccessResponse(message.id, {
+      stats: {
+        sessionId: session.sessionId,
+        userId: session.userId,
+        messageCount: session.metadata.messageCount || 0,
+        tokenUsage: session.tokenUsage,
+        createdAt: session.metadata.createdAt,
+        lastActivity: session.metadata.lastActivity
+      }
+    });
   }
 }

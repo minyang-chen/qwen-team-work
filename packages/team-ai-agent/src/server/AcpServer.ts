@@ -1,12 +1,13 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import http from 'http';
-import { AcpMessage, AgentConfig, configManager } from '@qwen-team/shared';
+import { AcpMessage, AgentConfig } from '@qwen-team/shared';
 import { ServerClient } from '@qwen-team/server-sdk';
 import { MessageRouter } from './MessageRouter.js';
 import { DiscoveryManager } from '../discovery/DiscoveryManager.js';
 import { MessageValidator } from '../protocol/MessageValidator.js';
 import { Logger } from '../utils/Logger.js';
 import { UserSessionManager } from '../session/UserSessionManager.js';
+import * as config from '../config/env.js';
 
 export class AcpServer {
   private wss: WebSocketServer;
@@ -21,9 +22,9 @@ export class AcpServer {
     
     // Initialize ServerClient with config manager
     this.serverClient = new ServerClient({
-      apiKey: configManager.get('OPENAI_API_KEY'),
-      baseUrl: configManager.get('OPENAI_BASE_URL'),
-      model: configManager.get('OPENAI_MODEL'),
+      apiKey: config.OPENAI_API_KEY,
+      baseUrl: config.OPENAI_BASE_URL,
+      model: config.OPENAI_MODEL,
       approvalMode: 'yolo',
     });
     
@@ -52,7 +53,21 @@ export class AcpServer {
       ws.on('message', async (data) => {
         try {
           const rawMessage = data.toString();
-          const message = JSON.parse(rawMessage);
+          let message;
+          
+          try {
+            message = JSON.parse(rawMessage);
+          } catch (parseError) {
+            ws.send(JSON.stringify({
+              id: 'parse-error',
+              type: 'error',
+              error: {
+                code: 'INVALID_JSON',
+                message: 'Invalid JSON format'
+              }
+            }));
+            return;
+          }
           
           if (!MessageValidator.validateMessage(message)) {
             ws.send(JSON.stringify({

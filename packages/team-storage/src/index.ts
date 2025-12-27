@@ -4,11 +4,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { connectMongoDB } from './config/database.js';
-import { configManager, backendLogger, errorHandler } from '@qwen-team/shared';
+import { backendLogger, errorHandler } from '@qwen-team/shared';
+import { PORT, NODE_ENV, TEAM_UI_SERVER_URL, CORS_ORIGIN } from './config/env.js';
 import routes from './routes/index.js';
 
-// Load and validate configuration
-const config = configManager.getBackendConfig();
 const logger = backendLogger.child({ service: 'team-storage' });
 
 const app = express();
@@ -20,8 +19,8 @@ app.use(helmet());
 const allowedOrigins = [
   'http://localhost:8002',  // team-ui-server (development)
   'http://team-ui-server:8002',  // team-ui-server (Docker)
-  config.TEAM_UI_SERVER_URL,  // configurable UI server URL
-  config.CORS_ORIGIN !== '*' ? config.CORS_ORIGIN : undefined
+  TEAM_UI_SERVER_URL,  // configurable UI server URL
+  CORS_ORIGIN !== '*' ? CORS_ORIGIN : undefined
 ].filter(Boolean);
 
 app.use(cors({
@@ -75,10 +74,10 @@ const startServer = async () => {
   try {
     await connectMongoDB();
     
-    app.listen(config.PORT, () => {
+    app.listen(PORT, () => {
       logger.info('Backend server started', {
-        port: config.PORT,
-        env: config.NODE_ENV,
+        port: PORT,
+        env: NODE_ENV,
         allowedOrigins
       });
     });

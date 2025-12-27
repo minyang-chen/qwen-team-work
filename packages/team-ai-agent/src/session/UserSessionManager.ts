@@ -1,6 +1,6 @@
 import type { ISessionManager, UserCredentials, ConversationMessage } from '@qwen-team/shared';
 import { ServerClient } from '@qwen-team/server-sdk';
-import { configManager } from '@qwen-team/shared';
+import * as config from '../config/env.js';
 import { nanoid } from 'nanoid';
 
 interface TokenUsage {
@@ -39,9 +39,9 @@ export class UserSessionManager {
 
     // Create ServerClient with config manager
     const client = new ServerClient({
-      apiKey: credentials?.apiKey || configManager.get('OPENAI_API_KEY'),
-      baseUrl: credentials?.baseUrl || configManager.get('OPENAI_BASE_URL'),
-      model: credentials?.model || configManager.get('OPENAI_MODEL') || 'qwen-coder-plus',
+      apiKey: credentials?.apiKey || config.OPENAI_API_KEY,
+      baseUrl: credentials?.baseUrl || config.OPENAI_BASE_URL,
+      model: credentials?.model || config.OPENAI_MODEL || 'qwen-coder-plus',
       workingDirectory: workspaceDir
     });
 
@@ -72,6 +72,15 @@ export class UserSessionManager {
 
   getUserSession(userId: string): SessionData | null {
     return this.userSessions.get(userId) || null;
+  }
+
+  getSessionById(sessionId: string): SessionData | null {
+    for (const session of this.userSessions.values()) {
+      if (session.sessionId === sessionId) {
+        return session;
+      }
+    }
+    return null;
   }
 
   async deleteSession(userId: string): Promise<void> {

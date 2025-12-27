@@ -1,8 +1,19 @@
 // @ts-nocheck
-import { configManager, backendLogger } from '@qwen-team/shared';
+import { backendLogger } from '@qwen-team/shared';
+import { PORT, NODE_ENV, MONGODB_URI, CORE_AGENT_URL, TEAM_UI_SERVER_URL, TEAM_UI_CLIENT_URL, NFS_BASE_PATH, OPENAI_BASE_URL, OPENAI_API_KEY, EMBEDDING_BASE_URL, EMBEDDING_MODEL } from '../config/env.js';
 
 const logger = backendLogger.child({ service: 'healthCheck' });
-const config = configManager.getBackendConfig();
+const config = {
+  CORE_AGENT_URL,
+  MONGODB_URI,
+  NFS_BASE_PATH,
+  TEAM_UI_SERVER_URL,
+  TEAM_UI_CLIENT_URL,
+  OPENAI_BASE_URL,
+  OPENAI_API_KEY,
+  EMBEDDING_BASE_URL,
+  EMBEDDING_MODEL
+};
 
 interface ServiceHealth {
   service: string;
@@ -297,16 +308,19 @@ class HealthMonitor {
       }
 
       // Test with a simple embedding request
+      const requestBody = {
+        model: config.EMBEDDING_MODEL || 'text-embedding-ada-002',
+        input: 'health check'
+      };
+      logger.debug('Embedding health check request', { baseUrl, model: requestBody.model });
+      
       const response = await fetch(`${baseUrl}/embeddings`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          model: config.EMBEDDING_MODEL || 'text-embedding-ada-002',
-          input: 'health check'
-        }),
+        body: JSON.stringify(requestBody),
         timeout: 10000
       });
 

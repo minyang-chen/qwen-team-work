@@ -7,9 +7,6 @@ export * from './interfaces/ISessionService.js';
 // Export error handling
 export * from './errors/StandardError.js';
 
-// Export config management
-export * from './config/ConfigManager.js';
-
 // Export utilities
 export * from './utils/logger.js';
 export * from './utils/errorHandler.js';
@@ -43,3 +40,44 @@ export type {
   ITeamService
 } from './interfaces/ISessionService';
 export { StandardError as AppError } from './errors/StandardError.js';
+
+// Storage-specific types
+export interface CreateUserData {
+  username: string;
+  email: string;
+  full_name: string;
+  phone?: string;
+  password: string;
+}
+
+export interface UserUpdateData {
+  fullName?: string;
+  phone?: string;
+  email?: string;
+  isActive?: boolean;
+}
+
+export interface UserDocument {
+  _id: string;
+  username: string;
+  email: string;
+  fullName: string;
+  phone?: string;
+  passwordHash: string;
+  nfsWorkspacePath: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isActive: boolean;
+}
+
+export type SanitizedMessage = string | Record<string, unknown> | unknown[] | unknown;
+
+export interface EmbeddingQuery {
+  query: string;
+  limit?: number;
+  threshold?: number;
+}
+
+export interface MongoMatchStage {
+  $match: Record<string, unknown>;
+}

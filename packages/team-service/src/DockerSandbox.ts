@@ -46,7 +46,7 @@ export class DockerSandbox {
 
       // Check if container already exists
       const { stdout } = await execAsync(
-        `docker ps -a --filter name=${this.containerName} --format "{{Names}}"`,
+        `docker ps -a --filter name=${this.containerName} --format "{{.Names}}"`,
       );
 
       if (stdout.trim() === this.containerName) {
@@ -64,7 +64,9 @@ export class DockerSandbox {
           --user 1000:1000 \
           --security-opt no-new-privileges:true \
           --cap-drop ALL \
-          --cap-add CHOWN,SETUID,SETGID \
+          --cap-add CHOWN \
+          --cap-add SETUID \
+          --cap-add SETGID \
           --read-only \
           --tmpfs /tmp:rw,noexec,nosuid,size=1G \
           -v "${this.config.workspaceDir}:/workspace:ro" \

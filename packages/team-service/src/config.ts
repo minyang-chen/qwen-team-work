@@ -16,6 +16,7 @@ console.log('🔥 CONFIG.TS LOADED - ENV VARS:', {
 });
 
 // Server Configuration
+export const NODE_ENV = process.env['NODE_ENV'] || 'development';
 export const PORT = parseInt(process.env['PORT'] || '3001', 10);
 export const BASE_URL = process.env['BASE_URL'] || 'http://localhost:3001';
 export const JWT_SECRET = process.env['JWT_SECRET'] || 'dev-secret-change-in-production';

@@ -259,6 +259,25 @@ sessionSchema.index({ status: 1 });
 authSessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 }); // TTL index
 
 // Export models
+// Todo model
+export interface ITodo extends Document {
+  userId: mongoose.Types.ObjectId;
+  text: string;
+  completed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const todoSchema = new Schema<ITodo>({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  text: { type: String, required: true },
+  completed: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+todoSchema.index({ userId: 1 });
+
 export const User = mongoose.model<IUser>('User', userSchema);
 export const Team = mongoose.model<ITeam>('Team', teamSchema);
 export const ApiKey = mongoose.model<IApiKey>('ApiKey', apiKeySchema);
@@ -266,3 +285,4 @@ export const FileEmbedding = mongoose.model<IFileEmbedding>('FileEmbedding', fil
 export const AuthSession = mongoose.model<IAuthSession>('AuthSession', authSessionSchema);
 export const Session = mongoose.model<ISession>('Session', sessionSchema);
 export const Project = mongoose.model<IProject>('Project', projectSchema);
+export const Todo = mongoose.model<ITodo>('Todo', todoSchema);

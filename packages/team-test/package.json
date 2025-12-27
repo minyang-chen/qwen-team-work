@@ -7,6 +7,7 @@
     "test": "node run-tests.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:llm": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/llm.test.js",
     "test:storage": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/storage.test.js",
     "test:service": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/service.test.js",
     "test:ai-agent": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/ai-agent.test.js",
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^1.6.0",
+    "jsonwebtoken": "^9.0.2",
     "socket.io-client": "^4.6.0",
     "ws": "^8.0.0"
   },

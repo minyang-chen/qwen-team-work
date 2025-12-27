@@ -1,10 +1,9 @@
 // @ts-nocheck
 import { AuthSession, Session } from '../models/UnifiedModels.js';
 import mongoose from 'mongoose';
-import { configManager, backendLogger } from '@qwen-team/shared';
+import { backendLogger } from '@qwen-team/shared';
 
 const logger = backendLogger.child({ service: 'sessionService' });
-const config = configManager.getBackendConfig();
 
 // Session service for authentication and conversations
 export const sessionService = {

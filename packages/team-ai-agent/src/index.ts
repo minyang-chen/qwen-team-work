@@ -10,13 +10,14 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 import { AcpServer } from './server/AcpServer.js';
-import { AgentConfig, configManager } from '@qwen-team/shared';
+import { AgentConfig } from '@qwen-team/shared';
+import * as config from './config/env.js';
 
 // Load agent configuration
 const agents: AgentConfig[] = [
   {
     id: 'qwen-core-1',
-    endpoint: `ws://localhost:${configManager.get('PORT')}`,
+    endpoint: `ws://localhost:${config.PORT}`,
     capabilities: ['chat', 'code'],
     priority: 1,
     healthCheck: '/health',
@@ -30,12 +31,12 @@ const agents: AgentConfig[] = [
 ];
 
 console.log('[INFO] Starting Core Agent server', {
-  port: configManager.get('PORT'),
-  env: configManager.get('NODE_ENV'),
+  port: config.PORT,
+  env: config.NODE_ENV,
   agentCount: agents.length
 });
 
-const server = new AcpServer(configManager.get('PORT'), agents);
+const server = new AcpServer(config.PORT, agents);
 
 process.on('SIGTERM', () => {
   console.log('[INFO] Received SIGTERM, shutting down gracefully');

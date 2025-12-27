@@ -4,25 +4,25 @@ echo "🚀 Starting ACP Deployment..."
 
 # Build shared package
 echo "Building shared package..."
-cd packages/shared && npm run build
+cd packages/team-shared && npm run build
 if [ $? -ne 0 ]; then
   echo "❌ Shared package build failed"
   exit 1
 fi
 
-# Build backend package
-echo "Building backend package..."
-cd ../backend && npm run build
+# Build storage package
+echo "Building storage package..."
+cd ../team-storage && npm run build
 if [ $? -ne 0 ]; then
-  echo "❌ Backend package build failed"
+  echo "❌ Storage package build failed"
   exit 1
 fi
 
-# Build team-web package
-echo "Building team-web package..."
-cd ../team-web && npm run build
+# Build service package
+echo "Building service package..."
+cd ../team-service && npm run build
 if [ $? -ne 0 ]; then
-  echo "❌ Team-UI package build failed"
+  echo "❌ Service package build failed"
   exit 1
 fi
 

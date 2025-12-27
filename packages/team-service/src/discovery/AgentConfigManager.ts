@@ -5,10 +5,15 @@ import path from 'path';
 export class AgentConfigManager implements IAgentDiscovery {
   private agents: AgentConfig[] = [];
   private configPath: string;
+  private initPromise: Promise<void>;
 
   constructor(configPath?: string) {
     this.configPath = configPath || path.join(process.cwd(), 'config', 'agents.json');
-    this.loadConfiguration();
+    this.initPromise = this.loadConfiguration();
+  }
+
+  async waitForInit(): Promise<void> {
+    await this.initPromise;
   }
 
   private async loadConfiguration(): Promise<void> {

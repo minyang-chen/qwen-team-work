@@ -1,8 +1,11 @@
 // @ts-nocheck
 import type { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 import { sessionService } from '../services/sessionService.js';
 import { userService } from '../services/userService.js';
 import { teamService } from '../services/teamService.js';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'team-secret-key-change-in-production';
 
 declare global {
   namespace Express {
@@ -33,9 +36,12 @@ export const authenticate = async (
     }
 
     const token = authHeader.substring(7);
-    const userId = await sessionService.validateSession(token);
-
-    if (!userId) {
+    
+    // Decode JWT token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string };
+    } catch (err) {
       return res
         .status(401)
         .json({
@@ -43,7 +49,7 @@ export const authenticate = async (
         });
     }
 
-    const user = await userService.findById(userId);
+    const user = await userService.findById(decoded.userId);
 
     if (!user) {
       return res
@@ -52,7 +58,7 @@ export const authenticate = async (
     }
 
     req.user = {
-      id: user.id,
+      id: user._id?.toString() || user.id,
       username: user.username,
     };
 

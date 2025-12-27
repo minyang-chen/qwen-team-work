@@ -1,6 +1,5 @@
 import './config.js';
 import {
-  configManager,
   uiServerLogger,
   fastifyErrorHandler
 } from '@qwen-team/shared';
@@ -17,22 +16,22 @@ import {
   MESSAGE_WINDOW_SIZE,
   SESSION_TOKEN_LIMIT,
   BACKEND_URL,
-  ACP_WEBSOCKET_URL
+  ACP_WEBSOCKET_URL,
+  NODE_ENV
 } from './config.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import { createAIService, getAIService } from './services/index.js';
 
-// Load and validate configuration
-const config = configManager.getUIServerConfig();
+// Configuration
 const logger = uiServerLogger.child({ service: 'team-ui-server' });
 
 logger.info('UI Server configuration loaded', {
-  port: config.PORT,
-  env: config.NODE_ENV,
-  baseUrl: config.BASE_URL,
-  corsOrigin: config.CORS_ORIGIN
+  port: PORT,
+  env: NODE_ENV,
+  baseUrl: BASE_URL,
+  corsOrigin: CORS_ORIGIN
 });
 
 // Initialize AI Service
@@ -66,21 +65,16 @@ const app = Fastify({ logger: true });
 
 console.log('🔥 INDEX.TS LOADED - TESTING COMPILATION');
 
-// Debug: Log all registered routes
-app.ready(() => {
-  console.log('🔥 REGISTERED ROUTES:');
-  app.printRoutes();
-});
-
 // Initialize ACP components
 const agentDiscovery = new AgentConfigManager();
+await agentDiscovery.waitForInit();
 const userSessionManager = new UserSessionManager(agentDiscovery);
 
 // Middleware
 await app.register(cors, {
-  origin: config.NODE_ENV === 'production' 
+  origin: NODE_ENV === 'production' 
     ? ['https://yourdomain.com', 'https://app.yourdomain.com'] 
-    : config.CORS_ORIGIN,
+    : CORS_ORIGIN,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -100,7 +94,7 @@ function verifyToken(token: string): {
   };
 } | null {
   try {
-    const result = jwt.verify(token, config.JWT_SECRET!);
+    const result = jwt.verify(token, JWT_SECRET!);
     if (typeof result === 'string') return null;
     return result as {
       userId: string;
@@ -328,8 +322,6 @@ app.post('/api/auth/signup', async (request, reply) => {
   }
 });
 
-app.post('/api/auth/login/openai', async (request, reply) => {
-
 // TEST ROUTE - Remove after debugging
 app.post('/api/test/signup', async (request, reply) => {
   console.log('🔥 TEST SIGNUP ROUTE HIT');
@@ -433,6 +425,21 @@ app.get('/api/settings', async () => {
   };
 });
 
+app.get('/api/info', async () => {
+  return {
+    service: 'team-service',
+    version: '0.3.0',
+    status: 'running',
+  };
+});
+
+app.get('/api/config', async () => {
+  return {
+    backendUrl: BACKEND_URL,
+    acpWebsocketUrl: ACP_WEBSOCKET_URL,
+  };
+});
+
 app.get('/api/auth/info', async (request, reply) => {
   const token = request.cookies['auth_token'];
   console.log(
@@ -480,7 +487,7 @@ app.post('/api/auth/logout', async (request, reply) => {
   return { success: true };
 });
 
-app.post('/api/session.s', async (request, reply) => {
+app.post('/api/sessions', async (request, reply) => {
   const token = request.cookies['auth_token'];
   const user = token ? verifyToken(token) : null;
 
@@ -508,7 +515,7 @@ app.post('/api/session.s', async (request, reply) => {
   }
 });
 
-app.get('/api/session.s', async (request, reply) => {
+app.get('/api/sessions', async (request, reply) => {
   const token = request.cookies['auth_token'];
   const user = token ? verifyToken(token) : null;
 
@@ -532,7 +539,7 @@ app.delete('/api/sessions/:id', async (request) => {
   return { success: true };
 });
 
-app.post('/api/session.s/:id/compress', async (request, reply) => {
+app.post('/api/sessions/:id/compress', async (request, reply) => {
   const { id } = request.params as { id: string };
   const token = request.cookies['auth_token'];
   const user = token ? verifyToken(token) : null;
@@ -680,7 +687,6 @@ app.all('/api/*', async (request, reply) => {
   // Proxy to backend
   await apiGateway.proxyRequest(request, reply);
 });
-});
 
 // WebSocket
 const io = new SocketServer(app.server, {
@@ -698,28 +704,53 @@ console.log('✅ WebSocket setup complete');
 setInterval(() => userSessionManager.cleanup(), 3600000);
 
 // Start server
-app.listen({ port: config.PORT, host: '0.0.0.0' }, (err) => {
-  if (err) {
-    logger.error('Failed to start server', {}, err);
-    process.exit(1);
-  }
+console.log('🚀 About to call app.listen()...');
+try {
+  console.log('🔌 Calling app.listen with port:', PORT);
+  await app.listen({ port: PORT, host: '0.0.0.0' });
+  console.log('✅ app.listen() returned successfully');
   logger.info('UI Server started successfully', {
-    port: config.PORT,
+    port: PORT,
     host: '0.0.0.0'
   });
-});
+} catch (err) {
+  console.error('❌ app.listen() threw error:', err);
+  logger.error('Failed to start server', {}, err);
+  process.exit(1);
+}
 
 // Graceful shutdown
-process.on('SIGTERM', async () => {
-  logger.info('SIGTERM received, shutting down gracefully');
-  await aiService.shutdown();
-  await app.close();
-  process.exit(0);
-});
+let isShuttingDown = false;
 
-process.on('SIGINT', async () => {
-  logger.info('SIGINT received, shutting down gracefully');
-  await aiService.shutdown();
-  await app.close();
-  process.exit(0);
-});
+function gracefulShutdown(signal: string) {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+  logger.info(`${signal} received, shutting down gracefully`);
+  
+  // Force exit after 5 seconds
+  const forceExitTimer = setTimeout(() => {
+    logger.error('Shutdown timeout, forcing exit');
+    process.exit(1);
+  }, 5000);
+  
+  // Don't await - let it run async
+  Promise.all([
+    aiService.shutdown(),
+    app.close()
+  ])
+    .then(() => {
+      clearTimeout(forceExitTimer);
+      logger.info('Shutdown complete');
+      process.exit(0);
+    })
+    .catch((error) => {
+      clearTimeout(forceExitTimer);
+      logger.error('Error during shutdown', error);
+      process.exit(1);
+    });
+}
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+

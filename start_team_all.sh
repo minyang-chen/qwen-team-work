@@ -16,6 +16,13 @@ for port in 8000 8001 8002 8003; do
     kill -9 $PID 2>/dev/null || true
   fi
 done
+
+# Kill all zombie team processes
+echo "🧹 Cleaning up zombie processes..."
+pkill -9 -f "tsx watch" 2>/dev/null || true
+pkill -9 -f "node dist/index.js" 2>/dev/null || true
+pkill -9 -f "timeout.*node" 2>/dev/null || true
+pkill -9 -f "npm run dev" 2>/dev/null || true
 sleep 2
 
 echo ""
@@ -27,23 +34,23 @@ echo "  --test:  Run E2E tests after services start"
 echo ""
 
 # Start services in correct order with dependencies
-echo "🤖 Starting Core Agent..."
-./start_team_core_agent.sh &
+echo "🤖 Starting Team Agent..."
+./start_team_agent.sh &
 AGENT_PID=$!
 sleep 3
 
-echo "📦 Starting Backend..."
-./start_team_backend.sh &
+echo "📦 Starting storage..."
+./start_team_storage.sh &
 BACKEND_PID=$!
 sleep 3
 
-echo "🌐 Starting UI Server (API Gateway)..."
-./start_team_ui_server.sh &
+echo "🌐 Starting Team Services Server (API Gateway)..."
+./start_team_service.sh &
 WEBUI_SERVER_PID=$!
 sleep 3
 
-echo "💻 Starting UI Client..."
-./start_team_ui_client.sh &
+echo "💻 Starting Web UI..."
+./start_team_web.sh &
 WEBUI_CLIENT_PID=$!
 
 echo ""

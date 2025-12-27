@@ -1,19 +1,59 @@
+
+> @qwen-team/storage@1.0.0 dev
+> tsx watch src/index.ts
+
 Backend loading local .env from: /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-storage/.env
 Local .env exists: true
-/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/express/lib/application.js:217
-    throw new TypeError('app.use() requires a middleware function')
-    ^
-
-TypeError: app.use() requires a middleware function
-    at Function.use (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/express/lib/application.js:217:11)
-    at Object.<anonymous> (/workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-storage/dist/index.js:55:5)
-    at Module._compile (node:internal/modules/cjs/loader:1730:14)
-    at Object..js (node:internal/modules/cjs/loader:1895:10)
-    at Module.load (node:internal/modules/cjs/loader:1465:32)
-    at Function._load (node:internal/modules/cjs/loader:1282:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
-    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
-    at node:internal/main/run_main_module:36:49
-
-Node.js v22.16.0
+Routes type: function isFunction: true
+MongoDB connected successfully
+Vector search, image search, and full-text search indexes created successfully for MongoDB Community Edition
+[INFO] Backend server started {
+  port: 8000,
+  env: 'development',
+  allowedOrigins: [
+    'http://localhost:8002',
+    'http://team-ui-server:8002',
+    'http://localhost:3001',
+    'http://localhost:8003'
+  ]
+}
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }

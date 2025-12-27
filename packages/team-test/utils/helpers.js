@@ -45,7 +45,7 @@ export function generateTestUser() {
 export function generateTestTeam() {
   const id = Date.now();
   return {
-    team_name: `Test Team ${id}`,
+    name: `Test Team ${id}`,
     specialization: 'Testing',
     description: 'Automated test team'
   };

@@ -58,6 +58,7 @@ async function main() {
   log(COLORS.blue, '═══════════════════════════════════════\n');
 
   const tests = [
+    'llm.test.js',
     'storage.test.js',
     'ai-agent.test.js',
     'service.test.js',

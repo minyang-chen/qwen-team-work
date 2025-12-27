@@ -95,8 +95,6 @@ class JWTManager {
   }
 }
 
-import { configManager } from '@qwen-team/shared';
+import { JWT_SECRET } from '../config.js';
 
-const config = configManager.getUIServerConfig();
-
-export const jwtManager = new JWTManager(config.JWT_SECRET!);
+export const jwtManager = new JWTManager(JWT_SECRET!);
