@@ -43,10 +43,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Trust proxy for X-Forwarded-For header (localhost only for dev)
+app.set('trust proxy', 'loopback');
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 1000
+  max: 1000,
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: false, // Disable validation in development
 });
 app.use(limiter);
 

@@ -81,6 +81,7 @@ describe('team-storage E2E Tests', () => {
       
       expect(response.status).toBe(201);
       expect(response.data).toHaveProperty('team_id');
+      expect(response.data).toHaveProperty('name', team.team_name);
       
       teamId = response.data.team_id;
       
@@ -89,14 +90,56 @@ describe('team-storage E2E Tests', () => {
       });
     });
 
+    test('should reject duplicate team name', async () => {
+      const team = generateTestTeam();
+      await axios.post(`${API}/api/teams/create`, team, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      
+      try {
+        await axios.post(`${API}/api/teams/create`, team, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+        fail('Should have thrown error');
+      } catch (error) {
+        expect(error.response?.status).toBe(409);
+        expect(error.response?.data).toHaveProperty('error', 'Team name already exists');
+      }
+    });
+
     test('should list user teams', async () => {
       const response = await axios.get(`${API}/api/teams/my-teams`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.data)).toBe(true);
-      expect(response.data.length).toBeGreaterThan(0);
+      expect(response.data).toHaveProperty('teams');
+      expect(Array.isArray(response.data.teams)).toBe(true);
+      expect(response.data.teams.length).toBeGreaterThan(0);
+      
+      const team = response.data.teams[0];
+      expect(team).toHaveProperty('_id');
+      expect(team).toHaveProperty('name');
+      expect(team).toHaveProperty('members');
+    });
+
+    test('should require authentication for team creation', async () => {
+      const team = generateTestTeam();
+      try {
+        await axios.post(`${API}/api/teams/create`, team);
+        fail('Should have thrown error');
+      } catch (error) {
+        expect(error.response?.status).toBe(401);
+      }
+    });
+
+    test('should require authentication for listing teams', async () => {
+      try {
+        await axios.get(`${API}/api/teams/my-teams`);
+        fail('Should have thrown error');
+      } catch (error) {
+        expect(error.response?.status).toBe(401);
+      }
     });
 
     test('should get team members', async () => {

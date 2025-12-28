@@ -19,8 +19,8 @@ export const teamApi = {
             body: JSON.stringify({ username, password }),
         });
         const data = await res.json();
-        if (data.session_token) {
-            localStorage.setItem('team_session_token', data.session_token);
+        if (data.token) {
+            localStorage.setItem('team_session_token', data.token);
             localStorage.setItem('team_username', username);
         }
         return data;

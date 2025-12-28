@@ -49,12 +49,21 @@ export const authenticate = async (
         });
     }
 
-    const user = await userService.findById(decoded.userId);
-
-    if (!user) {
+    let user;
+    try {
+      user = await userService.findById(decoded.userId);
+    } catch (err) {
+      console.error('Invalid userId format:', decoded.userId, err);
       return res
         .status(401)
-        .json({ error: { code: 'USER_NOT_FOUND', message: 'User not found' } });
+        .json({ error: { code: 'INVALID_TOKEN', message: 'Invalid token format. Please login again.' } });
+    }
+
+    if (!user) {
+      console.error('User not found for userId:', decoded.userId);
+      return res
+        .status(401)
+        .json({ error: { code: 'USER_NOT_FOUND', message: 'User not found. Please login again.' } });
     }
 
     req.user = {

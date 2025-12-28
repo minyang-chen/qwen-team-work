@@ -33,6 +33,14 @@ echo "  --clean: Clean build before starting"
 echo "  --test:  Run E2E tests after services start"
 echo ""
 
+# Build all team packages
+echo "🔨 Building team packages..."
+cd packages/team-shared && npm run build && cd ../..
+cd packages/team-service && npm run build && cd ../..
+cd packages/team-storage && npm run build && cd ../..
+echo "✅ Build complete"
+echo ""
+
 # Start services in correct order with dependencies
 echo "🤖 Starting Team Agent..."
 ./start_team_agent.sh &

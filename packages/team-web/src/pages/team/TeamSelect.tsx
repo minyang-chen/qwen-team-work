@@ -94,15 +94,22 @@ export function TeamSelect({ onTeamSelected, onLogout }: { onTeamSelected: () =>
               You haven&apos;t joined any teams yet.
             </p>
           ) : (
-            <div className="space-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {myTeams.map((team) => (
                 <div
                   key={team.id}
                   onClick={() => handleSelectTeam(team.id)}
-                  className="p-4 border rounded hover:bg-blue-50 cursor-pointer transition"
+                  className="p-6 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-lg cursor-pointer transition-all bg-white"
                 >
-                  <div className="font-medium">{team.name}</div>
-                  <div className="text-sm text-gray-600">Role: {team.role}</div>
+                  <div className="font-semibold text-lg mb-2">{team.name}</div>
+                  <div className="text-sm text-gray-600 mb-1">
+                    <span className="font-medium">Role:</span> {team.role}
+                  </div>
+                  {team.memberCount && (
+                    <div className="text-sm text-gray-500">
+                      {team.memberCount} {team.memberCount === 1 ? 'member' : 'members'}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -286,19 +286,24 @@ app.get('/api/auth/oauth/callback', async (request, reply) => {
 });
 
 app.post('/api/auth/login', async (request, reply) => {
-  // Simple dev auth - replace with real OAuth in production
-  const userId = nanoid();
-  const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: '7d' });
+  try {
+    // Proxy login request to team-storage
+    const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request.body)
+    });
 
-  reply.setCookie('auth_token', token, {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 7 * 24 * 60 * 60,
-  });
-
-  return { userId, token };
+    const data = await response.json();
+    return reply.code(response.status).send(data);
+  } catch (error) {
+    logger.error('Login proxy failed', { error });
+    return reply.code(500).send({ 
+      error: { message: 'Login service unavailable' }
+    });
+  }
 });
 
 app.post('/api/auth/signup', async (request, reply) => {

@@ -5,7 +5,7 @@ interface NavigationProps {
   setActiveTab: (tab: TabType) => void;
   username: string;
   handleLogout: () => void;
-  selectedTeam: { id: string; name: string; team_name?: string } | null;
+  selectedTeam: { id: string; name: string } | null;
 }
 
 export function Navigation({
@@ -30,7 +30,7 @@ export function Navigation({
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-4">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {selectedTeam ? `${selectedTeam.team_name || selectedTeam.name}` : 'Team Workspace'}
+              {selectedTeam ? selectedTeam.name : 'Team Workspace'}
             </h1>
             <div className="flex gap-2">
               {tabs.map((tab) => (

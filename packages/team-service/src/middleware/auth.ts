@@ -18,8 +18,8 @@ export async function authenticateRequest(
     // Extract JWT token from Authorization header or cookie
     let token = request.headers.authorization?.replace('Bearer ', '');
     
-    if (!token && request.cookies?.['token']) {
-      token = request.cookies['token'];
+    if (!token && request.cookies?.['auth_token']) {
+      token = request.cookies['auth_token'];
     }
     
     if (!token) {

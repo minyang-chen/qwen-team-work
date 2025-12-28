@@ -51,11 +51,16 @@ export class UserSessionManager implements ISessionManager {
     await acpClient.connect(['session.create', 'chat.send', 'tools.execute']);
 
     // Create session via protocol
-    const sessionId = await acpClient.request('session.create', {
+    const sessionResponse = await acpClient.request('session.create', {
       userId,
       credentials,
       workingDirectory
     });
+
+    // Extract sessionId from response
+    const sessionId = typeof sessionResponse === 'string' 
+      ? sessionResponse 
+      : sessionResponse.id || sessionResponse.sessionId;
 
     // Create sandbox
     const sandbox = await this.sandboxManager.getSandbox(userId, workingDirectory || `/tmp/qwen-workspace-${userId}`);
@@ -142,9 +147,17 @@ export class UserSessionManager implements ISessionManager {
       onError: (error: Error) => void;
     }
   ): Promise<void> {
-    const acpClient = this.userSessions.get(userId);
-    if (!acpClient) {
-      throw new Error('User session not found');
+    // Ensure session exists
+    let acpClient = this.userSessions.get(userId);
+    if (!acpClient || acpClient.connectionState !== 'connected') {
+      // Create session if it doesn't exist
+      const newSessionId = await this.createUserSession(userId);
+      acpClient = this.userSessions.get(userId);
+      if (!acpClient) {
+        throw new Error('Failed to create session for user');
+      }
+      // Update sessionId to the newly created one
+      sessionId = newSessionId;
     }
 
     try {
