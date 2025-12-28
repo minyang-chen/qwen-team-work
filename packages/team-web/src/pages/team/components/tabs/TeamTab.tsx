@@ -233,8 +233,9 @@ export function TeamTab(props: TeamTabProps) {
                     className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
                   >
                     {myTeams.length > 0 ? (
-                      myTeams.map((team, index) => (
-                        <li key={team.id || team._id || `team-${index}`}>
+                      <>
+                        {myTeams.map((team, index) => (
+                        <li key={String(team.id || team._id || index)}>
                           <Card
                             selected={selectedTeam?.id === team.id}
                             onClick={() => handleSelectTeam(team)}
@@ -331,7 +332,8 @@ export function TeamTab(props: TeamTabProps) {
                             )}
                           </Card>
                         </li>
-                      ))
+                        ))}
+                      </>
                     ) : (
                       <li key="no-teams" className="col-span-full">
                         <EmptyState
