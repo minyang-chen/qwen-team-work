@@ -1,0 +1,14 @@
+{
+  "name": "websocket-test",
+  "version": "1.0.0",
+  "description": "End-to-end WebSocket communication test",
+  "main": "test-websocket-flow.js",
+  "scripts": {
+    "test": "node test-websocket-flow.js"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.4",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2"
+  }
+}

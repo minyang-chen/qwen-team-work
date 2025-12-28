@@ -1,0 +1,36 @@
+{
+  "discovery": {
+    "method": "config",
+    "fallbackEnabled": false,
+    "healthCheckInterval": 30000,
+    "connectionTimeout": 5000
+  },
+  "agents": [
+    {
+      "id": "qwen-core-primary",
+      "endpoint": "ws://localhost:8080",
+      "healthCheck": "http://localhost:8080/health",
+      "capabilities": ["session.create", "chat.send", "tools.execute", "session.destroy", "session.getStats", "session.updateTokens"],
+      "priority": 1,
+      "maxSessions": 100,
+      "metadata": {
+        "name": "Qwen Core Agent",
+        "version": "1.0.0",
+        "region": "local"
+      }
+    },
+    {
+      "id": "qwen-core-backup",
+      "endpoint": "ws://localhost:8081",
+      "healthCheck": "http://localhost:8081/health",
+      "capabilities": ["session.create", "chat.send", "tools.execute"],
+      "priority": 2,
+      "maxSessions": 50,
+      "metadata": {
+        "name": "Qwen Core Backup",
+        "version": "1.0.0",
+        "region": "backup"
+      }
+    }
+  ]
+}

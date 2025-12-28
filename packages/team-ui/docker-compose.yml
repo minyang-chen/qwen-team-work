@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ../..
+      dockerfile: packages/web-ui/server/Dockerfile
+    container_name: qwen-code-server
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - CORS_ORIGIN=http://localhost
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+      - QWEN_CLIENT_ID=${QWEN_CLIENT_ID}
+      - QWEN_CLIENT_SECRET=${QWEN_CLIENT_SECRET}
+    volumes:
+      - ~/.qwen:/root/.qwen
+    restart: unless-stopped
+    networks:
+      - qwen-network
+
+  client:
+    build:
+      context: ../..
+      dockerfile: packages/web-ui/client/Dockerfile
+    container_name: qwen-code-client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+    networks:
+      - qwen-network
+
+networks:
+  qwen-network:
+    driver: bridge

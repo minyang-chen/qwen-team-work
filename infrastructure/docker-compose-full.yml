@@ -1,0 +1,246 @@
+version: '3.8'
+
+services:
+  # Infrastructure Services
+  nfs-server:
+    image: gists/nfs-server:latest
+    container_name: team-nfs-server
+    privileged: true
+    environment:
+      - NFS_DIR=/nfs-share
+      - NFS_OPTION=rw,fsid=0,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash
+    volumes:
+      - /workdisk/infrastructure/data/nfs-data:/nfs-share
+    ports:
+      - "2049:2049"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:8.0
+    container_name: team-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-changeme}
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: team-postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=${MONGO_PASSWORD:-changeme}
+      - POSTGRES_DB=qwen_users
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d qwen_users"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Core Application Services
+  team-core-agent:
+    build:
+      context: ../packages/team-core-agent
+      dockerfile: Dockerfile
+    container_name: team-core-agent
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - ACP_SERVER_PORT=${ACP_SERVER_PORT:-8001}
+      - MONGODB_URI=${MONGODB_URI}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+      - NFS_BASE_PATH=${NFS_BASE_PATH:-/app/workspace}
+    volumes:
+      - /workdisk/infrastructure/data/nfs-data:/app/workspace
+    ports:
+      - "${ACP_SERVER_PORT:-8001}:${ACP_SERVER_PORT:-8001}"
+    networks:
+      - qwen-network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      nfs-server:
+        condition: service_started
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${ACP_SERVER_PORT:-8001}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  team-backend:
+    build:
+      context: ../packages/team-backend
+      dockerfile: Dockerfile
+    container_name: team-backend
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - SERVICE_BACKEND_PORT=${SERVICE_BACKEND_PORT:-8000}
+      - UI_SERVER_URL=${UI_SERVER_URL:-http://team-ui-server:8002}
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+      - RATE_LIMIT_WINDOW=${RATE_LIMIT_WINDOW:-900000}
+      - RATE_LIMIT_MAX=${RATE_LIMIT_MAX:-100}
+    ports:
+      - "${SERVICE_BACKEND_PORT:-8000}:${SERVICE_BACKEND_PORT:-8000}"
+    networks:
+      - qwen-network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      team-ui-server:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${SERVICE_BACKEND_PORT:-8000}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  team-ui-server:
+    build:
+      context: ../packages/team-ui/server
+      dockerfile: Dockerfile
+    container_name: team-ui-server
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - WEBUI_SERVER_PORT=${WEBUI_SERVER_PORT:-8002}
+      - ACP_WEBSOCKET_URL=${ACP_WEBSOCKET_URL:-ws://team-core-agent:8001}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+      - SESSION_TOKEN_LIMIT=${SESSION_TOKEN_LIMIT:-32000}
+      - MESSAGE_WINDOW_SIZE=${MESSAGE_WINDOW_SIZE:-100}
+      - SANDBOX_ENABLED=${SANDBOX_ENABLED:-true}
+      - SANDBOX_NETWORK=qwen-network
+    ports:
+      - "${WEBUI_SERVER_PORT:-8002}:${WEBUI_SERVER_PORT:-8002}"
+    networks:
+      - qwen-network
+    depends_on:
+      team-core-agent:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${WEBUI_SERVER_PORT:-8002}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  team-ui-client:
+    build:
+      context: ../packages/team-ui/client
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${PUBLIC_API_URL:-http://localhost:8000}
+        - VITE_WS_URL=${PUBLIC_WS_URL:-http://localhost:8002}
+    container_name: team-ui-client
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - WEBUI_CLIENT_PORT=${WEBUI_CLIENT_PORT:-8003}
+    ports:
+      - "${WEBUI_CLIENT_PORT:-8003}:${WEBUI_CLIENT_PORT:-8003}"
+    networks:
+      - qwen-network
+    depends_on:
+      team-backend:
+        condition: service_healthy
+      team-ui-server:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Development Tools
+  gitea:
+    image: docker.gitea.com/gitea:1.25.2
+    container_name: team-gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - LOGIN_ID=admin/admin@demo.com
+      - LOGIN_PASSWORD=admin123
+    restart: unless-stopped
+    volumes:
+      - gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3333:3000"
+      - "222:22"
+    networks:
+      - qwen-network
+
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    container_name: team-excalidraw
+    restart: unless-stopped
+    volumes:
+      - excalidraw-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5000:80"
+    networks:
+      - qwen-network
+
+  drawio:
+    image: jgraph/drawio
+    container_name: team-drawio
+    restart: unless-stopped
+    volumes:
+      - drawio-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8008:8080"
+      - "8443:8443"
+    networks:
+      - qwen-network
+
+  memos:
+    image: neosmemo/memos:stable
+    container_name: team-memos
+    restart: unless-stopped
+    volumes:
+      - memos-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5230:5230"
+    networks:
+      - qwen-network
+
+volumes:
+  mongo-data:
+  postgres-data:
+  gitea-data:
+  excalidraw-data:
+  drawio-data:
+  memos-data:
+
+networks:
+  qwen-network:
+    driver: bridge
+    name: qwen-network

@@ -1,0 +1,149 @@
+version: '3.8'
+
+services:
+  # Infrastructure Services
+  nfs-server:
+    image: gists/nfs-server:latest
+    container_name: team-nfs-server
+    privileged: true
+    environment:
+      - NFS_DIR=/nfs-share
+      - NFS_OPTION=rw,fsid=0,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash
+    volumes:
+      - /workdisk/infrastructure/data/nfs-data:/nfs-share
+    ports:
+      - "2049:2049"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:8.0
+    container_name: team-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-changeme}
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: team-postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=${MONGO_PASSWORD:-changeme}
+      - POSTGRES_DB=qwen_users
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d qwen_users"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:8.4.0
+    container_name: team-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - qwen-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Development Tools
+  gitea:
+    image: docker.gitea.com/gitea:1.25.2
+    container_name: team-gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - LOGIN_ID=admin/admin@demo.com
+      - LOGIN_PASSWORD=admin123
+    restart: unless-stopped
+    volumes:
+      - gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3333:3000"
+      - "222:22"
+    networks:
+      - qwen-network
+
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    container_name: team-excalidraw
+    restart: unless-stopped
+    volumes:
+      - excalidraw-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5000:80"
+    networks:
+      - qwen-network
+
+  drawio:
+    image: jgraph/drawio
+    container_name: team-drawio
+    restart: unless-stopped
+    volumes:
+      - drawio-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8008:8080"
+      - "8443:8443"
+    networks:
+      - qwen-network
+
+  memos:
+    image: neosmemo/memos:stable
+    container_name: team-memos
+    restart: unless-stopped
+    volumes:
+      - memos-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5230:5230"
+    networks:
+      - qwen-network
+
+volumes:
+  mongo-data:
+  postgres-data:
+  redis-data:
+  gitea-data:
+  excalidraw-data:
+  drawio-data:
+  memos-data:
+
+networks:
+  qwen-network:
+    driver: bridge
+    name: qwen-network
