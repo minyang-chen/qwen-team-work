@@ -80,13 +80,37 @@ const startServer = async () => {
   try {
     await connectMongoDB();
     
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       logger.info('Backend server started', {
         port: PORT,
         env: NODE_ENV,
         allowedOrigins
       });
     });
+
+    // Graceful shutdown
+    let isShuttingDown = false;
+
+    function gracefulShutdown(signal: string) {
+      if (isShuttingDown) return;
+      isShuttingDown = true;
+      logger.info(`${signal} received, shutting down gracefully`);
+      
+      const forceExitTimer = setTimeout(() => {
+        logger.error('Shutdown timeout, forcing exit');
+        process.exit(1);
+      }, 5000);
+      
+      server.close(() => {
+        clearTimeout(forceExitTimer);
+        logger.info('Server closed, exiting');
+        process.exit(0);
+      });
+    }
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
   } catch (error) {
     logger.error('Failed to start server', {}, error as Error);
     process.exit(1);

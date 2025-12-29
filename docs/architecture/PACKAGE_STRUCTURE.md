@@ -200,10 +200,10 @@ cd packages/team-shared && npm run build
 
 | Service | Port | Protocol |
 |---------|------|----------|
-| team-web | 3000 | HTTP |
-| team-service | 3001 | HTTP + WebSocket |
-| team-storage | 3002 | HTTP |
+| team-web | 8003 | HTTP |
+| team-service | 8002 | HTTP + WebSocket |
 | team-ai-agent | 8001 | WebSocket |
+| team-storage | 8000 | HTTP |
 | MongoDB | 27017 | MongoDB Protocol |
 
 ## Environment Variables

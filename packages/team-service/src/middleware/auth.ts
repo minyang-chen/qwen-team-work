@@ -7,6 +7,14 @@ export interface AuthenticatedRequest extends FastifyRequest {
     userId: string;
     username?: string;
     exp?: number;
+    credentials?: {
+      type: string;
+      apiKey?: string;
+      baseUrl?: string;
+      model?: string;
+      accessToken?: string;
+      refreshToken?: string;
+    };
   };
 }
 
@@ -35,7 +43,8 @@ export async function authenticateRequest(
       request.user = {
         userId: decoded.userId || decoded.id,
         username: decoded.username,
-        exp: decoded.exp
+        exp: decoded.exp,
+        credentials: decoded.credentials
       };
     } catch (jwtError) {
       reply.code(401).send({ 

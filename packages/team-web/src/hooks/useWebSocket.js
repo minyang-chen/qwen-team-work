@@ -6,12 +6,17 @@ export function useWebSocket(url) {
     const socketRef = useRef(null);
     const [isConnected, setIsConnected] = useState(false);
     useEffect(() => {
+        const token = localStorage.getItem('team_session_token');
+        
         socketRef.current = io(wsUrl, {
             withCredentials: true,
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
             reconnectionAttempts: Infinity,
+            auth: {
+                token: token
+            }
         });
         socketRef.current.on('connect', () => {
             setIsConnected(true);

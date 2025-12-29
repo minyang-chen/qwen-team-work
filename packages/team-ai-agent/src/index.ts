@@ -30,7 +30,11 @@ const agents: AgentConfig[] = [
   }
 ];
 
-console.log('[INFO] Starting Core Agent server', {
+console.log({
+  service: 'team-ai-agent',
+  level: 'info',
+  timestamp: new Date().toISOString(),
+  message: 'Starting Core Agent server',
   port: config.PORT,
   env: config.NODE_ENV,
   agentCount: agents.length

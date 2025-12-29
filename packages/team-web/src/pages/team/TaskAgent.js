@@ -4,10 +4,12 @@ import { API_BASE } from '../../config/api';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useWebSocket } from '../../hooks/useWebSocket';
 // Type assertions for third-party components
 const ReactMarkdownComponent = ReactMarkdown;
 const SyntaxHighlighterComponent = SyntaxHighlighter;
 export function TaskAgent({ workspaceType, selectedTeamId }) {
+    const { socket, isConnected } = useWebSocket();
     const [messages, setMessages] = useState([]);
     const [conversations, setConversations] = useState([]);
     const [currentSessionId, setCurrentSessionId] = useState('');
@@ -33,6 +35,74 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+    
+    useEffect(() => {
+        if (!socket) return;
+        
+        console.log('Setting up WebSocket event listeners', { service: 'team-web' });
+        
+        socket.on('connect', () => {
+            console.log('WebSocket connected');
+        });
+        
+        socket.on('disconnect', () => {
+            console.log('WebSocket disconnected');
+        });
+        
+        socket.on('error', (error) => {
+            console.error('WebSocket error:', error);
+        });
+        
+        socket.on('message:chunk', (chunk) => {
+            console.log('Received message:chunk', chunk);
+            if (chunk.type === 'text' && chunk.data.text) {
+                setMessages(prev => {
+                    const lastMessage = prev[prev.length - 1];
+                    if (lastMessage && lastMessage.role === 'assistant' && lastMessage.streaming) {
+                        return prev.map((msg, index) => 
+                            index === prev.length - 1 
+                                ? { ...msg, content: msg.content + chunk.data.text }
+                                : msg
+                        );
+                    }
+                    return prev;
+                });
+            }
+        });
+        
+        socket.on('message:complete', () => {
+            console.log('Received message:complete');
+            setMessages(prev => prev.map((msg, index) => 
+                index === prev.length - 1 && msg.streaming
+                    ? { ...msg, streaming: false }
+                    : msg
+            ));
+            setLoading(false);
+        });
+        
+        socket.on('message:error', (error) => {
+            console.error('Received message:error', error);
+            setLoading(false);
+            const errorMessage = {
+                id: Date.now().toString(),
+                role: 'assistant',
+                content: 'Sorry, I encountered an error. Please try again.',
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev.slice(0, -1), errorMessage]);
+        });
+        
+        return () => {
+            console.log('Cleaning up WebSocket event listeners');
+            socket.off('connect');
+            socket.off('disconnect');
+            socket.off('error');
+            socket.off('message:chunk');
+            socket.off('message:complete');
+            socket.off('message:error');
+        };
+    }, [socket]);
+    
     useEffect(() => {
         // Check authentication first
         const token = localStorage.getItem('team_session_token');
@@ -59,41 +129,49 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
     const createConversationOnFirstMessage = async () => {
         try {
             const token = localStorage.getItem('team_session_token');
+            console.log('createConversationOnFirstMessage token check:', { hasToken: !!token, tokenLength: token?.length });
             if (!token) {
                 return null;
             }
-            const response = await fetch(`${API_BASE}/api/conversations/new`, {
+            console.log('Making request to /api/sessions with token');
+            const response = await fetch(`${API_BASE}/api/sessions`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log('Session creation response:', { status: response.status, ok: response.ok });
             if (response.ok) {
                 const data = await response.json();
+                console.log('Session created successfully:', data);
                 setCurrentSessionId(data.sessionId);
-                loadConversationList();
+                // Don't call loadConversationList immediately - let it be called separately
                 return data.sessionId;
             }
             else if (response.status === 401) {
+                console.log('401 Unauthorized - redirecting to login');
                 window.location.href = '/team/login';
+            } else {
+                console.log('Session creation failed with status:', response.status);
             }
             return null;
         }
         catch (error) {
+            console.error('Session creation error:', error);
             return null;
         }
     };
     const loadConversationList = async () => {
         try {
             const token = localStorage.getItem('team_session_token');
-            const response = await fetch(`${API_BASE}/api/conversations/list`, {
+            const response = await fetch(`${API_BASE}/api/sessions`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             if (response.ok) {
                 const data = await response.json();
-                setConversations(data.conversations);
+                setConversations(data.sessions || []);
             }
             else {
             }
@@ -126,8 +204,14 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
     };
     const renameConversation = async (sessionId, newName) => {
         try {
+            if (!sessionId || sessionId === 'null') {
+                console.log('Invalid sessionId for rename:', sessionId);
+                return;
+            }
+            
             const token = localStorage.getItem('team_session_token');
-            const response = await fetch(`${API_BASE}/api/conversations/${sessionId}/rename`, {
+            // Use session API instead of conversation API
+            const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/rename`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -141,9 +225,11 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
             }
             else {
                 const errorData = await response.text();
+                console.log('Rename failed:', errorData);
             }
         }
         catch (error) {
+            console.error('Rename error:', error);
         }
     };
     const deleteConversation = async (sessionId) => {
@@ -189,6 +275,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
     };
     const groupConversationsByDate = (convs) => {
         const groups = {};
+        if (!convs || !Array.isArray(convs)) return groups;
         convs.forEach(conv => {
             const date = new Date(conv.lastActivity);
             const today = new Date();
@@ -215,103 +302,97 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
         setEditName(currentName);
     };
     const sendMessage = async () => {
-        if (!input.trim() || loading)
+        console.log('sendMessage called', { 
+            service: 'team-web',
+            input: input.trim(), 
+            loading, 
+            socket, 
+            isConnected 
+        });
+        
+        if (!input.trim() || loading || !socket) {
+            console.log('sendMessage early return:', { hasInput: !!input.trim(), loading, hasSocket: !!socket });
             return;
+        }
+        
         const token = localStorage.getItem('team_session_token');
+        console.log('Auth token check:', { hasToken: !!token, tokenLength: token?.length });
         if (!token) {
+            console.log('No auth token, redirecting to login');
             window.location.href = '/team/login';
             return;
         }
+
+        console.log('Creating conversation if needed, currentSessionId:', currentSessionId);
+        
         // Create conversation on first message if not exists
         let sessionId = currentSessionId;
         if (!sessionId) {
             sessionId = await createConversationOnFirstMessage();
-            if (!sessionId)
-                return;
+            console.log('Created new session:', sessionId);
+            if (!sessionId) return;
         }
+
         const userMessage = {
             id: Date.now().toString(),
             role: 'user',
             content: input,
             timestamp: new Date()
         };
+        
+        console.log('Adding user message and sending via WebSocket');
         setMessages(prev => [...prev, userMessage]);
         setInput('');
         setLoading(true);
+
         // Create assistant message for streaming
-        const assistantMessageId = (Date.now() + 1).toString();
         const assistantMessage = {
-            id: assistantMessageId,
+            id: (Date.now() + 1).toString(),
             role: 'assistant',
             content: '',
-            timestamp: new Date()
+            timestamp: new Date(),
+            streaming: true
         };
         setMessages(prev => [...prev, assistantMessage]);
-        try {
-            const response = await fetch(`${API_BASE}/api/chat/message`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({ message: input })
-            });
-            if (!response.ok) {
-                if (response.status === 401) {
-                    window.location.href = '/team/login';
-                    return;
-                }
-                throw new Error('Failed to send message');
-            }
-            // Handle streaming response
-            const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
-            let buffer = '';
-            if (reader) {
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done)
-                        break;
-                    buffer += decoder.decode(value, { stream: true });
-                    const lines = buffer.split('\n');
-                    buffer = lines.pop() || '';
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            try {
-                                const data = JSON.parse(line.slice(6));
-                                if (data.type === 'chunk') {
-                                    // Update assistant message with new chunk
-                                    setMessages(prev => prev.map(msg => msg.id === assistantMessageId
-                                        ? { ...msg, content: msg.content + data.content }
-                                        : msg));
-                                }
-                                else if (data.type === 'complete') {
-                                    // Streaming complete
-                                    break;
-                                }
-                                else if (data.type === 'error') {
-                                    throw new Error(data.message);
-                                }
-                            }
-                            catch (parseError) {
-                            }
-                        }
-                    }
-                }
+
+        // Extract userId from JWT token
+        const authToken = localStorage.getItem('team_session_token');
+        let userId = 'anonymous';
+        if (authToken) {
+            try {
+                const payload = JSON.parse(atob(authToken.split('.')[1]));
+                userId = payload.userId || payload.id || 'anonymous';
+            } catch (e) {
+                console.error('Failed to decode token:', e);
             }
         }
-        catch (error) {
-            const errorMessage = {
-                id: (Date.now() + 2).toString(),
-                role: 'assistant',
-                content: 'Sorry, I encountered an error. Please try again.',
-                timestamp: new Date()
-            };
-            setMessages(prev => [...prev.slice(0, -1), errorMessage]);
-        }
-        finally {
+
+        // Send via WebSocket
+        const messageData = {
+            userId: userId,
+            sessionId: sessionId,
+            message: input
+        };
+        
+        console.log('Emitting chat:message', messageData);
+        console.log('Socket connected?', socket.connected);
+        console.log('Socket ID:', socket.id);
+        
+        socket.emit('chat:message', messageData);
+        
+        // Confirm message was sent
+        console.log('Message emitted successfully');
+        
+        // Add debugging for WebSocket events
+        socket.on('message:error', (error) => {
+            console.error('Received message:error', error);
             setLoading(false);
-        }
+        });
+        
+        socket.on('error', (error) => {
+            console.error('WebSocket error during message send:', error);
+            setLoading(false);
+        });
     };
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -326,7 +407,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }) {
                         // Search Results
                         searchResults.length > 0 ? (searchResults.map((conv) => (_jsx("div", { className: "p-3 border-b border-gray-100", children: _jsxs("div", { onClick: () => switchConversation(conv.sessionId), className: "cursor-pointer hover:bg-gray-50 p-1 rounded", children: [_jsx("div", { className: "text-sm font-medium text-gray-900 truncate", children: conv.name }), _jsx("div", { className: "text-xs text-gray-500 mt-1", children: conv.preview })] }) }, conv.sessionId)))) : (_jsx("div", { className: "p-4 text-center text-gray-500 text-sm", children: "No results found" }))) : (
                         // Grouped Conversations
-                        Object.entries(groupConversationsByDate(conversations)).map(([date, convs]) => (_jsxs("div", { children: [_jsx("div", { className: "px-3 py-2 bg-gray-50 text-xs font-medium text-gray-700 border-b", children: date }), convs.map((conv) => (_jsx("div", { className: `p-3 border-b border-gray-100 hover:bg-gray-50 ${conv.sessionId === currentSessionId ? 'bg-blue-50 border-blue-200' : ''}`, children: editingConversation === conv.sessionId ? (_jsxs("div", { className: "space-y-2", children: [_jsx("input", { value: editName, onChange: (e) => setEditName(e.target.value), className: "w-full text-sm border rounded px-2 py-1", onKeyPress: (e) => e.key === 'Enter' && renameConversation(conv.sessionId, editName), autoFocus: true }), _jsxs("div", { className: "flex space-x-1", children: [_jsx("button", { onClick: () => renameConversation(conv.sessionId, editName), className: "text-xs bg-green-600 text-white px-2 py-1 rounded", children: "Save" }), _jsx("button", { onClick: () => setEditingConversation(null), className: "text-xs bg-gray-500 text-white px-2 py-1 rounded", children: "Cancel" })] })] })) : (_jsxs("div", { children: [_jsxs("div", { onClick: () => switchConversation(conv.sessionId), className: "cursor-pointer", children: [_jsx("div", { className: "text-sm font-medium text-gray-900 truncate", children: conv.name }), _jsxs("div", { className: "text-xs text-gray-500 mt-1", children: [conv.messageCount, " messages \u2022 ", new Date(conv.lastActivity).toLocaleTimeString()] })] }), _jsxs("div", { className: "flex space-x-1 mt-2", children: [_jsx("button", { onClick: () => startEdit(conv.sessionId, conv.name), className: "text-xs text-blue-600 hover:text-blue-800", children: "Rename" }), _jsx("button", { onClick: () => deleteConversation(conv.sessionId), className: "text-xs text-red-600 hover:text-red-800", children: "Delete" })] })] })) }, conv.sessionId)))] }, date)))) })] })), _jsxs("div", { className: "flex-1 flex flex-col", children: [_jsx("div", { className: "border-b border-gray-200 p-4", children: _jsxs("div", { className: "flex items-center justify-between", children: [_jsxs("div", { children: [_jsx("h2", { className: "text-lg font-semibold text-gray-900", children: "Team Assistant" }), _jsxs("p", { className: "text-sm text-gray-500", children: ["Session: ", currentSessionId.substring(0, 20), " | Workspace: Team Mode"] })] }), _jsx("button", { onClick: () => setShowSidebar(!showSidebar), className: "text-gray-500 hover:text-gray-700", children: showSidebar ? '←' : '→' })] }) }), _jsxs("div", { className: "flex-1 overflow-y-auto p-4 space-y-4", children: [messages.map((message) => (_jsx("div", { className: `flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`, children: _jsx("div", { className: `max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.role === 'user'
+                        Object.entries(groupConversationsByDate(conversations)).map(([date, convs]) => (_jsxs("div", { children: [_jsx("div", { className: "px-3 py-2 bg-gray-50 text-xs font-medium text-gray-700 border-b", children: date }), convs.map((conv) => (_jsx("div", { className: `p-3 border-b border-gray-100 hover:bg-gray-50 ${conv.sessionId === currentSessionId ? 'bg-blue-50 border-blue-200' : ''}`, children: editingConversation === conv.sessionId ? (_jsxs("div", { className: "space-y-2", children: [_jsx("input", { value: editName, onChange: (e) => setEditName(e.target.value), className: "w-full text-sm border rounded px-2 py-1", onKeyPress: (e) => e.key === 'Enter' && renameConversation(conv.sessionId, editName), autoFocus: true }), _jsxs("div", { className: "flex space-x-1", children: [_jsx("button", { onClick: () => renameConversation(conv.sessionId, editName), className: "text-xs bg-green-600 text-white px-2 py-1 rounded", children: "Save" }), _jsx("button", { onClick: () => setEditingConversation(null), className: "text-xs bg-gray-500 text-white px-2 py-1 rounded", children: "Cancel" })] })] })) : (_jsxs("div", { children: [_jsxs("div", { onClick: () => switchConversation(conv.sessionId), className: "cursor-pointer", children: [_jsx("div", { className: "text-sm font-medium text-gray-900 truncate", children: conv.name }), _jsxs("div", { className: "text-xs text-gray-500 mt-1", children: [conv.messageCount, " messages \u2022 ", new Date(conv.lastActivity).toLocaleTimeString()] })] }), _jsxs("div", { className: "flex space-x-1 mt-2", children: [_jsx("button", { onClick: () => startEdit(conv.sessionId, conv.name), className: "text-xs text-blue-600 hover:text-blue-800", children: "Rename" }), _jsx("button", { onClick: () => deleteConversation(conv.sessionId), className: "text-xs text-red-600 hover:text-red-800", children: "Delete" })] })] })) }, conv.sessionId)))] }, date)))) })] })), _jsxs("div", { className: "flex-1 flex flex-col", children: [_jsx("div", { className: "border-b border-gray-200 p-4", children: _jsxs("div", { className: "flex items-center justify-between", children: [_jsxs("div", { children: [_jsx("h2", { className: "text-lg font-semibold text-gray-900", children: "Team Assistant" }), _jsxs("p", { className: "text-sm text-gray-500", children: ["Session: ", (currentSessionId || 'New Session').substring(0, 20), " | Workspace: Team Mode | WebSocket: ", _jsx("span", { className: isConnected ? 'text-green-600' : 'text-red-600', children: isConnected ? 'Connected' : 'Disconnected' })] })] }), _jsx("button", { onClick: () => setShowSidebar(!showSidebar), className: "text-gray-500 hover:text-gray-700", children: showSidebar ? '←' : '→' })] }) }), _jsxs("div", { className: "flex-1 overflow-y-auto p-4 space-y-4", children: [messages.map((message) => (_jsx("div", { className: `flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`, children: _jsx("div", { className: `max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.role === 'user'
                                         ? 'bg-blue-600 text-white'
                                         : 'bg-gray-100 text-gray-900'}`, children: _jsxs("div", { className: "space-y-2", children: [renderMessageContent(message), _jsx("p", { className: "text-xs mt-1 opacity-70", children: message.timestamp.toLocaleTimeString() })] }) }) }, message.id))), loading && (_jsx("div", { className: "flex justify-start", children: _jsx("div", { className: "bg-gray-100 text-gray-900 max-w-xs lg:max-w-md px-4 py-2 rounded-lg", children: _jsxs("div", { className: "flex items-center space-x-2", children: [_jsx("div", { className: "animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600" }), _jsx("span", { className: "text-sm", children: "Assistant is typing..." })] }) }) })), _jsx("div", { ref: messagesEndRef })] }), _jsx("div", { className: "border-t border-gray-200 p-4", children: _jsxs("div", { className: "flex space-x-2", children: [_jsx("textarea", { value: input, onChange: (e) => setInput(e.target.value), onKeyPress: handleKeyPress, placeholder: "Ask me anything about your team project...", className: "flex-1 resize-none border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500", rows: 2 }), _jsx("button", { onClick: sendMessage, disabled: !input.trim() || loading, className: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed", children: "Send" })] }) })] })] }));
 }

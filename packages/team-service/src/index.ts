@@ -58,10 +58,15 @@ import { setupWebSocket } from './websocket.js';
 import { authenticateRequest } from './middleware/auth.js';
 import { logRequestMiddleware, requestLogger } from './middleware/logging.js';
 import { apiGateway } from './middleware/proxy.js';
+import { registerRoutes } from './routes/index.js';
 import jwt from 'jsonwebtoken';
 import { nanoid } from 'nanoid';
 
-const app = Fastify({ logger: true });
+const app = Fastify({ 
+  logger: {
+    level: 'warn' // Only log warnings and errors, not info/debug
+  }
+});
 
 console.log('🔥 INDEX.TS LOADED - TESTING COMPILATION');
 
@@ -381,54 +386,10 @@ app.post('/api/auth/login/openai', async (request, reply) => {
   return { userId, token };
 });
 
-app.get('/api/config/:type', async (request) => {
-  const { type } = request.params as { type: 'individual' | 'team' };
+// Config route moved to routes/system.ts to avoid duplicates
 
-  if (type === 'individual') {
-    return {
-      'Qwen OAuth Client ID': QWEN_CLIENT_ID || 'Not configured',
-      'OpenAI API Key': OPENAI_API_KEY
-        ? OPENAI_API_KEY.substring(0, 10) + '***'
-        : 'Not configured',
-      'OpenAI Base URL': OPENAI_BASE_URL || 'Not configured',
-      'OpenAI Model': OPENAI_MODEL || 'Not configured',
-      'JWT Secret': JWT_SECRET ? '***configured***' : 'Not configured',
-    };
-  } else {
-    return {
-      'MongoDB URI': process.env['MONGODB_URI'] || 'Not configured',
-      'MongoDB URI Masked': process.env['MONGODB_URI']
-        ? process.env['MONGODB_URI'].replace(/:[^:@]+@/, ':***@')
-        : 'Not configured',
-      'NFS Base Path': process.env['NFS_BASE_PATH'] || 'Not configured',
-      'OpenAI Base URL': OPENAI_BASE_URL || 'Not configured',
-      'OpenAI Model': OPENAI_MODEL || 'Not configured',
-      'Embedding Base URL':
-        process.env['EMBEDDING_BASE_URL'] || 'Not configured',
-      'Embedding Model': process.env['EMBEDDING_MODEL'] || 'Not configured',
-    };
-  }
-});
-
-app.get('/api/sessions/:id/stats', async (request, reply) => {
-  const { id } = request.params as { id: string };
-  // TODO: Get user from authentication middleware
-  const userId = 'temp-user'; // Placeholder until auth is implemented
-  const stats = await userSessionManager.getSessionStats(userId, id);
-
-  if (!stats) {
-    return reply.code(404).send({ error: 'Session not found' });
-  }
-
-  return stats;
-});
-
-app.get('/api/settings', async () => {
-  return {
-    messageWindowSize: MESSAGE_WINDOW_SIZE,
-    sessionTokenLimit: SESSION_TOKEN_LIMIT,
-  };
-});
+// Session stats route moved to routes/sessions.ts to avoid duplicates
+// Settings route moved to routes/system.ts to avoid duplicates
 
 app.get('/api/info', async () => {
   return {
@@ -492,125 +453,9 @@ app.post('/api/auth/logout', async (request, reply) => {
   return { success: true };
 });
 
-app.post('/api/sessions', async (request, reply) => {
-  const token = request.cookies['auth_token'];
-  const user = token ? verifyToken(token) : null;
-
-  if (!user) {
-    return reply.code(401).send({ error: 'Unauthorized' });
-  }
-
-  const { workingDirectory } = request.body as { workingDirectory?: string };
-
-  try {
-    const sessionId = await userSessionManager.createUserSession(
-      user.userId,
-      user.credentials,
-      workingDirectory,
-    );
-    return { sessionId };
-  } catch (error) {
-    console.error('Session creation failed:', error);
-    app.log.error({ error }, 'Failed to create session');
-    return reply.code(500).send({
-      error: 'Failed to create session',
-      message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined,
-    });
-  }
-});
-
-app.get('/api/sessions', async (request, reply) => {
-  const token = request.cookies['auth_token'];
-  const user = token ? verifyToken(token) : null;
-
-  if (!user) {
-    return reply.code(401).send({ error: 'Unauthorized' });
-  }
-
-  const sessions = userSessionManager.getUserSessions(user.userId);
-  return sessions.map((sessionId) => ({
-    id: sessionId,
-    createdAt: new Date().toISOString(),
-    lastActivity: new Date().toISOString(),
-  }));
-});
-
-app.delete('/api/sessions/:id', async (request) => {
-  const { id } = request.params as { id: string };
-  // TODO: Get user from authentication middleware  
-  const userId = 'temp-user'; // Placeholder until auth is implemented
-  await userSessionManager.deleteUserSession(userId);
-  return { success: true };
-});
-
-app.post('/api/sessions/:id/compress', async (request, reply) => {
-  const { id } = request.params as { id: string };
-  const token = request.cookies['auth_token'];
-  const user = token ? verifyToken(token) : null;
-
-  if (!user) {
-    return reply.code(401).send({ error: 'Unauthorized' });
-  }
-
-  try {
-    const session = await userSessionManager.getSession(id);
-    if (!session) {
-      return reply.code(404).send({ error: 'Session not found' });
-    }
-
-    // Implement compress history
-    const currentHistory = session.client.getConversationHistory?.() || [];
-    const tokensBeforeCompression = currentHistory.reduce((total: number, msg: any) => 
-      total + (msg.content?.length || 0), 0);
-
-    // Compress by keeping only the last 10 messages and system messages
-    const systemMessages = currentHistory.filter((msg: any) => msg.role === 'system');
-    const recentMessages = currentHistory.filter((msg: any) => msg.role !== 'system').slice(-10);
-    const compressedHistory = [...systemMessages, ...recentMessages];
-
-    // Update the session with compressed history
-    if (session.client.setConversationHistory) {
-      session.client.setConversationHistory(compressedHistory);
-    }
-
-    const tokensAfterCompression = compressedHistory.reduce((total: number, msg: any) => 
-      total + (msg.content?.length || 0), 0);
-
-    return {
-      success: true,
-      tokensBeforeCompression,
-      tokensAfterCompression,
-      compressionRatio: tokensBeforeCompression > 0 ? tokensAfterCompression / tokensBeforeCompression : 0,
-      messagesRemoved: currentHistory.length - compressedHistory.length,
-      messagesRetained: compressedHistory.length
-    };
-  } catch (error) {
-    console.error('Compression failed:', error);
-    return reply.code(500).send({ error: 'Compression failed' });
-  }
-});
-
-// Health check endpoint
-app.get('/health', async (request, reply) => {
-  const aiHealth = aiService.getHealthStatus();
-  
-  const health = {
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    services: {
-      server: { status: 'healthy' },
-      ai: aiHealth,
-      config: { 
-        status: 'healthy',
-        backend_url: BACKEND_URL || 'not set',
-        acp_url: ACP_WEBSOCKET_URL || 'not set'
-      }
-    }
-  };
-  
-  reply.code(200).send(health);
-});
+// Session routes moved to routes/sessions.ts to support Bearer token authentication
+// All session routes moved to routes/sessions.ts to avoid duplicates and support Bearer auth
+// Health check moved to routes/system.ts to avoid duplicates
 
 async function checkRedis() {
   try {
@@ -648,11 +493,12 @@ async function checkCoreAgent() {
   }
 }
 
-// Metrics endpoint
-app.get('/metrics', async (request, reply) => {
-  const metrics = requestLogger.getMetrics();
-  reply.send(metrics);
-});
+// Metrics endpoint moved to routes/system.ts to avoid duplicates
+
+// Register routes that support Bearer token authentication BEFORE catch-all handler
+console.log('📋 Registering routes...');
+await registerRoutes(app, userSessionManager);
+console.log('✅ Routes registered');
 
 // API Gateway - Route all /api/* requests to backend (except existing routes)
 app.addHook('preHandler', logRequestMiddleware);
@@ -667,7 +513,7 @@ const EXCLUDED_PATHS = [
   '/api/auth/info',
   '/api/config/',
   '/api/settings',
-  '/api/session.s/',
+  '/api/sessions/',  // Fixed typo: was '/api/session.s/'
   '/metrics'
 ];
 
@@ -732,15 +578,28 @@ function gracefulShutdown(signal: string) {
   isShuttingDown = true;
   logger.info(`${signal} received, shutting down gracefully`);
   
-  // Force exit after 5 seconds
+  // Increase timeout to 10 seconds for proper cleanup
   const forceExitTimer = setTimeout(() => {
     logger.error('Shutdown timeout, forcing exit');
     process.exit(1);
-  }, 5000);
+  }, 10000);
   
-  // Don't await - let it run async
+  // Shutdown all services properly
   Promise.all([
+    // Close WebSocket server
+    new Promise<void>((resolve) => {
+      io.close(() => {
+        logger.info('WebSocket server closed');
+        resolve();
+      });
+    }),
+    // Cleanup user sessions (ACP connections)
+    userSessionManager.shutdown().catch((err) => {
+      logger.error('UserSessionManager shutdown error', err);
+    }),
+    // Shutdown AI service
     aiService.shutdown(),
+    // Close Fastify server
     app.close()
   ])
     .then(() => {

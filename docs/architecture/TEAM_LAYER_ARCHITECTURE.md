@@ -299,11 +299,11 @@ import { MongoService } from '../../team-storage/src/services';
 
 ```bash
 # team-web/.env
-VITE_API_URL=http://localhost:3001
-VITE_WS_URL=ws://localhost:3001
+VITE_API_URL=http://localhost:8002
+VITE_WS_URL=http://localhost:8002
 
 # team-service/.env
-PORT=3001
+PORT=8002
 JWT_SECRET=your-secret-key
 MONGODB_URI=mongodb://localhost:27017/qwen-team
 OPENAI_API_KEY=sk-...
@@ -311,7 +311,7 @@ OPENAI_BASE_URL=https://api.openai.com/v1
 OPENAI_MODEL=qwen-coder-plus
 
 # team-storage/.env
-PORT=3002
+PORT=8000
 MONGODB_URI=mongodb://localhost:27017/qwen-team
 JWT_SECRET=your-secret-key
 

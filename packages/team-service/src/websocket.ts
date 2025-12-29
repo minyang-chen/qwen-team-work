@@ -62,10 +62,14 @@ export function setupWebSocket(
     socket.on(
       'chat:message',
       async (data: unknown) => {
+        console.log('[DEBUG] Received chat:message event:', JSON.stringify(data, null, 2));
+        
         // Generate correlation ID for request tracing
         const correlationId = nanoid();
         const userId = socket.data.user.userId;
         const requestLogger = logger.child({ correlationId });
+        
+        console.log('[DEBUG] Processing message for userId:', userId, 'correlationId:', correlationId);
         
         try {
           // Rate limiting check
@@ -75,8 +79,17 @@ export function setupWebSocket(
             return;
           }
 
-          // Input sanitization
-          const sanitizedData = inputSanitizer.sanitizeMessage(String(data));
+          // Input sanitization - handle object data properly
+          let sanitizedData = data;
+          if (typeof data === 'object' && data !== null && 'message' in data) {
+            sanitizedData = {
+              ...data,
+              message: inputSanitizer.sanitizeMessage(String(data.message))
+            };
+          } else {
+            // If it's not an object, treat as string message
+            sanitizedData = inputSanitizer.sanitizeMessage(String(data));
+          }
           
           // Validate message structure
           if (!inputSanitizer.validateMessageStructure(sanitizedData)) {
@@ -155,12 +168,81 @@ export function setupWebSocket(
           };
 
           // Send message via backend with streaming
-          await userSessionManager.sendMessageWithStreaming(
-            validatedData.userId,
-            validatedData.sessionId,
-            finalMessage,
-            streamHandler
-          );
+          console.log('[DEBUG] Sending message to LLM');
+          
+          try {
+            // Get LLM config from environment
+            const apiKey = process.env['OPENAI_API_KEY'] || 'sk-svcacct-team-key';
+            const baseUrl = process.env['OPENAI_BASE_URL'] || 'http://10.0.0.139:8080/v1';
+            const model = process.env['OPENAI_MODEL'] || 'openai/gpt-oss-20b';
+            
+            const response = await fetch(`${baseUrl}/chat/completions`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: model,
+                messages: [
+                  { role: 'user', content: finalMessage }
+                ],
+                stream: true
+              })
+            });
+
+            if (!response.ok) {
+              throw new Error(`LLM API error: ${response.status}`);
+            }
+
+            const reader = response.body?.getReader();
+            if (!reader) {
+              throw new Error('No response body');
+            }
+
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split('\n');
+              buffer = lines.pop() || '';
+
+              for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                  const data = line.slice(6);
+                  if (data === '[DONE]') continue;
+                  
+                  try {
+                    const parsed = JSON.parse(data);
+                    const content = parsed.choices?.[0]?.delta?.content;
+                    if (content) {
+                      socket.emit('message:chunk', { 
+                        type: 'text', 
+                        data: { text: content },
+                        correlationId 
+                      });
+                    }
+                  } catch (e) {
+                    // Skip invalid JSON
+                  }
+                }
+              }
+            }
+
+            socket.emit('message:complete', { correlationId });
+            
+          } catch (error) {
+            console.error('[ERROR] LLM processing failed:', error);
+            socket.emit('error', { 
+              message: 'Failed to process message',
+              code: 'LLM_ERROR',
+              correlationId 
+            });
+          }
 
           // Store message in conversation history
           const session = userSessionManager.getUserSession(validatedData.userId);

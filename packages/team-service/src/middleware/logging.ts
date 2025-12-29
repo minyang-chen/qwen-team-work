@@ -48,6 +48,7 @@ class RequestLogger {
     const userId = (request as AuthenticatedRequest).user?.userId || 'anonymous';
     
     console[logLevel]({
+      service: 'team-service',
       timestamp: new Date().toISOString(),
       method: request.method,
       url: request.url,

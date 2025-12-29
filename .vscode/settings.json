@@ -4,8 +4,8 @@
   "typescript.format.enable": true,
   "typescript.suggest.autoImports": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
   },
   "typescript.preferences.includePackageJsonAutoImports": "auto",
   "files.associations": {
