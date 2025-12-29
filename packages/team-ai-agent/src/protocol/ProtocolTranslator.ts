@@ -31,11 +31,19 @@ export interface AcpResponse {
 
 export class ProtocolTranslator {
   acpToSdk(message: AcpMessage): { prompt: string; config: Partial<ServerConfig> } {
+    // Handle different message structures - actual messages use 'data' field
+    const messageData = (message as any).data || message.payload;
+    const content = messageData?.message || messageData?.content;
+    
+    if (!content) {
+      throw new Error(`No content found in message. Data: ${JSON.stringify(messageData)}`);
+    }
+    
     return {
-      prompt: message.payload.content,
+      prompt: content,
       config: {
-        sessionId: message.payload.sessionId,
-        model: message.payload.model,
+        sessionId: messageData.sessionId,
+        model: messageData.model,
       },
     };
   }

@@ -94,6 +94,31 @@ export class AcpServer {
     });
 
     Logger.info(`ACP Server started on port ${port}`);
+    
+    // Initialize ServerClient after server is started
+    this.initializeServerClient();
+  }
+
+  async start(): Promise<void> {
+    // Wait for ServerClient initialization to complete
+    await this.initializeServerClient();
+    Logger.info('ACP Server fully initialized and ready');
+  }
+
+  private async initializeServerClient() {
+    try {
+      console.log('[AcpServer] Initializing ServerClient...');
+      await this.serverClient.initialize();
+      console.log('[AcpServer] ServerClient initialized with tool execution capabilities');
+      
+      // Log ServerClient configuration
+      const config = (this.serverClient as any).config;
+      console.log('[AcpServer] ServerClient config - approval mode:', config?.getApprovalMode?.());
+      console.log('[AcpServer] ServerClient config - model:', config?.getModel?.());
+      
+    } catch (error) {
+      console.error('[AcpServer] Failed to initialize ServerClient:', error);
+    }
   }
 
   private async getHealthStatus() {

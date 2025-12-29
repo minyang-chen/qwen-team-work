@@ -8,6 +8,7 @@
     "packages/team-service",
     "packages/team-ai-agent",
     "packages/team-server-sdk",
+    "packages/team-test",
     "packages/core",
     "packages/cli",
     "packages/sdk-typescript"
@@ -15,7 +16,13 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "dev": "npm run dev --workspaces",
-    "clean": "rm -rf packages/*/dist packages/*/node_modules"
+    "clean": "rm -rf packages/*/dist packages/*/node_modules",
+    "test": "cd packages/team-test && npm test",
+    "test:unit": "cd packages/team-test && npm run test:unit",
+    "test:integration": "cd packages/team-test && npm run test:integration",
+    "test:e2e": "cd packages/team-test && npm run test:e2e",
+    "test:coverage": "cd packages/team-test && npm run test:coverage",
+    "test:all": "./packages/team-test/run-tests.sh"
   },
   "devDependencies": {
     "typescript": "^5.3.0"

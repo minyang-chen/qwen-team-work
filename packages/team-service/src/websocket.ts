@@ -167,81 +167,54 @@ export function setupWebSocket(
             }
           };
 
-          // Send message via backend with streaming
-          console.log('[DEBUG] Sending message to LLM');
+          // Send message via UserSessionManager with ACP protocol
+          console.log('[DEBUG] Sending message via ACP protocol');
           
           try {
-            // Get LLM config from environment
-            const apiKey = process.env['OPENAI_API_KEY'] || 'sk-svcacct-team-key';
-            const baseUrl = process.env['OPENAI_BASE_URL'] || 'http://10.0.0.139:8080/v1';
-            const model = process.env['OPENAI_MODEL'] || 'openai/gpt-oss-20b';
+            await userSessionManager.sendMessageWithStreaming(
+              validatedData.userId,
+              validatedData.sessionId,
+              finalMessage,
+              streamHandler
+            );
+          } catch (acpError) {
+            console.error('[ERROR] ACP processing failed, falling back to direct LLM:', acpError);
             
-            const response = await fetch(`${baseUrl}/chat/completions`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-              },
-              body: JSON.stringify({
-                model: model,
-                messages: [
-                  { role: 'user', content: finalMessage }
-                ],
-                stream: true
-              })
-            });
-
-            if (!response.ok) {
-              throw new Error(`LLM API error: ${response.status}`);
-            }
-
-            const reader = response.body?.getReader();
-            if (!reader) {
-              throw new Error('No response body');
-            }
-
-            const decoder = new TextDecoder();
-            let buffer = '';
-
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-
-              buffer += decoder.decode(value, { stream: true });
-              const lines = buffer.split('\n');
-              buffer = lines.pop() || '';
-
-              for (const line of lines) {
-                if (line.startsWith('data: ')) {
-                  const data = line.slice(6);
-                  if (data === '[DONE]') continue;
-                  
-                  try {
-                    const parsed = JSON.parse(data);
-                    const content = parsed.choices?.[0]?.delta?.content;
-                    if (content) {
-                      socket.emit('message:chunk', { 
-                        type: 'text', 
-                        data: { text: content },
-                        correlationId 
-                      });
-                    }
-                  } catch (e) {
-                    // Skip invalid JSON
-                  }
-                }
+            // Fallback to direct LLM API calls with tool support
+            try {
+              console.log('[DEBUG] Using fallback with ServerClient and tools');
+              
+              // Create ServerClient for fallback with tools enabled
+              const { ServerClient } = await import('@qwen-team/server-sdk');
+              const fallbackClient = new ServerClient({
+                apiKey: process.env['OPENAI_API_KEY'] || 'sk-svcacct-team-key',
+                baseUrl: process.env['OPENAI_BASE_URL'] || 'http://10.0.0.139:8080/v1',
+                model: process.env['OPENAI_MODEL'] || 'openai/gpt-oss-20b',
+                approvalMode: 'yolo'
+              });
+              
+              await fallbackClient.initialize();
+              console.log('[DEBUG] Fallback ServerClient initialized with tools');
+              
+              // Use ServerClient for query with tools
+              const result = await fallbackClient.query(finalMessage);
+              
+              // Stream the response
+              const content = result.text || '';
+              const chunkSize = 20;
+              
+              for (let i = 0; i < content.length; i += chunkSize) {
+                const chunk = content.slice(i, i + chunkSize);
+                streamHandler.onChunk(chunk);
+                await new Promise(resolve => setTimeout(resolve, 50));
               }
-            }
 
-            socket.emit('message:complete', { correlationId });
-            
-          } catch (error) {
-            console.error('[ERROR] LLM processing failed:', error);
-            socket.emit('error', { 
-              message: 'Failed to process message',
-              code: 'LLM_ERROR',
-              correlationId 
-            });
+              streamHandler.onComplete();
+              
+            } catch (fallbackError) {
+              console.error('[ERROR] Fallback LLM processing also failed:', fallbackError);
+              streamHandler.onError(fallbackError as Error);
+            }
           }
 
           // Store message in conversation history
@@ -272,6 +245,47 @@ export function setupWebSocket(
         }
       },
     );
+
+    socket.on('tool:execute', async (data: unknown) => {
+      const correlationId = nanoid();
+      const userId = socket.data.user.userId;
+      const requestLogger = logger.child({ correlationId });
+
+      try {
+        const { toolName, parameters, sessionId } = data as {
+          toolName: string;
+          parameters: any;
+          sessionId: string;
+        };
+
+        requestLogger.info('Processing tool execution', { 
+          toolName, 
+          sessionId 
+        });
+
+        // Execute tool via UserSessionManager
+        const result = await userSessionManager.executeCode(
+          userId,
+          sessionId,
+          parameters.code || parameters.command,
+          parameters.language || 'bash'
+        );
+
+        socket.emit('tool:result', {
+          correlationId,
+          result,
+          toolName
+        });
+
+      } catch (error) {
+        requestLogger.error('Tool execution failed', {}, error as Error);
+        
+        socket.emit('tool:error', {
+          correlationId,
+          error: error instanceof Error ? error.message : 'Tool execution failed'
+        });
+      }
+    });
 
     socket.on('disconnect', () => {
       logger.info('Client disconnected');

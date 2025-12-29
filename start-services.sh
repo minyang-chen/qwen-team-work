@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Team services startup script with proper shutdown handling
+# Team services startup script with proper shutdown handling and health checks
 
 set -e
 
@@ -8,6 +8,7 @@ set -e
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Process IDs
@@ -16,11 +17,35 @@ AI_AGENT_PID=""
 SERVICE_PID=""
 WEB_PID=""
 
+# Health check function
+check_service_health() {
+    local service_name=$1
+    local health_url=$2
+    local max_attempts=${3:-30}
+    local attempt=1
+    
+    echo -e "${BLUE}Checking $service_name health...${NC}"
+    
+    while [ $attempt -le $max_attempts ]; do
+        if curl -s -f "$health_url" > /dev/null 2>&1; then
+            echo -e "${GREEN}✅ $service_name is healthy${NC}"
+            return 0
+        fi
+        
+        echo -e "${YELLOW}⏳ Waiting for $service_name (attempt $attempt/$max_attempts)${NC}"
+        sleep 2
+        attempt=$((attempt + 1))
+    done
+    
+    echo -e "${RED}❌ $service_name failed to start${NC}"
+    return 1
+}
+
 # Cleanup function
 cleanup() {
     echo -e "\n${YELLOW}Shutting down all services...${NC}"
     
-    # Send SIGTERM to all processes
+    # Send SIGTERM to all processes in reverse order
     if [ ! -z "$WEB_PID" ]; then
         echo "Stopping team-web (PID: $WEB_PID)"
         kill -TERM $WEB_PID 2>/dev/null || true
@@ -42,28 +67,16 @@ cleanup() {
     fi
     
     # Wait for graceful shutdown
-    sleep 2
+    echo "Waiting for graceful shutdown..."
+    sleep 3
     
     # Force kill if still running
-    if [ ! -z "$WEB_PID" ] && kill -0 $WEB_PID 2>/dev/null; then
-        echo "Force killing team-web"
-        kill -KILL $WEB_PID 2>/dev/null || true
-    fi
-    
-    if [ ! -z "$SERVICE_PID" ] && kill -0 $SERVICE_PID 2>/dev/null; then
-        echo "Force killing team-service"
-        kill -KILL $SERVICE_PID 2>/dev/null || true
-    fi
-    
-    if [ ! -z "$AI_AGENT_PID" ] && kill -0 $AI_AGENT_PID 2>/dev/null; then
-        echo "Force killing team-ai-agent"
-        kill -KILL $AI_AGENT_PID 2>/dev/null || true
-    fi
-    
-    if [ ! -z "$STORAGE_PID" ] && kill -0 $STORAGE_PID 2>/dev/null; then
-        echo "Force killing team-storage"
-        kill -KILL $STORAGE_PID 2>/dev/null || true
-    fi
+    for pid in $WEB_PID $SERVICE_PID $AI_AGENT_PID $STORAGE_PID; do
+        if [ ! -z "$pid" ] && kill -0 $pid 2>/dev/null; then
+            echo "Force killing process $pid"
+            kill -KILL $pid 2>/dev/null || true
+        fi
+    done
     
     echo -e "${GREEN}All services stopped${NC}"
     exit 0
@@ -72,48 +85,89 @@ cleanup() {
 # Set up signal handlers
 trap cleanup SIGINT SIGTERM
 
-echo -e "${GREEN}Starting team services...${NC}"
+echo -e "${GREEN}Starting team services in dependency order...${NC}"
 
-# Start team-storage
-echo -e "${YELLOW}Starting team-storage...${NC}"
+# Check if MongoDB is running
+echo -e "${BLUE}Checking MongoDB dependency...${NC}"
+if ! curl -s -f "http://localhost:27017" > /dev/null 2>&1; then
+    echo -e "${YELLOW}⚠️  MongoDB not detected - team-storage may fail to start${NC}"
+fi
+
+# 1. Start team-storage (Data Layer)
+echo -e "${YELLOW}1/4 Starting team-storage...${NC}"
 cd packages/team-storage
-npm run dev &
+npm run dev > ../logs/team-storage.log 2>&1 &
 STORAGE_PID=$!
 cd ../..
 
-# Wait a bit for storage to start
-sleep 2
+# Wait for team-storage to be healthy
+if ! check_service_health "team-storage" "http://localhost:8000/health" 15; then
+    echo -e "${RED}Failed to start team-storage${NC}"
+    cleanup
+    exit 1
+fi
 
-# Start team-ai-agent
-echo -e "${YELLOW}Starting team-ai-agent...${NC}"
+# 2. Start team-ai-agent (ACP Protocol Layer)
+echo -e "${YELLOW}2/4 Starting team-ai-agent...${NC}"
 cd packages/team-ai-agent
-npm run dev &
+npm run dev > ../logs/team-ai-agent.log 2>&1 &
 AI_AGENT_PID=$!
 cd ../..
 
-# Wait a bit for ai-agent to start
-sleep 2
+# Wait for team-ai-agent to be healthy
+if ! check_service_health "team-ai-agent" "http://localhost:8001/health" 15; then
+    echo -e "${RED}Failed to start team-ai-agent${NC}"
+    cleanup
+    exit 1
+fi
 
-# Start team-service
-echo -e "${YELLOW}Starting team-service...${NC}"
+# 3. Start team-service (API Gateway)
+echo -e "${YELLOW}3/4 Starting team-service...${NC}"
 cd packages/team-service
-npm run dev &
+npm run dev > ../logs/team-service.log 2>&1 &
 SERVICE_PID=$!
 cd ../..
 
-# Wait a bit for service to start
-sleep 2
+# Wait for team-service to be healthy
+if ! check_service_health "team-service" "http://localhost:8002/health" 15; then
+    echo -e "${RED}Failed to start team-service${NC}"
+    cleanup
+    exit 1
+fi
 
-# Start team-web
-echo -e "${YELLOW}Starting team-web...${NC}"
+# 4. Start team-web (Frontend)
+echo -e "${YELLOW}4/4 Starting team-web...${NC}"
 cd packages/team-web
-npm run dev &
+npm run dev > ../logs/team-web.log 2>&1 &
 WEB_PID=$!
 cd ../..
 
-echo -e "${GREEN}All services started!${NC}"
-echo -e "PIDs: Storage=$STORAGE_PID, AI-Agent=$AI_AGENT_PID, Service=$SERVICE_PID, Web=$WEB_PID"
+# Wait a bit for frontend to start
+sleep 3
+
+echo -e "${GREEN}🚀 All services started successfully!${NC}"
+echo -e "${BLUE}Service URLs:${NC}"
+echo -e "  • Frontend:    http://localhost:8003"
+echo -e "  • API Gateway: http://localhost:8002"
+echo -e "  • ACP Agent:   http://localhost:8001"
+echo -e "  • Storage:     http://localhost:8000"
+echo ""
+echo -e "${BLUE}Process IDs:${NC}"
+echo -e "  • team-storage:  $STORAGE_PID"
+echo -e "  • team-ai-agent: $AI_AGENT_PID"
+echo -e "  • team-service:  $SERVICE_PID"
+echo -e "  • team-web:      $WEB_PID"
+echo ""
+echo -e "${BLUE}Log files:${NC}"
+echo -e "  • tail -f packages/logs/team-storage.log"
+echo -e "  • tail -f packages/logs/team-ai-agent.log"
+echo -e "  • tail -f packages/logs/team-service.log"
+echo -e "  • tail -f packages/logs/team-web.log"
+echo ""
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
+
+# Create logs directory if it doesn't exist
+mkdir -p packages/logs
 
 # Wait for all processes
 wait

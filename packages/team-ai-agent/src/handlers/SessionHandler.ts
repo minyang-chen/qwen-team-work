@@ -71,8 +71,13 @@ export class SessionHandler {
   }
 
   private async getSessionStats(message: AcpMessage): Promise<AcpResponse> {
-    const { sessionId } = message.data;
-    const session = this.sessionManager.getSessionById(sessionId);
+    const { sessionId, userId } = message.data;
+    
+    // Try to find session by sessionId first, then by userId
+    let session = sessionId ? this.sessionManager.getSessionById(sessionId) : null;
+    if (!session && userId) {
+      session = this.sessionManager.getUserSession(userId);
+    }
     
     if (!session) {
       return this.errorHandler.createErrorResponse(

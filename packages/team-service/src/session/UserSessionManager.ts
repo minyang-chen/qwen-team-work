@@ -30,6 +30,13 @@ export class UserSessionManager implements ISessionManager {
   private sessionCleanupInterval!: NodeJS.Timeout;
   private sandboxManager = new SandboxManager();
   private executionSessions = new Map<string, ExecutionSession>();
+  
+  // Circuit breaker state
+  private circuitBreakerState: 'CLOSED' | 'OPEN' | 'HALF_OPEN' = 'CLOSED';
+  private failureCount = 0;
+  private lastFailureTime = 0;
+  private readonly failureThreshold = 5;
+  private readonly recoveryTimeout = 30000; // 30 seconds
 
   constructor(private agentDiscovery: IAgentDiscovery) {
     this.startSessionMonitoring();
@@ -40,20 +47,53 @@ export class UserSessionManager implements ISessionManager {
     credentials?: UserCredentials,
     workingDirectory?: string
   ): Promise<string> {
-    // For now, create a simple session without ACP
-    const sessionId = `session_${userId}_${Date.now()}`;
+    // Check existing session
+    const existingSession = this.userSessions.get(userId);
+    if (existingSession && existingSession.sessionId) {
+      return existingSession.sessionId;
+    }
+
+    // Create session using ACP client with retry logic
+    let lastError: Error | null = null;
+    const maxRetries = 3;
     
-    console.log(`Creating simple session for user ${userId}: ${sessionId}`);
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const acpClient = new AcpClient(this.agentDiscovery);
+        await acpClient.connect(['session.create', 'chat.send', 'tools.execute']);
+
+        // Create session via ACP protocol
+        const sessionResponse = await acpClient.request('session.create', {
+          userId,
+          credentials,
+          workingDirectory
+        });
+
+        const sessionId = typeof sessionResponse === 'string' 
+          ? sessionResponse 
+          : sessionResponse.session?.sessionId || sessionResponse.sessionId;
+
+        // Store ACP client with session info
+        acpClient.sessionId = sessionId;
+        this.userSessions.set(userId, acpClient);
+        
+        console.log(`Creating session for user ${userId}: ${sessionId} (attempt ${attempt})`);
+        return sessionId;
+        
+      } catch (error) {
+        lastError = error as Error;
+        console.error(`Session creation attempt ${attempt} failed:`, error);
+        
+        if (attempt < maxRetries) {
+          // Wait before retry with exponential backoff
+          const delay = Math.pow(2, attempt - 1) * 1000; // 1s, 2s, 4s
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
     
-    // Store session info (simplified)
-    this.userSessions.set(userId, {
-      sessionId,
-      connectionState: 'connected',
-      userId,
-      credentials
-    } as any);
-    
-    return sessionId;
+    // If all retries failed, throw the last error
+    throw new Error(`Failed to create session after ${maxRetries} attempts: ${lastError?.message}`);
   }
 
   getUserSession(userId: string): any {
@@ -61,84 +101,110 @@ export class UserSessionManager implements ISessionManager {
   }
 
   async deleteUserSession(userId: string): Promise<void> {
-    this.userSessions.delete(userId);
+    const acpClient = this.userSessions.get(userId);
+    if (acpClient) {
+      try {
+        await acpClient.request('session.destroy', {
+          sessionId: acpClient.sessionId
+        });
+      } catch (error) {
+        console.error('Error destroying session:', error);
+      }
+      await acpClient.disconnect();
+      this.userSessions.delete(userId);
+    }
   }
 
   getUserSessions(userId: string): string[] {
-    const session = this.userSessions.get(userId);
-    return session && session.sessionId ? [session.sessionId] : [];
+    const acpClient = this.userSessions.get(userId);
+    return acpClient && acpClient.sessionId ? [acpClient.sessionId] : [];
   }
 
   async getSessionStats(userId: string, sessionId: string): Promise<any> {
-    const session = this.userSessions.get(userId);
-    if (session) {
-      return {
-        sessionId: session.sessionId,
-        userId: userId,
-        status: 'active',
-        createdAt: Date.now(),
-        messageCount: 0
-      };
+    const acpClient = this.userSessions.get(userId);
+    if (acpClient) {
+      try {
+        return await acpClient.request('session.getStats', { sessionId, userId });
+      } catch (error) {
+        console.error('Error getting session stats:', error);
+        return {
+          sessionId: acpClient.sessionId,
+          userId: userId,
+          status: 'active',
+          createdAt: Date.now(),
+          messageCount: 0
+        };
+      }
     }
     return null;
   }
 
-  async sendMessage(userId: string, sessionId: string, message: string): Promise<any> {
-    const acpClient = this.userSessions.get(userId);
-    if (!acpClient) {
-      throw new Error('User session not found');
-    }
-    return await acpClient.request('chat.send', { sessionId, content: message });
-  }
-
   async sendMessageWithStreaming(
-    userId: string, 
-    sessionId: string, 
-    message: string, 
+    userId: string,
+    sessionId: string,
+    message: string,
     streamHandler: {
       onChunk: (chunk: string) => void;
       onComplete: () => void;
       onError: (error: Error) => void;
     }
   ): Promise<void> {
-    // Ensure session exists
-    let acpClient = this.userSessions.get(userId);
-    if (!acpClient || acpClient.connectionState !== 'connected') {
-      // Create session if it doesn't exist
-      const newSessionId = await this.createUserSession(userId);
-      acpClient = this.userSessions.get(userId);
-      if (!acpClient) {
-        throw new Error('Failed to create session for user');
+    // Check circuit breaker state
+    if (this.circuitBreakerState === 'OPEN') {
+      const timeSinceLastFailure = Date.now() - this.lastFailureTime;
+      if (timeSinceLastFailure < this.recoveryTimeout) {
+        throw new Error('Circuit breaker is OPEN - ACP service unavailable');
+      } else {
+        this.circuitBreakerState = 'HALF_OPEN';
+        console.log('Circuit breaker moved to HALF_OPEN state');
       }
-      // Update sessionId to the newly created one
-      sessionId = newSessionId;
     }
 
     try {
-      // For now, use the existing sendMessage and simulate streaming
-      const response = await acpClient.request('chat.send', { sessionId, content: message });
+      const acpClient = this.userSessions.get(userId);
+      if (!acpClient || acpClient.connectionState !== 'connected') {
+        throw new Error('No active session found');
+      }
+
+      // Send message via ACP protocol
+      const response = await acpClient.request('chat.send', {
+        sessionId,
+        message,
+        stream: true
+      });
       
+      // Handle response - simulate streaming
       if (response && response.content) {
-        // Extract content after <|end|> token
-        let content = response.content;
-        const endTokenIndex = content.indexOf('<|end|>');
-        if (endTokenIndex !== -1) {
-          content = content.substring(endTokenIndex + 7).trim();
-        }
+        const content = response.content;
+        const chunkSize = 20;
         
-        // Simulate streaming by chunking the response
-        const chunkSize = 50;
         for (let i = 0; i < content.length; i += chunkSize) {
           const chunk = content.slice(i, i + chunkSize);
           streamHandler.onChunk(chunk);
-          // Small delay to simulate streaming
-          await new Promise(resolve => setTimeout(resolve, 10));
+          await new Promise(resolve => setTimeout(resolve, 50));
         }
       }
       
       streamHandler.onComplete();
+      
+      // Success - reset circuit breaker
+      if (this.circuitBreakerState === 'HALF_OPEN') {
+        this.circuitBreakerState = 'CLOSED';
+        this.failureCount = 0;
+        console.log('Circuit breaker reset to CLOSED state');
+      }
+      
     } catch (error) {
-      streamHandler.onError(error as Error);
+      // Handle circuit breaker failure
+      this.failureCount++;
+      this.lastFailureTime = Date.now();
+      
+      if (this.failureCount >= this.failureThreshold) {
+        this.circuitBreakerState = 'OPEN';
+        console.log(`Circuit breaker opened after ${this.failureCount} failures`);
+      }
+      
+      throw error;
     }
   }
 
@@ -151,8 +217,26 @@ export class UserSessionManager implements ISessionManager {
   }
 
   async cleanup(maxAge: number = 3600000): Promise<void> {
-    // Simple cleanup - just log that cleanup ran
-    console.log('Session cleanup completed');
+    const now = Date.now();
+    const usersToCleanup: string[] = [];
+
+    for (const [userId, acpClient] of this.userSessions) {
+      try {
+        const stats = await this.getSessionStats(userId, acpClient.sessionId!);
+        if (stats && (now - stats.lastActivity) > maxAge) {
+          usersToCleanup.push(userId);
+        }
+      } catch (error) {
+        console.error(`Error checking session stats for user ${userId}:`, error);
+        // Remove problematic session
+        usersToCleanup.push(userId);
+      }
+    }
+
+    for (const userId of usersToCleanup) {
+      console.log(`Cleaning up inactive session for user: ${userId}`);
+      await this.deleteUserSession(userId);
+    }
   }
 
   // Additional methods for compatibility with existing code
@@ -215,9 +299,9 @@ export class UserSessionManager implements ISessionManager {
 
     // Close all ACP client connections
     const shutdownPromises: Promise<void>[] = [];
-    for (const [userId, client] of this.userSessions.entries()) {
+    for (const [userId, acpClient] of this.userSessions.entries()) {
       shutdownPromises.push(
-        client.disconnect().catch((err) => {
+        acpClient.disconnect().catch((err) => {
           console.error(`Failed to disconnect ACP client for user ${userId}:`, err);
         })
       );
@@ -238,6 +322,32 @@ export class UserSessionManager implements ISessionManager {
     // Clear maps
     this.userSessions.clear();
     this.executionSessions.clear();
+  }
+
+  getCircuitBreakerStatus(): { state: string; failureCount: number; lastFailureTime: number } {
+    return {
+      state: this.circuitBreakerState,
+      failureCount: this.failureCount,
+      lastFailureTime: this.lastFailureTime
+    };
+  }
+
+  async checkAcpHealth(): Promise<boolean> {
+    try {
+      // Try to get available agents
+      const agent = await this.agentDiscovery.selectBestAgent('session.create');
+      return !!agent;
+    } catch (error) {
+      console.error('ACP health check failed:', error);
+      return false;
+    }
+  }
+
+  resetCircuitBreaker(): void {
+    this.circuitBreakerState = 'CLOSED';
+    this.failureCount = 0;
+    this.lastFailureTime = 0;
+    console.log('Circuit breaker manually reset');
   }
 }
 

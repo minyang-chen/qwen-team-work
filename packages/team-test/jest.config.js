@@ -1,17 +1,19 @@
-export default {
+module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/tests/**/*.test.js'],
-  testTimeout: 30000,
-  verbose: true,
-  transform: {},
-  moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1'
-  },
+  roots: ['<rootDir>/src'],
+  testMatch: ['**/__tests__/**/*.test.ts', '**/*.test.ts'],
   collectCoverageFrom: [
-    '../team-storage/src/**/*.ts',
-    '../team-service/src/**/*.ts',
-    '../team-ai-agent/src/**/*.ts',
-    '!**/*.d.ts',
-    '!**/node_modules/**'
-  ]
+    'src/**/*.ts',
+    '!src/**/*.d.ts',
+    '!src/**/__tests__/**'
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html'],
+  testTimeout: 30000,
+  transform: {
+    '^.+\\.ts$': ['ts-jest', {
+      useESM: false
+    }]
+  }
 };

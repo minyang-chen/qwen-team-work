@@ -1,4 +1,4 @@
-import type { ISessionManager, UserCredentials, ConversationMessage } from '@qwen-team/shared';
+import type { ISessionManager, UserCredentials } from '@qwen-team/shared';
 import { ServerClient } from '@qwen-team/server-sdk';
 import * as config from '../config/env.js';
 import { nanoid } from 'nanoid';
@@ -15,6 +15,13 @@ interface SessionMetadata {
   createdAt: Date;
 }
 
+interface ChatMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp: Date;
+  tokenCount?: number;
+}
+
 interface SessionData {
   userId: string;
   sessionId: string;
@@ -22,7 +29,9 @@ interface SessionData {
   client: ServerClient;
   metadata: SessionMetadata;
   tokenUsage: TokenUsage;
-  conversationHistory: ConversationMessage[];
+  conversationHistory: ChatMessage[];
+  contextWindow: number;
+  maxTokens: number;
 }
 
 export class UserSessionManager {
@@ -62,7 +71,9 @@ export class UserSessionManager {
         outputTokens: 0,
         totalTokens: 0
       },
-      conversationHistory: []
+      conversationHistory: [],
+      contextWindow: 4000, // Default context window
+      maxTokens: 32000 // Default max tokens
     };
 
     this.userSessions.set(userId, session);
@@ -126,5 +137,106 @@ export class UserSessionManager {
     
     this.userSessions.clear();
     console.log('UserSessionManager shutdown complete');
+  }
+
+  addMessageToHistory(sessionId: string, role: 'user' | 'assistant' | 'system', content: string): void {
+    const session = this.getSessionById(sessionId);
+    if (session) {
+      const message: ChatMessage = {
+        role,
+        content,
+        timestamp: new Date(),
+        tokenCount: this.estimateTokenCount(content)
+      };
+      
+      session.conversationHistory.push(message);
+      session.metadata.messageCount++;
+      session.metadata.lastActivity = new Date();
+      
+      // Update token usage
+      if (role === 'user') {
+        session.tokenUsage.inputTokens += message.tokenCount || 0;
+      } else if (role === 'assistant') {
+        session.tokenUsage.outputTokens += message.tokenCount || 0;
+      }
+      session.tokenUsage.totalTokens = session.tokenUsage.inputTokens + session.tokenUsage.outputTokens;
+      
+      // Manage context window
+      this.manageContextWindow(session);
+    }
+  }
+
+  private estimateTokenCount(text: string): number {
+    // Simple token estimation: ~4 characters per token
+    return Math.ceil(text.length / 4);
+  }
+
+  private manageContextWindow(session: SessionData): void {
+    const totalTokens = session.conversationHistory.reduce(
+      (sum, msg) => sum + (msg.tokenCount || 0), 0
+    );
+    
+    if (totalTokens > session.contextWindow) {
+      // Keep system messages and recent messages within context window
+      const systemMessages = session.conversationHistory.filter(msg => msg.role === 'system');
+      const nonSystemMessages = session.conversationHistory.filter(msg => msg.role !== 'system');
+      
+      // Keep most recent messages that fit in context window
+      let currentTokens = systemMessages.reduce((sum, msg) => sum + (msg.tokenCount || 0), 0);
+      const recentMessages: ChatMessage[] = [];
+      
+      for (let i = nonSystemMessages.length - 1; i >= 0; i--) {
+        const msg = nonSystemMessages[i];
+        if (msg) {
+          const msgTokens = msg.tokenCount || 0;
+          
+          if (currentTokens + msgTokens <= session.contextWindow) {
+            recentMessages.unshift(msg);
+            currentTokens += msgTokens;
+          } else {
+            break;
+          }
+        }
+      }
+      
+      session.conversationHistory = [...systemMessages, ...recentMessages];
+      console.log(`Context window managed for session ${session.sessionId}: ${session.conversationHistory.length} messages, ${currentTokens} tokens`);
+    }
+  }
+
+  getConversationHistory(sessionId: string): ChatMessage[] {
+    const session = this.getSessionById(sessionId);
+    return session ? session.conversationHistory : [];
+  }
+
+  clearConversationHistory(sessionId: string): void {
+    const session = this.getSessionById(sessionId);
+    if (session) {
+      // Keep only system messages
+      session.conversationHistory = session.conversationHistory.filter(msg => msg.role === 'system');
+      session.metadata.messageCount = session.conversationHistory.length;
+      session.tokenUsage = { inputTokens: 0, outputTokens: 0, totalTokens: 0 };
+      console.log(`Conversation history cleared for session ${sessionId}`);
+    }
+  }
+
+  compressConversationHistory(sessionId: string): { before: number; after: number } {
+    const session = this.getSessionById(sessionId);
+    if (!session) {
+      return { before: 0, after: 0 };
+    }
+    
+    const beforeCount = session.conversationHistory.length;
+    
+    // Keep system messages and last 10 exchanges (20 messages)
+    const systemMessages = session.conversationHistory.filter(msg => msg.role === 'system');
+    const nonSystemMessages = session.conversationHistory.filter(msg => msg.role !== 'system');
+    const recentMessages = nonSystemMessages.slice(-20);
+    
+    session.conversationHistory = [...systemMessages, ...recentMessages];
+    const afterCount = session.conversationHistory.length;
+    
+    console.log(`Conversation history compressed for session ${sessionId}: ${beforeCount} → ${afterCount} messages`);
+    return { before: beforeCount, after: afterCount };
   }
 }

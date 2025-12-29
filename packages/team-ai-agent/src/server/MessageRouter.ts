@@ -17,22 +17,37 @@ export class MessageRouter {
   constructor(sessionManager: UserSessionManager, serverClient: ServerClient) {
     this.responseBuilder = new ResponseBuilder();
     this.errorHandler = new ErrorHandler();
-    this.chatHandler = new ChatHandler(serverClient);
+    this.chatHandler = new ChatHandler(serverClient, sessionManager);
     this.sessionHandler = new SessionHandler(sessionManager, this.responseBuilder, this.errorHandler);
-    this.toolHandler = new ToolHandler(this.responseBuilder, this.errorHandler);
+    this.toolHandler = new ToolHandler(this.responseBuilder, this.errorHandler, serverClient);
   }
 
   async routeMessage(message: AcpMessage): Promise<AcpResponse> {
     try {
-      switch (message.type) {
+      // Handle both old format (session.create) and new format (session with action)
+      const messageType = message.type.includes('.') ? message.type.split('.')[0] : message.type;
+      const action = message.type.includes('.') ? message.type.split('.')[1] : message.data?.action;
+      
+      // Normalize message format
+      const normalizedMessage: AcpMessage = {
+        ...message,
+        type: messageType || message.type,
+        data: {
+          ...message.data,
+          action: action || message.data?.action
+        }
+      };
+
+      switch (normalizedMessage.type) {
         case 'chat':
-          return await this.chatHandler.handleChatMessage(message);
+          return await this.chatHandler.handleChatMessage(normalizedMessage);
         case 'session':
-          return await this.sessionHandler.handleSessionMessage(message);
+          return await this.sessionHandler.handleSessionMessage(normalizedMessage);
         case 'tool':
-          return await this.toolHandler.handleToolExecution(message);
+        case 'tools':
+          return await this.toolHandler.handleToolExecution(normalizedMessage);
         case 'ping':
-          return this.handlePing(message);
+          return this.handlePing(normalizedMessage);
         default:
           return this.errorHandler.createErrorResponse(
             message.id,

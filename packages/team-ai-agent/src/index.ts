@@ -42,6 +42,14 @@ console.log({
 
 const server = new AcpServer(config.PORT, agents);
 
+// Start the server and initialize ServerClient
+server.start().then(() => {
+  console.log('[INFO] ACP Server fully started and initialized');
+}).catch((error) => {
+  console.error('[ERROR] Failed to start ACP Server:', error);
+  process.exit(1);
+});
+
 process.on('SIGTERM', () => {
   console.log('[INFO] Received SIGTERM, shutting down gracefully');
   server.close();

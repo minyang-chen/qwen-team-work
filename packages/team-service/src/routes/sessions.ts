@@ -77,14 +77,6 @@ export async function registerSessionRoutes(
     return { success: true };
   });
 
-  // Compress session history
-  app.post('/api/sessions/:id/compress', async (request: AuthenticatedRequest, reply) => {
-    await authenticateRequest(request, reply);
-    if (reply.sent) return;
-    
-    return { success: true, message: 'Compression not implemented' };
-  });
-
   // Rename session
   app.put('/api/sessions/:id/rename', async (request: AuthenticatedRequest, reply) => {
     await authenticateRequest(request, reply);
@@ -100,5 +92,67 @@ export async function registerSessionRoutes(
     
     // For now, just return success - actual rename logic would go here
     return { success: true, message: 'Session renamed successfully' };
+  });
+
+  // Get conversation history
+  app.get('/api/sessions/:id/history', async (request: AuthenticatedRequest, reply) => {
+    await authenticateRequest(request, reply);
+    if (reply.sent) return;
+    
+    const { id } = request.params as { id: string };
+    
+    try {
+      // Get history via ACP protocol
+      const acpClient = sessionManager.getUserSession(request.user!.userId);
+      if (acpClient) {
+        const history = await acpClient.request('session.getHistory', { sessionId: id });
+        return { history: history || [] };
+      }
+      return { history: [] };
+    } catch (error) {
+      return reply.status(500).send({ error: 'Failed to get conversation history' });
+    }
+  });
+
+  // Clear conversation history
+  app.delete('/api/sessions/:id/history', async (request: AuthenticatedRequest, reply) => {
+    await authenticateRequest(request, reply);
+    if (reply.sent) return;
+    
+    const { id } = request.params as { id: string };
+    
+    try {
+      const acpClient = sessionManager.getUserSession(request.user!.userId);
+      if (acpClient) {
+        await acpClient.request('session.clearHistory', { sessionId: id });
+        return { success: true, message: 'Conversation history cleared' };
+      }
+      return reply.status(404).send({ error: 'Session not found' });
+    } catch (error) {
+      return reply.status(500).send({ error: 'Failed to clear conversation history' });
+    }
+  });
+
+  // Compress conversation history
+  app.post('/api/sessions/:id/compress', async (request: AuthenticatedRequest, reply) => {
+    await authenticateRequest(request, reply);
+    if (reply.sent) return;
+    
+    const { id } = request.params as { id: string };
+    
+    try {
+      const acpClient = sessionManager.getUserSession(request.user!.userId);
+      if (acpClient) {
+        const result = await acpClient.request('session.compressHistory', { sessionId: id });
+        return { 
+          success: true, 
+          message: 'Conversation history compressed',
+          ...result
+        };
+      }
+      return reply.status(404).send({ error: 'Session not found' });
+    } catch (error) {
+      return reply.status(500).send({ error: 'Failed to compress conversation history' });
+    }
   });
 }
