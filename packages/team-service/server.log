@@ -2,21 +2,51 @@
 > @qwen-team/service@0.3.0 start
 > node dist/index.js
 
-file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/services/aiService.js:2
-import { uiServerLogger } from '@qwen-team/shared';
-         ^^^^^^^^^^^^^^
-SyntaxError: Named export 'uiServerLogger' not found. The requested module '@qwen-team/shared' is a CommonJS module, which may not support all module.exports as named exports.
-CommonJS modules can always be imported via the default export, for example using:
-
-import pkg from '@qwen-team/shared';
-const { uiServerLogger } = pkg;
-
-    at ModuleJob._instantiate (node:internal/modules/esm/module_job:182:21)
-    at async ModuleJob.run (node:internal/modules/esm/module_job:266:5)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
-
-Node.js v22.16.0
+[dotenv@17.2.3] injecting env (31) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+🔥 CONFIG.TS LOADED - ENV VARS: {
+  BACKEND_URL: 'http://localhost:8000',
+  ACP_WEBSOCKET_URL: 'ws://localhost:8001'
+}
+🐳 Sandbox cleanup task started (timeout: 60m, interval: 5m)
+[INFO] UI Server configuration loaded {
+  port: 8002,
+  env: 'development',
+  baseUrl: 'http://localhost:8002',
+  corsOrigin: 'http://localhost:8003'
+}
+[INFO] AIService initialized { model: 'qwen3-coder:30b', maxSessions: 1000 }
+[INFO] AI Service initialized { model: 'qwen3-coder:30b', baseUrl: 'http://10.0.0.139:11434/v1' }
+🔥 INDEX.TS LOADED - TESTING COMPILATION
+Loaded 1 agent configurations
+🐳 Sandbox cleanup task started (timeout: 60m, interval: 5m)
+📋 Registering routes...
+✅ Routes registered
+🔌 Setting up WebSocket...
+✅ WebSocket setup complete
+🚀 About to call app.listen()...
+🔌 Calling app.listen with port: 8002
+❌ app.listen() threw error: Error: listen EADDRINUSE: address already in use 0.0.0.0:8002
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 8002
+}
+[ERROR] Failed to start server {} Error: listen EADDRINUSE: address already in use 0.0.0.0:8002
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 8002
+}
 npm error Lifecycle script `start` failed with error:
 npm error code 1
 npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service

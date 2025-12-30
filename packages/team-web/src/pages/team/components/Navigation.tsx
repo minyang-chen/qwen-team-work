@@ -17,7 +17,7 @@ export function Navigation({
 }: NavigationProps) {
   const tabs: { id: TabType; label: string }[] = [
     { id: 'dashboard', label: 'Dashboard' },
-    { id: 'task-assistant', label: 'Task Assistant' },
+    { id: 'task-assistant', label: 'Task Agent' },
     { id: 'projects', label: 'Projects' },
     { id: 'knowledge', label: 'Knowledge' },
     { id: 'team', label: 'Team' },

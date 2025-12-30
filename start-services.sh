@@ -93,6 +93,14 @@ trap cleanup SIGINT SIGTERM
 
 echo -e "${GREEN}Starting team services in dependency order...${NC}"
 
+# Create logs directory and clean old logs
+mkdir -p packages/logs
+echo -e "${BLUE}Cleaning old log files...${NC}"
+rm -f packages/logs/team-storage.log 
+rm -f packages/logs/team-ai-agent.log 
+rm -f packages/logs/team-service.log 
+rm -f packages/logs/team-web.log
+
 # Check if MongoDB is running
 echo -e "${BLUE}Checking MongoDB dependency...${NC}"
 if ! curl -s -f "http://localhost:27017" > /dev/null 2>&1; then
@@ -171,9 +179,6 @@ echo -e "  • tail -f packages/logs/team-service.log"
 echo -e "  • tail -f packages/logs/team-web.log"
 echo ""
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
-
-# Create logs directory if it doesn't exist
-mkdir -p packages/logs
 
 # Wait for all processes
 wait

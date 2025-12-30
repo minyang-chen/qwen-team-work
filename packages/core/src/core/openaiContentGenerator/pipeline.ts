@@ -125,9 +125,10 @@ export class ContentGenerationPipeline {
     try {
       // Stage 2a: Convert and yield each chunk while preserving original
       for await (const chunk of stream) {
-        console.log('=== RAW OPENAI CHUNK ===');
-        console.log(JSON.stringify(chunk, null, 2));
-        console.log('========================');
+        // Debug logging disabled for production
+        // console.log('=== RAW OPENAI CHUNK ===');
+        // console.log(JSON.stringify(chunk, null, 2));
+        // console.log('========================');
         
         // Always collect OpenAI chunks for logging, regardless of Gemini conversion result
         collectedOpenAIChunks.push(chunk);

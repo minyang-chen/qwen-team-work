@@ -1,4 +1,4 @@
-import { GeminiClient, Config, ApprovalMode, AuthType, CoreToolScheduler, type ToolCallRequestInfo, type ToolCallResponseInfo, type CompletedToolCall } from '@qwen-code/core';
+import { GeminiClient, Config, ApprovalMode, AuthType, CoreToolScheduler, GeminiEventType, type ToolCallRequestInfo, type ToolCallResponseInfo, type CompletedToolCall } from '@qwen-code/core';
 import type { ServerConfig, QueryResult, StreamChunk } from './types.js';
 import { RetryHandler, isRetryableError } from './RetryHandler.js';
 import { CircuitBreaker } from './CircuitBreaker.js';
@@ -203,6 +203,23 @@ export class ServerClient {
     );
   }
 
+  // Expose client methods for ChatHandler compatibility
+  async resetChat(): Promise<void> {
+    await this.client.resetChat();
+  }
+
+  getConfig() {
+    return this.config;
+  }
+
+  async setTools(): Promise<void> {
+    await this.client.setTools();
+  }
+
+  sendMessageStream(message: any, signal: AbortSignal, requestId: string, options?: any) {
+    return this.client.sendMessageStream(message, signal, requestId, options);
+  }
+
   async query(prompt: string): Promise<QueryResult> {
     return await this.circuitBreaker.execute(async () => {
       return await this.retryHandler.execute(
@@ -246,13 +263,63 @@ export class ServerClient {
     let tokenUsage = { inputTokens: 0, outputTokens: 0 };
 
     for await (const chunk of stream) {
-      if (chunk.type === 'content' && 'value' in chunk) {
-        response += (chunk as any).value;
-      } else if (chunk.type === 'tool_call_request') {
-        console.log('[ServerClient] Tool call requested:', chunk);
-        toolRequests.push((chunk as any).value);
-      } else if (chunk.type === 'tool_call_response') {
-        console.log('[ServerClient] Tool call response:', chunk);
+      console.log('[ServerClient] Received chunk type:', chunk.type);
+      
+      if (chunk.type === GeminiEventType.Content) {
+        response += chunk.value;
+        
+        // CRITICAL FIX: Parse XML-style tool calls from qwen-coder models
+        // qwen-coder generates XML format with non-standard tool names and structure
+        const xmlToolCallMatch = chunk.value.match(/<function=([^>]+)>\s*(.*?)\s*<\/function>/s) || 
+                                chunk.value.match(/<function=([^>]+)>\s*(.*?)\s*<\/tool_call>/s);
+        if (xmlToolCallMatch) {
+          const toolName = xmlToolCallMatch[1];
+          const paramsText = xmlToolCallMatch[2];
+          
+          // Parse parameters from XML (may be empty for simple commands)
+          const params: any = {};
+          if (paramsText.trim()) {
+            const paramMatches = paramsText.matchAll(/<parameter=([^>]+)>\s*(.*?)\s*<\/parameter>/gs);
+            for (const match of paramMatches) {
+              params[match[1]] = match[2].trim();
+            }
+          }
+          
+          console.log('[ServerClient] Detected XML tool call:', toolName, params);
+          
+          // QWEN MODEL FIX: Map qwen's tool names to actual tool names
+          const toolNameMap: Record<string, string> = {
+            'run_code': 'run_shell_command',
+            'execute_code': 'run_shell_command', 
+            'shell': 'run_shell_command',
+            'bash': 'run_shell_command',
+            'todo': 'run_shell_command', // qwen often uses 'todo' for shell commands
+          };
+          
+          const properToolName = toolNameMap[toolName] || toolName;
+          
+          // For shell commands, default to 'pwd' if no command specified
+          let toolParams = params;
+          if (properToolName === 'run_shell_command' && !params.command && !params.code) {
+            toolParams = { command: 'pwd' };
+          } else if (properToolName === 'run_shell_command' && params.code) {
+            toolParams = { command: params.code };
+          }
+          
+          const toolRequest = {
+            name: properToolName,
+            callId: `xml-${Date.now()}`,
+            parameters: toolParams
+          };
+          
+          toolRequests.push(toolRequest);
+          console.log('[ServerClient] Added mapped tool request:', toolRequest);
+        }
+      } else if (chunk.type === GeminiEventType.ToolCallRequest) {
+        console.log('[ServerClient] Tool call requested (CLI pattern):', chunk.value.name);
+        toolRequests.push(chunk.value);
+      } else if (chunk.type === GeminiEventType.ToolCallResponse) {
+        console.log('[ServerClient] Tool call response received');
       } else if (chunk.type === 'finished' && (chunk as any).value?.usageMetadata) {
         tokenUsage = {
           inputTokens: (chunk as any).value.usageMetadata.promptTokenCount || 0,
@@ -264,11 +331,60 @@ export class ServerClient {
       }
     }
 
-    // CHAT-ONLY MODE: Disable tool execution to prevent infinite loops from XML tool calls
-    console.log(`[ServerClient] Chat-only mode - ignoring ${toolRequests.length} tool requests`);
+    // Phase 1: Tool requests collected during streaming (CLI pattern)
+    console.log(`[ServerClient] Collected ${toolRequests.length} tool requests during streaming`);
     
-    /*
-    // Execute tools if any were requested (following reference implementation pattern)
+    // Phase 2: Execute tools after streaming completes (like CLI)
+    if (toolRequests.length > 0 && !abortController.signal.aborted) {
+      console.log('🔧 [ServerClient] Executing tools after streaming:', toolRequests.length);
+      
+      try {
+        // Import executeToolCall from core like CLI does
+        const { executeToolCall } = await import('@qwen-code/qwen-code-core');
+        
+        const toolResponseParts: any[] = [];
+        
+        for (const toolRequest of toolRequests) {
+          console.log('🔧 [ServerClient] Executing tool:', toolRequest.name);
+          
+          const toolResponse = await executeToolCall(
+            this.config,
+            toolRequest,
+            abortController.signal
+          );
+          
+          if (toolResponse.error) {
+            console.log('🔧 [ServerClient] Tool error:', toolResponse.error.message);
+          } else {
+            console.log('🔧 [ServerClient] Tool executed successfully');
+          }
+          
+          // Collect response parts for continuation (CLI pattern)
+          if (toolResponse.responseParts) {
+            toolResponseParts.push(...toolResponse.responseParts);
+          }
+        }
+        
+        // Phase 3: Continue conversation with tool results (CLI pattern)
+        if (toolResponseParts.length > 0) {
+          console.log('🔧 [ServerClient] Continuing conversation with tool results');
+          const continuationResult = await this.executeQueryInternal(toolResponseParts, true);
+          
+          return {
+            text: response + '\n\n' + continuationResult.text,
+            usage: {
+              input: tokenUsage.inputTokens + (continuationResult.usage?.input || 0),
+              output: tokenUsage.outputTokens + (continuationResult.usage?.output || 0),
+              total: tokenUsage.inputTokens + tokenUsage.outputTokens + (continuationResult.usage?.total || 0),
+            },
+          };
+        }
+        
+      } catch (error) {
+        console.error('🔧 [ServerClient] Tool execution failed:', error);
+        response += '\n\n❌ Tool execution failed: ' + (error instanceof Error ? error.message : 'Unknown error');
+      }
+    }
     if (toolRequests.length > 0 && !abortController.signal.aborted) {
       console.log('🔧 [ServerClient] Executing tools:', toolRequests.length);
       
@@ -323,23 +439,24 @@ export class ServerClient {
           );
         }
         
-        console.log('🔧 [ServerClient] Tool results received:', JSON.stringify(toolResults, null, 2));
-
-        // Submit tool responses back to continue conversation (like reference implementation)
-        const responseParts = toolResults.flatMap((r: any) => r.responseParts);
-        console.log('🔧 [ServerClient] Sending response parts back to model:', JSON.stringify(responseParts, null, 2));
-
-        // Recursive call with continuation=true to get final response
-        const continuationResult = await this.executeQueryInternal(responseParts, true);
+        // Process tool results and append to response (CLI approach)
+        if (toolResults.length > 0) {
+          const toolOutput = toolResults
+            .map(result => {
+              if (!result.error && result.resultDisplay) {
+                return `\n\n**Tool Result:**\n${result.resultDisplay}`;
+              } else if (result.error) {
+                return `\n\n**Tool Error:**\n${result.error.message}`;
+              }
+              return '';
+            })
+            .filter(Boolean)
+            .join('');
+          
+          response += toolOutput;
+          console.log('🔧 [ServerClient] Appended tool results to response');
+        }
         
-        return {
-          text: response + continuationResult.text,
-          usage: {
-            input: tokenUsage.inputTokens + (continuationResult.usage?.input || 0),
-            output: tokenUsage.outputTokens + (continuationResult.usage?.output || 0),
-            total: tokenUsage.inputTokens + tokenUsage.outputTokens + (continuationResult.usage?.total || 0),
-          },
-        };
       } catch (error) {
         console.error('🔧 [ServerClient] Tool execution failed:', error);
         // Return partial response even if tools fail
@@ -352,8 +469,7 @@ export class ServerClient {
           },
         };
       }
-    }
-    */ // End of disabled tool execution block
+    } // End of tool execution block
 
     console.log(`[ServerClient] Query completed, response length: ${response.length}`);
     return {

@@ -20,8 +20,11 @@ export class ChatHandler {
       const sessionId = (message as any).data?.sessionId;
       const userId = (message as any).data?.userId;
       
-      console.log(`[ChatHandler] Prompt: "${prompt.substring(0, 100)}..."`);
-      console.log(`[ChatHandler] SessionId: ${sessionId}, UserId: ${userId}`);
+      console.log('[ChatHandler] User prompt:', JSON.stringify({
+        userId,
+        sessionId,
+        message: prompt
+      }, null, 2));
       
       // Check for direct shell command execution (!command)
       if (prompt.trim().startsWith('!')) {
@@ -67,6 +70,11 @@ export class ChatHandler {
         await this.client.resetChat();
         console.log(`[ChatHandler] Reset chat to clear previous context`);
         
+        // Add core system prompt for proper tool usage (like CLI does)
+        const { getCoreSystemPrompt } = await import('@qwen-code/qwen-code-core');
+        const systemPrompt = getCoreSystemPrompt();
+        console.log(`[ChatHandler] Using core system prompt for proper tool guidance`);
+        
         // DEBUG: Check if tools are set before sending
         const toolRegistry = this.client.getConfig().getToolRegistry();
         const tools = toolRegistry.getAllTools();
@@ -77,29 +85,23 @@ export class ChatHandler {
         await this.client.setTools();
         console.log(`[ChatHandler] Tools explicitly set right before sendMessageStream`);
         
-        // Use GeminiClient's sendMessageStream like the CLI does
-        // This properly handles conversation history and tools
-        const stream = this.client.sendMessageStream(
-          prompt, // Pass raw string like CLI, not wrapped in array
-          new AbortController().signal,
-          `chat-${Date.now()}`,
-          { isContinuation: false }
-        );
+        // CRITICAL FIX: Use ServerClient.query() which handles tool execution and returns QueryResult
+        // This uses the same streaming logic as CLI with proper tool execution
+        console.log(`[ChatHandler] Using ServerClient.query with tool execution`);
         
-        let response = '';
-        for await (const chunk of stream) {
-          if (chunk.type === 'content' && 'value' in chunk) {
-            response += (chunk as any).value;
-          }
-        }
+        const queryResult = await this.client.query(prompt);
+        const responseText = queryResult.text;
         
-        console.log(`[ChatHandler] Stream completed, response length: ${response.length}`);
-        
-        // Ensure we have some response text
-        const responseText = response || 'I apologize, but I encountered an issue processing your message. Please try again.';
+        console.log(`[ChatHandler] ServerClient response: ${responseText.substring(0, 200)}...`);
         
         // Add assistant response to history
         this.sessionManager.addMessageToHistory(sessionId, 'assistant', responseText);
+        
+        console.log('[ChatHandler] Agent response:', JSON.stringify({
+          userId,
+          sessionId,
+          message: responseText
+        }, null, 2));
         
         return this.translator.sdkToAcp({ 
           text: responseText, 
@@ -110,6 +112,13 @@ export class ChatHandler {
         // Fallback without history
         const result = await this.client.query(prompt);
         const responseText = result.text || 'I apologize, but I encountered an issue processing your message. Please try again.';
+        
+        console.log('[ChatHandler] Agent response (fallback):', JSON.stringify({
+          userId,
+          sessionId: 'none',
+          message: responseText
+        }, null, 2));
+        
         return this.translator.sdkToAcp({ text: responseText, usage: result.usage }, message.id);
       }
     } catch (error) {

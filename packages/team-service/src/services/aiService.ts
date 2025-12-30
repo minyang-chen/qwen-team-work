@@ -1,5 +1,6 @@
 import { ServerClient, QueryResult, StreamChunk } from '@qwen-team/server-sdk';
-import { uiServerLogger } from '@qwen-team/shared';
+import * as shared from '@qwen-team/shared';
+const { uiServerLogger } = shared;
 
 interface ClientSession {
   client: ServerClient;

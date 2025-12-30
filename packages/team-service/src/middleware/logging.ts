@@ -1,5 +1,6 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { AuthenticatedRequest } from './auth.js';
+import { uiServerLogger } from '@qwen-team/shared';
 
 interface ProxyMetrics {
   totalRequests: number;
@@ -19,10 +20,25 @@ class RequestLogger {
   };
 
   private responseTimes: number[] = [];
+  private lastLogTimes = new Map<string, number>();
 
   logRequest(request: FastifyRequest, startTime: number, statusCode: number, error?: Error): void {
     const duration = Date.now() - startTime;
     const isSuccess = statusCode >= 200 && statusCode < 400;
+
+    // Skip logging for rapid duplicate requests (within 100ms)
+    const requestKey = `${request.method}:${request.url}:${(request as AuthenticatedRequest).user?.userId || 'anonymous'}`;
+    const now = Date.now();
+    const lastLogTime = this.lastLogTimes?.get(requestKey) || 0;
+    
+    if (now - lastLogTime < 100) {
+      return; // Skip duplicate log within 100ms
+    }
+    
+    if (!this.lastLogTimes) {
+      this.lastLogTimes = new Map();
+    }
+    this.lastLogTimes.set(requestKey, now);
 
     // Update metrics
     this.metrics.totalRequests++;
@@ -43,14 +59,12 @@ class RequestLogger {
     this.metrics.averageResponseTime = 
       this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length;
 
-    // Log request
-    const logLevel = isSuccess ? 'info' : 'error';
+    // Log request with proper logger and method name
     const userId = (request as AuthenticatedRequest).user?.userId || 'anonymous';
-    
-    console[logLevel]({
+    const logData = {
+      method: 'RequestLogger.logRequest',
       service: 'team-service',
-      timestamp: new Date().toISOString(),
-      method: request.method,
+      httpMethod: request.method,
       url: request.url,
       userId,
       statusCode,
@@ -58,7 +72,13 @@ class RequestLogger {
       userAgent: request.headers['user-agent'],
       ip: request.ip,
       error: error?.message
-    });
+    };
+
+    if (isSuccess) {
+      uiServerLogger.info('HTTP Request', logData);
+    } else {
+      uiServerLogger.error('HTTP Request Failed', logData);
+    }
   }
 
   getMetrics(): ProxyMetrics {

@@ -562,7 +562,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Team Assistant</h2>
               <p className="text-sm text-gray-500">
-                Session: {currentSessionId.substring(0, 20)} | Workspace: Team Mode
+                Session: {currentSessionId.substring(0, 20)}
               </p>
             </div>
             <button

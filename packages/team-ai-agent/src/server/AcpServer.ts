@@ -20,12 +20,14 @@ export class AcpServer {
   constructor(port: number = 8001, agents: AgentConfig[] = []) {
     this.sessionManager = new UserSessionManager();
     
-    // Initialize ServerClient with config manager
+    // CRITICAL FIX: ServerClient creates proper Config internally with all tools
+    // The Config class automatically registers ShellTool and other core tools
     this.serverClient = new ServerClient({
       apiKey: config.OPENAI_API_KEY,
       baseUrl: config.OPENAI_BASE_URL,
       model: config.OPENAI_MODEL,
       approvalMode: 'yolo',
+      workingDirectory: process.cwd(),
     });
     
     this.messageRouter = new MessageRouter(this.sessionManager, this.serverClient);
@@ -135,14 +137,20 @@ export class AcpServer {
 
   private async checkRedis() {
     try {
-      const Redis = require('ioredis');
+      // Check if Redis is actually needed for this service
+      if (!process.env.REDIS_HOST && !process.env.REDIS_URL) {
+        return { status: 'healthy', note: 'Redis not configured, skipping check' };
+      }
+
+      const { default: Redis } = await import('ioredis');
       const redis = new Redis({
         host: process.env.REDIS_HOST || 'localhost',
         port: parseInt(process.env.REDIS_PORT || '6379'),
         password: process.env.REDIS_PASSWORD || undefined,
         db: parseInt(process.env.REDIS_DB || '0'),
-        retryDelayOnFailover: 100,
-        maxRetriesPerRequest: 1
+        maxRetriesPerRequest: 1,
+        connectTimeout: 1000,
+        lazyConnect: true
       });
       await redis.ping();
       await redis.disconnect();

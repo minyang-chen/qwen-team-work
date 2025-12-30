@@ -147,8 +147,10 @@ export function setupWebSocket(
           }
 
           // Create streaming handler with correlation ID
+          let fullResponse = '';
           const streamHandler = {
             onChunk: (chunk: string) => {
+              fullResponse += chunk;
               socket.emit('message:chunk', { 
                 type: 'text', 
                 data: { text: chunk },
@@ -156,9 +158,15 @@ export function setupWebSocket(
               });
             },
             onComplete: () => {
+              console.log('[DEBUG] Agent response event:', JSON.stringify({
+                userId: validatedData.userId,
+                sessionId: validatedData.sessionId,
+                message: fullResponse
+              }, null, 2));
               socket.emit('message:complete', { correlationId });
             },
             onError: (error: Error) => {
+              console.log('[ERROR] Agent response failed:', error.message);
               socket.emit('error', { 
                 message: error.message,
                 code: 'STREAMING_ERROR',
@@ -202,7 +210,7 @@ export function setupWebSocket(
               console.log('[DEBUG] Raw LLM result:', JSON.stringify(result, null, 2));
               
               // Clean up raw tool call XML from Qwen-Coder models
-              let rawContent = result.content || result.text || '';
+              let rawContent = (result as any).content || (result as any).text || '';
               console.log('[DEBUG] Raw LLM response:', rawContent);
               
               let cleanedContent = rawContent;
