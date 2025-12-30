@@ -63,7 +63,7 @@ export class AIService {
         baseUrl: this.config.baseUrl,
         model: this.config.model,
         sessionId: userId,
-        workingDirectory: workingDirectory || process.cwd(),
+        workingDirectory: workingDirectory || '/tmp', // Use empty temp dir instead of project root
         approvalMode: 'yolo',
       });
 

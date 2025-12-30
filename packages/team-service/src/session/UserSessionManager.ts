@@ -149,6 +149,12 @@ export class UserSessionManager implements ISessionManager {
       onError: (error: Error) => void;
     }
   ): Promise<void> {
+    // Handle shell commands directly
+    if (message.startsWith('!')) {
+      await this.executeShellCommand(userId, message, streamHandler);
+      return;
+    }
+
     // Check circuit breaker state
     if (this.circuitBreakerState === 'OPEN') {
       const timeSinceLastFailure = Date.now() - this.lastFailureTime;
@@ -348,6 +354,71 @@ export class UserSessionManager implements ISessionManager {
     this.failureCount = 0;
     this.lastFailureTime = 0;
     console.log('Circuit breaker manually reset');
+  }
+
+  private async executeShellCommand(
+    userId: string,
+    message: string,
+    streamHandler: {
+      onChunk: (chunk: string) => void;
+      onComplete: () => void;
+      onError: (error: Error) => void;
+    }
+  ): Promise<void> {
+    try {
+      const command = message.slice(1).trim(); // Remove '!' prefix
+      
+      if (!command) {
+        streamHandler.onChunk('❌ **Error:** Empty command\n');
+        streamHandler.onComplete();
+        return;
+      }
+
+      // Ensure user workspace exists
+      const { NFS_BASE_PATH } = await import('../config.js');
+      const { promises: fs } = await import('fs');
+      const { resolve } = await import('path');
+      
+      const userWorkspace = resolve(process.cwd(), NFS_BASE_PATH, 'individual', userId);
+      await fs.mkdir(userWorkspace, { recursive: true });
+      await fs.chmod(userWorkspace, 0o777);
+
+      // Get user's sandbox
+      const sandbox = await this.sandboxManager.getSandbox(userId, userWorkspace);
+      
+      // Execute command
+      const startTime = Date.now();
+      const result = await sandbox.execute(command);
+      const duration = Date.now() - startTime;
+
+      // Format output with nice markdown
+      let output = `## 🐚 Shell Command\n\n`;
+      output += `\`\`\`bash\n$ ${command}\n\`\`\`\n\n`;
+      
+      if (result.stdout) {
+        output += `### 📤 Output\n\`\`\`\n${result.stdout.trim()}\n\`\`\`\n\n`;
+      }
+      
+      if (result.stderr) {
+        output += `### ⚠️ Error Output\n\`\`\`\n${result.stderr.trim()}\n\`\`\`\n\n`;
+      }
+      
+      // Status info
+      const statusIcon = result.exitCode === 0 ? '✅' : '❌';
+      output += `### ${statusIcon} Status\n`;
+      output += `- **Exit Code:** ${result.exitCode}\n`;
+      output += `- **Duration:** ${duration}ms\n`;
+      output += `- **Executed in:** Docker sandbox\n`;
+
+      // Stream the formatted result
+      streamHandler.onChunk(output);
+      streamHandler.onComplete();
+      
+    } catch (error) {
+      const errorMsg = `## ❌ Shell Execution Failed\n\n\`\`\`\n${error instanceof Error ? error.message : 'Unknown error'}\n\`\`\`\n`;
+      streamHandler.onChunk(errorMsg);
+      streamHandler.onComplete();
+    }
   }
 }
 

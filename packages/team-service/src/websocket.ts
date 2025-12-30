@@ -197,10 +197,32 @@ export function setupWebSocket(
               console.log('[DEBUG] Fallback ServerClient initialized with tools');
               
               // Use ServerClient for query with tools
+              console.log('[DEBUG] Sending message to LLM:', finalMessage);
               const result = await fallbackClient.query(finalMessage);
+              console.log('[DEBUG] Raw LLM result:', JSON.stringify(result, null, 2));
+              
+              // Clean up raw tool call XML from Qwen-Coder models
+              let rawContent = result.content || result.text || '';
+              console.log('[DEBUG] Raw LLM response:', rawContent);
+              
+              let cleanedContent = rawContent;
+              if (cleanedContent) {
+                // Simple string-based removal of tool call artifacts
+                const toolCallIndex = cleanedContent.indexOf('<tool_call>');
+                if (toolCallIndex !== -1) {
+                  cleanedContent = cleanedContent.substring(0, toolCallIndex).trim();
+                }
+                
+                const functionIndex = cleanedContent.indexOf('<function');
+                if (functionIndex !== -1) {
+                  cleanedContent = cleanedContent.substring(0, functionIndex).trim();
+                }
+                
+                console.log('[DEBUG] Cleaned response:', cleanedContent);
+              }
               
               // Stream the response
-              const content = result.text || '';
+              const content = cleanedContent;
               const chunkSize = 20;
               
               for (let i = 0; i < content.length; i += chunkSize) {
