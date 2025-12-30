@@ -4,6 +4,12 @@
 
 set -e
 
+# Disable telemetry for all services
+export OTEL_SDK_DISABLED=true
+export OTEL_TRACES_EXPORTER=none
+export OTEL_METRICS_EXPORTER=none
+export OTEL_LOGS_EXPORTER=none
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'

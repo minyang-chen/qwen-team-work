@@ -14,7 +14,9 @@ export async function registerSessionRoutes(
     try {
       // Handle case where request.body might be undefined
       const body = request.body as { workingDirectory?: string } || {};
-      const { workingDirectory } = body;
+      const { workingDirectory = '/workspace' } = body; // Default to user workspace
+      
+      console.log(`[SessionRoute] Creating session with workingDirectory: ${workingDirectory}`);
       
       // Extract credentials from user object (set by auth middleware)
       const credentials = (request.user as any)?.credentials;

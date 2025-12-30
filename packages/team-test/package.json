@@ -1,6 +1,6 @@
 {
   "name": "@qwen-team/test",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Comprehensive testing suite for team collaboration architecture",
   "main": "dist/index.js",
   "scripts": {

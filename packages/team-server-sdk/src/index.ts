@@ -1,4 +1,5 @@
 export { ServerClient } from './ServerClient.js';
+export { SandboxedToolExecutor } from './SandboxedToolExecutor.js';
 export type { 
   ServerConfig, 
   QueryResult, 

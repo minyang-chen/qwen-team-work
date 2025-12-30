@@ -90,6 +90,11 @@ describe('ContentGenerationPipeline', () => {
       cliConfig: mockCliConfig,
       provider: mockProvider,
       contentGeneratorConfig: mockContentGeneratorConfig,
+      telemetryService: {
+        logSuccess: vi.fn(),
+        logError: vi.fn(),
+        logStreamingSuccess: vi.fn(),
+      },
       errorHandler: mockErrorHandler,
     };
 

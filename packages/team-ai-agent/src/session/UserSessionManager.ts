@@ -42,16 +42,33 @@ export class UserSessionManager {
     this.startSessionMonitoring();
   }
 
-  async createSession(userId: string, credentials?: UserCredentials): Promise<string> {
+  async createSession(userId: string, credentials?: UserCredentials, workingDirectory?: string): Promise<string> {
     const sessionId = nanoid();
-    const workspaceDir = `/tmp/qwen-workspace-${userId}`;
+    
+    // Always use NFS workspace path, ignore passed workingDirectory for user isolation
+    const nfsBasePath = process.env.NFS_BASE_PATH || '../../infrastructure/nfs-data';
+    const userWorkspaceDir = `${nfsBasePath}/workspaces/${userId}`;
+    
+    // Ensure the workspace directory exists
+    const fs = await import('fs');
+    const path = await import('path');
+    const fullPath = path.resolve(userWorkspaceDir);
+    
+    try {
+      await fs.promises.mkdir(fullPath, { recursive: true });
+      console.log(`[UserSessionManager] Created workspace directory: ${fullPath}`);
+    } catch (error) {
+      console.warn(`[UserSessionManager] Could not create workspace directory: ${error}`);
+    }
+
+    console.log(`[UserSessionManager] Creating session for user ${userId} with workspace: ${fullPath}`);
 
     // Create ServerClient with config manager
     const client = new ServerClient({
       apiKey: credentials?.apiKey || config.OPENAI_API_KEY,
       baseUrl: credentials?.baseUrl || config.OPENAI_BASE_URL,
       model: credentials?.model || config.OPENAI_MODEL || 'qwen-coder-plus',
-      workingDirectory: workspaceDir
+      workingDirectory: fullPath
     });
 
     await client.initialize();
@@ -59,7 +76,7 @@ export class UserSessionManager {
     const session: SessionData = {
       userId,
       sessionId,
-      workspaceDir,
+      workspaceDir: fullPath,
       client,
       metadata: {
         messageCount: 0,

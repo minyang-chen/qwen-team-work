@@ -32,7 +32,8 @@ export interface QueryResult {
 }
 
 export interface StreamChunk {
-  type: 'content' | 'tool' | 'finished';
+  type: 'content' | 'tool' | 'tool_result' | 'error' | 'finished';
   text?: string;
   toolName?: string;
+  result?: string;
 }

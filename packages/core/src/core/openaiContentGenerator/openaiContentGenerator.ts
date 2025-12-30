@@ -12,6 +12,7 @@ import type {
 import type { PipelineConfig } from './pipeline.js';
 import { ContentGenerationPipeline } from './pipeline.js';
 import { EnhancedErrorHandler } from './errorHandler.js';
+import { NoOpTelemetryService } from './telemetryService.js';
 import { getDefaultTokenizer } from '../../utils/request-tokenizer/index.js';
 import type { ContentGeneratorConfig } from '../contentGenerator.js';
 
@@ -28,6 +29,7 @@ export class OpenAIContentGenerator implements ContentGenerator {
       cliConfig,
       provider,
       contentGeneratorConfig,
+      telemetryService: new NoOpTelemetryService(),
       errorHandler: new EnhancedErrorHandler(
         (error: unknown, request: GenerateContentParameters) =>
           this.shouldSuppressErrorLogging(error, request),

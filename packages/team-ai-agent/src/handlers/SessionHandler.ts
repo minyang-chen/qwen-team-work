@@ -39,8 +39,10 @@ export class SessionHandler {
   }
 
   private async createSession(message: AcpMessage): Promise<AcpResponse> {
-    const { userId } = message.data;
-    const sessionId = await this.sessionManager.createSession(userId);
+    const { userId, credentials, workingDirectory } = message.data;
+    console.log(`[SessionHandler] Creating session for user ${userId} with workingDirectory: ${workingDirectory}`);
+    
+    const sessionId = await this.sessionManager.createSession(userId, credentials, workingDirectory);
     return this.responseBuilder.createSuccessResponse(message.id, { 
       session: { sessionId, userId } 
     });

@@ -27,17 +27,6 @@ describe('E2E Chat Functionality Tests', () => {
   });
 
   describe('Tool Execution Format', () => {
-    it('should validate file read tool format', () => {
-      const toolRequest = {
-        tool: 'read-file',
-        args: { path: 'package.json' },
-        sessionId: 'test-session'
-      };
-
-      expect(toolRequest.tool).toBe('read-file');
-      expect(toolRequest.args.path).toBe('package.json');
-    });
-
     it('should validate shell command format', () => {
       const shellRequest = {
         tool: 'shell',
@@ -47,6 +36,30 @@ describe('E2E Chat Functionality Tests', () => {
 
       expect(shellRequest.tool).toBe('shell');
       expect(shellRequest.args.command).toBe('pwd');
+    });
+
+    it('should validate file read tool format', () => {
+      const fileRequest = {
+        tool: 'read-file',
+        args: { path: 'package.json' },
+        sessionId: 'test-session'
+      };
+
+      expect(fileRequest.tool).toBe('read-file');
+      expect(fileRequest.args.path).toBe('package.json');
+    });
+
+    it('should validate tool execution response', () => {
+      const toolResponse = {
+        success: true,
+        result: '/workdisk/hosting/my_qwen_code/qwen-team-work',
+        toolName: 'run_shell_command',
+        executionTime: 150
+      };
+
+      expect(toolResponse.success).toBe(true);
+      expect(toolResponse.toolName).toBe('run_shell_command');
+      expect(toolResponse.result).toContain('/workdisk');
     });
   });
 

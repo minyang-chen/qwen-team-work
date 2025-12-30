@@ -296,6 +296,10 @@ export class ContentGenerationPipeline {
       baseRequest.tools = await this.converter.convertGeminiToolsToOpenAI(
         request.config.tools,
       );
+      console.log('Added tools to request:', baseRequest.tools?.length);
+    } else {
+      console.log('No tools found in request.config?.tools');
+      console.log('Request config keys:', Object.keys(request.config || {}));
     }
 
     // Let provider enhance the request (e.g., add metadata, cache control)
@@ -443,7 +447,7 @@ export class ContentGenerationPipeline {
       };
     }
 
-    await this.config.telemetryService.logError(context, error, openaiRequest);
+    await this.config.telemetryService.logError(context, error as Error, openaiRequest);
     this.config.errorHandler.handle(error, context, request);
   }
 
