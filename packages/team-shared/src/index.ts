@@ -11,6 +11,16 @@ export * from './errors/StandardError.js';
 export * from './utils/logger.js';
 export * from './utils/errorHandler.js';
 
+// Export Docker sandbox functionality
+export * from './docker/DockerSandboxConfig.js';
+export * from './docker/DockerSandbox.js';
+export * from './docker/SandboxedToolExecutor.js';
+
+// Export enhanced services
+export * from './services/SessionService.js';
+export * from './services/TeamContextService.js';
+export * from './services/CollaborationService.js';
+
 // Re-export commonly used types for convenience
 export type {
   AcpMessage,

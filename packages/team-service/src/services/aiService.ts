@@ -197,7 +197,7 @@ export class AIService {
     const session = this.sessions.get(userId);
     if (session) {
       try {
-        await session.client.dispose();
+        await session.client.cleanup();
         this.sessions.delete(userId);
         uiServerLogger.info('Session removed', { userId, remainingSessions: this.sessions.size });
         return true;

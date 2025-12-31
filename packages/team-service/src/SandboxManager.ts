@@ -1,4 +1,4 @@
-import { DockerSandbox } from './DockerSandbox.js';
+import { DockerSandbox } from '@qwen-team/shared';
 import {
   SANDBOX_IDLE_TIMEOUT,
   SANDBOX_CLEANUP_INTERVAL,
@@ -84,7 +84,7 @@ export class SandboxManager {
           );
 
           try {
-            await entry.sandbox.stop();
+            await entry.sandbox.cleanup();
             toRemove.push(userId);
           } catch (error) {
             console.error(`Failed to stop sandbox for user ${userId}:`, error);
@@ -123,8 +123,8 @@ export class SandboxManager {
 
     const promises = Array.from(this.sandboxes.values()).map((entry) =>
       entry.sandbox
-        .stop()
-        .catch((err) => console.error('Error stopping sandbox:', err)),
+        .cleanup()
+        .catch((err: any) => console.error('Error stopping sandbox:', err)),
     );
 
     await Promise.all(promises);

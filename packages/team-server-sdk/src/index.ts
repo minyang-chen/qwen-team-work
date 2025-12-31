@@ -1,11 +1,25 @@
 export { ServerClient } from './ServerClient.js';
-export { SandboxedToolExecutor } from './SandboxedToolExecutor.js';
+export { TeamToolInjector } from './TeamToolInjector.js';
+export { RetryHandler, isRetryableError } from './RetryHandler.js';
+export { CircuitBreaker, CircuitState } from './CircuitBreaker.js';
+
 export type { 
-  ServerConfig, 
+  EnhancedServerConfig,
+  EnhancedQueryResult,
+  EnhancedStreamChunk,
   QueryResult, 
   StreamChunk,
   RetryConfig,
   CircuitBreakerConfig 
 } from './types.js';
-export { RetryHandler, isRetryableError } from './RetryHandler.js';
-export { CircuitBreaker, CircuitState } from './CircuitBreaker.js';
+
+// Re-export shared Docker types for convenience
+export type { DockerSandboxConfig } from '@qwen-team/shared';
+
+// Re-export core types for enhanced functionality
+export type {
+  Config,
+  ToolCallRequestInfo,
+  ToolCallResponseInfo,
+  ToolRegistry
+} from '@qwen-code/core';

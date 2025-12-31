@@ -114,7 +114,7 @@ export class UserSessionManager {
   async deleteSession(userId: string): Promise<void> {
     const session = this.userSessions.get(userId);
     if (session) {
-      await session.client.dispose();
+      await session.client.cleanup();
       this.userSessions.delete(userId);
       console.log(`Session deleted for user ${userId}`);
     }
@@ -149,7 +149,7 @@ export class UserSessionManager {
     clearInterval(this.sessionCleanupInterval);
     
     for (const [userId, session] of this.userSessions.entries()) {
-      await session.client.dispose();
+      await session.client.cleanup();
     }
     
     this.userSessions.clear();

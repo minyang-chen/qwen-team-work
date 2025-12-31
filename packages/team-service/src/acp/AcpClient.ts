@@ -97,6 +97,8 @@ export class AcpClient {
       timestamp: Date.now()
     };
 
+    console.log('Sending ACP message:', JSON.stringify(message, null, 2));
+
     return new Promise((resolve, reject) => {
       this.pendingRequests.set(id, { resolve, reject });
       
@@ -155,16 +157,18 @@ export class AcpClient {
   }
 
   private handleResponse(response: AcpResponse): void {
+    console.log('ACP Response received:', JSON.stringify(response, null, 2));
     const pending = this.pendingRequests.get(response.id);
     
     if (pending) {
       if (response.success) {
         pending.resolve(response.data);
       } else {
+        console.error('ACP Request failed - Response:', JSON.stringify(response, null, 2));
         pending.reject(new Error(
           typeof response.error === 'string' 
             ? response.error 
-            : (response.error as any)?.message || 'Request failed'
+            : (response.error as any)?.message || 'Failed to handle session message'
         ));
       }
       this.pendingRequests.delete(response.id);

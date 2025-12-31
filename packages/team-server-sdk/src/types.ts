@@ -11,7 +11,7 @@ export interface CircuitBreakerConfig {
   timeout?: number;
 }
 
-export interface ServerConfig {
+export interface EnhancedServerConfig {
   apiKey: string;
   baseUrl?: string;
   model?: string;
@@ -20,6 +20,32 @@ export interface ServerConfig {
   approvalMode?: 'yolo' | 'default';
   retryConfig?: RetryConfig;
   circuitBreakerConfig?: CircuitBreakerConfig;
+  enableSandbox?: boolean;
+  // Enhanced features
+  teamId?: string;
+  projectId?: string;
+  mcpServers?: any;
+  toolPreferences?: any;
+  collaborationMode?: 'individual' | 'shared' | 'review';
+}
+
+export interface EnhancedQueryResult {
+  text: string;
+  usage?: {
+    input: number;
+    output: number;
+    total: number;
+  };
+  toolResults?: any[];
+  sessionContext?: any;
+}
+
+export interface EnhancedStreamChunk {
+  type: 'content' | 'tool' | 'tool_result' | 'error' | 'finished';
+  text?: string;
+  toolName?: string;
+  result?: string;
+  error?: string;
 }
 
 export interface QueryResult {

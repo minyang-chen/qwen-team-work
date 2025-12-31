@@ -6,6 +6,7 @@ import { ToolHandler } from '../handlers/ToolHandler.js';
 import { UserSessionManager } from '../session/UserSessionManager.js';
 import { ResponseBuilder } from '../protocol/ResponseBuilder.js';
 import { ErrorHandler } from '../protocol/ErrorHandler.js';
+import * as config from '../config/env.js';
 
 export class MessageRouter {
   private chatHandler: ChatHandler;
@@ -17,9 +18,18 @@ export class MessageRouter {
   constructor(sessionManager: UserSessionManager, serverClient: ServerClient) {
     this.responseBuilder = new ResponseBuilder();
     this.errorHandler = new ErrorHandler();
-    this.chatHandler = new ChatHandler(serverClient, sessionManager);
+    this.chatHandler = new ChatHandler({
+      sessionId: 'default',
+      workingDirectory: '/workspace',
+      model: config.OPENAI_MODEL,
+      apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
+      baseUrl: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
+    });
     this.sessionHandler = new SessionHandler(sessionManager, this.responseBuilder, this.errorHandler);
     this.toolHandler = new ToolHandler(this.responseBuilder, this.errorHandler, serverClient);
+    
+    // Initialize ChatHandler
+    this.chatHandler.initialize().catch(console.error);
   }
 
   async routeMessage(message: AcpMessage): Promise<AcpResponse> {
@@ -40,7 +50,7 @@ export class MessageRouter {
 
       switch (normalizedMessage.type) {
         case 'chat':
-          return await this.chatHandler.handleChatMessage(normalizedMessage);
+          return await this.chatHandler.handleMessage(normalizedMessage);
         case 'session':
           return await this.sessionHandler.handleSessionMessage(normalizedMessage);
         case 'tool':

@@ -1,7 +1,7 @@
 import type { IAgentDiscovery } from '@qwen-team/shared';
 import { AcpClient } from '../acp/AcpClient.js';
 import { SandboxManager } from '../SandboxManager.js';
-import { DockerSandbox } from '../DockerSandbox.js';
+import { DockerSandbox } from '@qwen-team/shared';
 
 // Local type definitions for missing shared types
 interface ISessionManager {
@@ -180,14 +180,16 @@ export class UserSessionManager implements ISessionManager {
       });
       
       // Handle response - simulate streaming
-      if (response && response.content) {
-        const content = response.content;
-        const chunkSize = 20;
-        
-        for (let i = 0; i < content.length; i += chunkSize) {
-          const chunk = content.slice(i, i + chunkSize);
-          streamHandler.onChunk(chunk);
-          await new Promise(resolve => setTimeout(resolve, 50));
+      if (response) {
+        const content = typeof response === 'string' ? response : response.content || response;
+        if (content) {
+          const chunkSize = 20;
+          
+          for (let i = 0; i < content.length; i += chunkSize) {
+            const chunk = content.slice(i, i + chunkSize);
+            streamHandler.onChunk(chunk);
+            await new Promise(resolve => setTimeout(resolve, 50));
+          }
         }
       }
       
@@ -286,7 +288,7 @@ export class UserSessionManager implements ISessionManager {
   private async cleanupExecutionSession(sessionId: string): Promise<void> {
     const execSession = this.executionSessions.get(sessionId);
     if (execSession) {
-      await execSession.sandbox.stop();
+      await execSession.sandbox.cleanup();
       this.executionSessions.delete(sessionId);
     }
   }

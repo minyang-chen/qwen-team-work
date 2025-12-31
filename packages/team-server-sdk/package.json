@@ -10,7 +10,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@qwen-code/core": "file:../core"
+    "@qwen-code/core": "file:../core",
+    "@qwen-team/shared": "file:../team-shared"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

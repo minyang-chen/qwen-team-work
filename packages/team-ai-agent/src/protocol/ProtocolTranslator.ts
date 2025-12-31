@@ -1,81 +1,61 @@
-import type { ServerConfig, QueryResult, StreamChunk } from '@qwen-team/server-sdk';
+import type { EnhancedServerConfig, EnhancedQueryResult, EnhancedStreamChunk } from '@qwen-team/server-sdk';
 import { StandardError, ErrorCode, mapErrorToStandard } from '@qwen-team/shared';
 
 export interface AcpMessage {
   id: string;
   type: string;
-  payload: {
-    content: string;
-    sessionId: string;
-    streaming?: boolean;
-    model?: string;
-    temperature?: number;
-  };
-  timestamp: number;
+  data?: any;
 }
 
 export interface AcpResponse {
   id: string;
   success: boolean;
-  data?: {
-    content: string;
-    usage?: { input: number; output: number; total: number };
-  };
-  error?: {
-    code: string;
-    message: string;
-    details?: any;
-  };
   timestamp: number;
+  type: string;
+  content?: string;
+  toolName?: string;
 }
 
 export class ProtocolTranslator {
-  acpToSdk(message: AcpMessage): { prompt: string; config: Partial<ServerConfig> } {
-    // Handle different message structures - actual messages use 'data' field
-    const messageData = (message as any).data || message.payload;
-    const content = messageData?.message || messageData?.content;
-    
-    if (!content) {
-      throw new Error(`No content found in message. Data: ${JSON.stringify(messageData)}`);
-    }
-    
+  acpToSdk(message: AcpMessage): { prompt: string; config?: EnhancedServerConfig } {
     return {
-      prompt: content,
-      config: {
-        sessionId: messageData.sessionId,
-        model: messageData.model,
-      },
+      prompt: message.data?.prompt || '',
+      config: message.data?.config
     };
   }
 
-  sdkToAcp(result: QueryResult, messageId: string): AcpResponse {
+  sdkToAcp(result: EnhancedQueryResult, messageId: string): AcpResponse {
     return {
       id: messageId,
       success: true,
-      data: {
-        content: result.text,
-        usage: result.usage,
-      },
       timestamp: Date.now(),
+      type: 'response',
+      content: result.text
     };
   }
 
-  streamChunkToAcp(chunk: StreamChunk): { type: string; content?: string; toolName?: string } {
-    if (chunk.type === 'content') {
-      return { type: 'content', content: chunk.text };
-    } else if (chunk.type === 'tool') {
-      return { type: 'tool', toolName: chunk.toolName };
-    }
-    return { type: 'finished' };
+  streamToAcp(chunk: EnhancedStreamChunk, messageId: string): AcpResponse {
+    return {
+      id: messageId,
+      success: true,
+      timestamp: Date.now(),
+      type: chunk.type,
+      content: chunk.type === 'content' ? chunk.text : undefined,
+      toolName: chunk.type === 'tool' ? chunk.toolName : undefined
+    };
   }
 
-  errorToAcp(error: unknown, messageId: string): AcpResponse {
-    const standardError = mapErrorToStandard(error);
+  streamChunkToAcp(chunk: EnhancedStreamChunk, messageId: string): AcpResponse {
+    return this.streamToAcp(chunk, messageId);
+  }
+
+  errorToAcp(error: Error, messageId: string): AcpResponse {
     return {
       id: messageId,
       success: false,
-      error: standardError.toJSON(),
       timestamp: Date.now(),
+      type: 'error',
+      content: error.message
     };
   }
 }

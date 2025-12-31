@@ -36,6 +36,14 @@ export class ToolHandler {
   }
 
   private async executeTool(toolName: string, parameters: any): Promise<any> {
-    return await this.serverClient!.executeTool(toolName, parameters);
+    const toolRequest = {
+      callId: `tool-${Date.now()}`,
+      name: toolName,
+      args: parameters,
+      isClientInitiated: false,
+      prompt_id: `prompt-${Date.now()}`
+    };
+    const results = await this.serverClient!.executeTools([toolRequest], new AbortController().signal);
+    return results[0];
   }
 }
