@@ -46,6 +46,10 @@ export class DockerSandbox {
         // Create new container for user session
         console.log(`🐳 Creating new container: ${this.containerName}`);
         
+        // Use absolute NFS path from environment
+        const nfsBasePath = process.env.NFS_BASE_PATH || '/workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data';
+        const userNfsPath = `${nfsBasePath}/individual/${this.config.userId}`;
+        
         await execAsync(`docker run -d \
           --name ${this.containerName} \
           --user 1000:1000 \
@@ -55,8 +59,7 @@ export class DockerSandbox {
           --cap-add SETUID \
           --cap-add SETGID \
           --tmpfs /tmp:rw,noexec,nosuid,size=1G \
-          -v "${this.config.workspaceDir}:/workspace" \
-          -v "/workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/${this.config.userId}:/nfs" \
+          -v "${userNfsPath}:/workspace" \
           -w /workspace \
           --network ${this.config.noNetwork ? 'none' : (this.config.network || 'bridge')} \
           --memory ${this.config.memory} \

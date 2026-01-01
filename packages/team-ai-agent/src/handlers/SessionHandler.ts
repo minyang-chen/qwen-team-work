@@ -1,5 +1,5 @@
 import { AcpMessage, AcpResponse } from '@qwen-team/shared';
-import { UserSessionManager } from '../session/UserSessionManager.js';
+import { UserSessionManager, SessionData } from '../session/UserSessionManager.js';
 import { ResponseBuilder } from '../protocol/ResponseBuilder.js';
 import { ErrorHandler } from '../protocol/ErrorHandler.js';
 
@@ -9,6 +9,10 @@ export class SessionHandler {
     private responseBuilder: ResponseBuilder,
     private errorHandler: ErrorHandler
   ) {}
+
+  getUserSession(userId: string): SessionData | null {
+    return this.sessionManager.getUserSession(userId);
+  }
 
   async handleSessionMessage(message: AcpMessage): Promise<AcpResponse> {
     try {

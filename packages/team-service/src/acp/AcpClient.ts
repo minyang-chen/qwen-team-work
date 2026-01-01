@@ -49,7 +49,11 @@ export class AcpClient {
 
       this.ws!.onclose = () => {
         this.connectionState = 'disconnected';
-        this.handleDisconnection();
+        try {
+          this.handleDisconnection();
+        } catch (error) {
+          console.error('Error handling disconnection:', error);
+        }
       };
 
       // Connection timeout
@@ -181,11 +185,15 @@ export class AcpClient {
   }
 
   private handleDisconnection(): void {
-    // Reject all pending requests
-    for (const [id, pending] of this.pendingRequests) {
-      pending.reject(new Error('Connection lost'));
+    try {
+      // Reject all pending requests
+      for (const [id, pending] of this.pendingRequests) {
+        pending.reject(new Error('Connection lost'));
+      }
+      this.pendingRequests.clear();
+    } catch (error) {
+      console.error('Error during disconnection cleanup:', error);
     }
-    this.pendingRequests.clear();
 
     // Attempt reconnection if not intentionally disconnected
     if (this.reconnectAttempts < this.maxReconnectAttempts) {

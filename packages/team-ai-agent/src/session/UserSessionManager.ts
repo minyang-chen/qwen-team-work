@@ -23,7 +23,7 @@ interface ChatMessage {
   tokenCount?: number;
 }
 
-interface SessionData {
+export interface SessionData {
   userId: string;
   sessionId: string;
   workspaceDir: string;

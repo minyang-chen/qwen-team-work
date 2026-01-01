@@ -229,24 +229,36 @@ export function setupWebSocket(
               let rawContent = (result as any).content || (result as any).text || '';
               console.log('[DEBUG] Raw LLM response:', rawContent);
               
-              let cleanedContent = rawContent;
-              if (cleanedContent) {
-                // Simple string-based removal of tool call artifacts
-                const toolCallIndex = cleanedContent.indexOf('<tool_call>');
+              // Extract tool results and format them properly
+              let finalContent = rawContent;
+              if ((result as any).toolResults && Array.isArray((result as any).toolResults)) {
+                console.log('[DEBUG] Processing tool results:', (result as any).toolResults.length);
+                
+                // Remove tool markup from the main response
+                const toolCallIndex = finalContent.indexOf('<tool_call>');
                 if (toolCallIndex !== -1) {
-                  cleanedContent = cleanedContent.substring(0, toolCallIndex).trim();
+                  finalContent = finalContent.substring(0, toolCallIndex).trim();
                 }
-                
-                const functionIndex = cleanedContent.indexOf('<function');
+                const functionIndex = finalContent.indexOf('<function');
                 if (functionIndex !== -1) {
-                  cleanedContent = cleanedContent.substring(0, functionIndex).trim();
+                  finalContent = finalContent.substring(0, functionIndex).trim();
                 }
                 
-                console.log('[DEBUG] Cleaned response:', cleanedContent);
+                // Append clean tool results
+                for (const toolResult of (result as any).toolResults) {
+                  const resultContent = toolResult.resultDisplay || toolResult.result;
+                  if (resultContent) {
+                    finalContent += '\n\n' + (typeof resultContent === 'string' 
+                      ? resultContent 
+                      : JSON.stringify(resultContent, null, 2));
+                  }
+                }
               }
               
+              console.log('[DEBUG] Final formatted content:', finalContent);
+              
               // Stream the response
-              const content = cleanedContent;
+              const content = finalContent;
               const chunkSize = 20;
               
               for (let i = 0; i < content.length; i += chunkSize) {

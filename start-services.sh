@@ -76,6 +76,12 @@ cleanup() {
     echo "Waiting for graceful shutdown..."
     sleep 3
     
+    # Clean up Docker sandboxes
+    echo -e "${BLUE}Cleaning up Docker sandboxes...${NC}"
+    docker ps -q --filter "name=qwen-sandbox-" | xargs -r docker stop
+    docker ps -aq --filter "name=qwen-sandbox-" | xargs -r docker rm
+    echo -e "${GREEN}Docker sandboxes cleaned up${NC}"
+    
     # Force kill if still running
     for pid in $WEB_PID $SERVICE_PID $AI_AGENT_PID $STORAGE_PID; do
         if [ ! -z "$pid" ] && kill -0 $pid 2>/dev/null; then

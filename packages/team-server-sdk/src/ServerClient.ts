@@ -1,6 +1,5 @@
 import { 
   Config,
-  GeminiClient,
   ToolRegistry,
   CoreToolScheduler,
   ApprovalMode,
@@ -10,10 +9,11 @@ import {
 } from '@qwen-code/core';
 import { DockerSandbox, SandboxedToolExecutor, type DockerSandboxConfig } from '@qwen-team/shared';
 import type { EnhancedServerConfig, EnhancedQueryResult, EnhancedStreamChunk } from './types.js';
+import { OpenAIClient } from './OpenAIClient.js';
 
 export class ServerClient {
   private config: Config;
-  private client: GeminiClient;
+  private client: OpenAIClient | null = null;
   private toolRegistry: ToolRegistry;
   private toolScheduler: CoreToolScheduler;
   private dockerSandbox?: DockerSandbox;
@@ -34,8 +34,10 @@ export class ServerClient {
     });
 
     // Initialize core services
-    this.client = new GeminiClient(this.config);
     this.toolRegistry = this.config.getToolRegistry();
+    
+    // Initialize OpenAI client
+    this.client = new OpenAIClient(this.config);
     
     // Setup tool scheduler
     this.toolScheduler = new CoreToolScheduler({
@@ -53,9 +55,10 @@ export class ServerClient {
 
   private setupDockerSandbox(config: EnhancedServerConfig): void {
     if (config.enableSandbox !== false) {
+      const nfsBasePath = process.env.NFS_BASE_PATH || '../../infrastructure/nfs-data';
       const sandboxConfig: DockerSandboxConfig = {
         image: process.env.SANDBOX_IMAGE || 'node:20-bookworm',
-        workspaceDir: config.workingDirectory || '/workspace',
+        workspaceDir: `${nfsBasePath}/individual/${config.sessionId}`,
         userId: config.sessionId || `server-${Date.now()}`,
         network: process.env.SANDBOX_NETWORK || 'bridge',
         memory: process.env.SANDBOX_MEMORY || '1g',
@@ -92,9 +95,6 @@ export class ServerClient {
       onEditorClose: () => {},
     });
     
-    // Initialize client and tools
-    await this.client.initialize();
-    
     console.log(`[ServerClient] Initialized with ${this.toolRegistry?.getAllTools()?.length || 0} tools`);
   }
 
@@ -103,63 +103,40 @@ export class ServerClient {
     mcpServers?: any;
     toolPreferences?: any;
   }): Promise<EnhancedQueryResult> {
-    const abortController = new AbortController();
-    const promptId = `query-${Date.now()}`;
+    console.log('[ServerClient] Starting query with prompt:', prompt.substring(0, 100) + '...');
+    
+    let responseText = '';
+    let toolResults: any[] = [];
+    let tokenUsage = { input: 0, output: 0, total: 0 };
 
-    // Send message through full AI pipeline
-    const stream = this.client.sendMessageStream(
-      [{ text: prompt }],
-      abortController.signal,
-      promptId,
-      { isContinuation: false }
-    );
-
-    let response = '';
-    let tokenUsage = { inputTokens: 0, outputTokens: 0 };
-    const toolRequests: ToolCallRequestInfo[] = [];
-
-    // Process stream
-    for await (const chunk of stream) {
-      if (chunk.type === 'content') {
-        response += chunk.value;
-      } else if (chunk.type === 'tool_call_request') {
-        toolRequests.push(chunk.value);
-      } else if (chunk.type === 'finished' && chunk.value?.usageMetadata) {
-        tokenUsage = {
-          inputTokens: chunk.value.usageMetadata.promptTokenCount || 0,
-          outputTokens: chunk.value.usageMetadata.candidatesTokenCount || 0,
-        };
-      }
-    }
-
-    // Execute tools if requested
-    if (toolRequests.length > 0) {
-      const toolResults = await this.executeTools(toolRequests, abortController.signal);
-      
-      // Append tool results to response
-      const toolOutput = toolResults
-        .map(result => {
-          if (typeof result.resultDisplay === 'string') {
-            return result.resultDisplay;
-          }
-          return result.error?.message || '';
-        })
-        .filter(Boolean)
-        .join('\n\n');
-      
-      if (toolOutput) {
-        response += '\n\n' + toolOutput;
+    // Collect all stream chunks
+    for await (const chunk of this.queryStream(prompt, options)) {
+      switch (chunk.type) {
+        case 'content':
+          responseText += chunk.text;
+          break;
+        case 'tool_result':
+          toolResults.push({
+            name: chunk.toolName,
+            result: chunk.result
+          });
+          break;
+        case 'finished':
+          // Stream is complete
+          break;
+        case 'error':
+          throw new Error(chunk.error || 'Unknown error');
       }
     }
 
     return {
-      text: response,
+      text: responseText,
       usage: {
-        input: tokenUsage.inputTokens,
-        output: tokenUsage.outputTokens,
-        total: tokenUsage.inputTokens + tokenUsage.outputTokens,
+        input: 0, // TODO: Extract from OpenAI response
+        output: 0,
+        total: 0
       },
-      toolResults: toolRequests.length > 0 ? toolRequests : undefined,
+      toolResults: toolResults.length > 0 ? toolResults : undefined,
     };
   }
 
@@ -171,7 +148,7 @@ export class ServerClient {
     const abortController = new AbortController();
     const promptId = `stream-${Date.now()}`;
 
-    const stream = this.client.sendMessageStream(
+    const stream = this.client!.sendMessageStream(
       [{ text: prompt }],
       abortController.signal,
       promptId,
@@ -180,21 +157,55 @@ export class ServerClient {
 
     const toolRequests: ToolCallRequestInfo[] = [];
 
-    for await (const chunk of stream) {
-      if (chunk.type === 'content') {
-        yield { type: 'content', text: chunk.value };
-      } else if (chunk.type === 'tool_call_request') {
-        toolRequests.push(chunk.value);
-        yield { type: 'tool', toolName: chunk.value.name };
-      } else if (chunk.type === 'finished') {
-        break;
+    // Process stream events (like CLI does)
+    for await (const event of stream) {
+      console.log('[ServerClient] Stream event:', event.type, 'value' in event ? 'has value' : 'no value');
+      switch (event.type) {
+        case 'content':
+          yield { type: 'content', text: event.value };
+          break;
+        case 'tool_call_request':
+          console.log('[ServerClient] Tool call request:', event.value);
+          toolRequests.push(event.value);
+          yield { type: 'tool', toolName: event.value.name };
+          break;
+        case 'finished':
+          console.log('[ServerClient] Stream finished');
+          break;
+        default:
+          console.log('[ServerClient] Unknown event type:', event.type);
+          break;
       }
     }
 
-    // Execute tools and stream results
+    // Execute tools using CoreToolScheduler (like CLI does)
     if (toolRequests.length > 0) {
-      const toolResults = await this.executeTools(toolRequests, abortController.signal);
+      // Use the scheduler to execute tools properly
+      const toolResults = await new Promise<ToolCallResponseInfo[]>((resolve) => {
+        const results: ToolCallResponseInfo[] = [];
+        
+        const scheduler = new CoreToolScheduler({
+          config: this.config,
+          chatRecordingService: this.config.getChatRecordingService(),
+          outputUpdateHandler: () => {},
+          onAllToolCallsComplete: async (completedCalls: any[]) => {
+            // Extract responses from completed calls
+            for (const call of completedCalls) {
+              if (call.response) {
+                results.push(call.response);
+              }
+            }
+            resolve(results);
+          },
+          onToolCallsUpdate: () => {},
+          getPreferredEditor: () => undefined,
+          onEditorClose: () => {},
+        });
+
+        scheduler.schedule(toolRequests, abortController.signal);
+      });
       
+      // Emit tool results
       for (const result of toolResults) {
         const resultText = typeof result.resultDisplay === 'string' 
           ? result.resultDisplay 
@@ -205,6 +216,25 @@ export class ServerClient {
           toolName: toolRequests.find(r => r.callId === result.callId)?.name || 'unknown',
           result: resultText
         };
+      }
+
+      // Send tool results back to LLM for continuation (like CLI does)
+      const responseParts = toolResults.flatMap((r) => r.responseParts);
+      if (responseParts.length > 0) {
+        const continuationStream = this.client!.sendMessageStream(
+          responseParts as any,
+          abortController.signal,
+          `${promptId}-continuation`,
+          { isContinuation: true }
+        );
+
+        for await (const event of continuationStream) {
+          if (event.type === 'content') {
+            yield { type: 'content', text: event.value };
+          } else if (event.type === 'finished') {
+            break;
+          }
+        }
       }
     }
 
@@ -267,7 +297,8 @@ export class ServerClient {
   }
 
   async resetChat(): Promise<void> {
-    await this.client.resetChat();
+    // ContentGenerator doesn't need explicit chat reset
+    console.log('[ServerClient] Chat reset requested');
   }
 
   async cleanup(): Promise<void> {
