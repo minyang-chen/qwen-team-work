@@ -1,5 +1,6 @@
 import type { ISessionManager, UserCredentials } from '@qwen-team/shared';
 import { ServerClient } from '@qwen-team/server-sdk';
+import { DockerSandbox } from '@qwen-team/shared';
 import * as config from '../config/env.js';
 import { nanoid } from 'nanoid';
 
@@ -27,6 +28,7 @@ interface SessionData {
   sessionId: string;
   workspaceDir: string;
   client: ServerClient;
+  sandbox: DockerSandbox;
   metadata: SessionMetadata;
   tokenUsage: TokenUsage;
   conversationHistory: ChatMessage[];
@@ -45,39 +47,66 @@ export class UserSessionManager {
   async createSession(userId: string, credentials?: UserCredentials, workingDirectory?: string): Promise<string> {
     const sessionId = nanoid();
     
-    // Always use NFS workspace path, ignore passed workingDirectory for user isolation
-    const nfsBasePath = process.env.NFS_BASE_PATH || '../../infrastructure/nfs-data';
-    const userWorkspaceDir = `${nfsBasePath}/workspaces/${userId}`;
-    
-    // Ensure the workspace directory exists
+    // Import modules first
     const fs = await import('fs');
     const path = await import('path');
-    const fullPath = path.resolve(userWorkspaceDir);
     
+    // Create individual user workspace in NFS
+    const nfsBasePath = process.env.NFS_BASE_PATH || '../../infrastructure/nfs-data';
+    const userWorkspaceDir = path.resolve(process.cwd(), nfsBasePath, 'individual', userId);
+    
+    // Ensure the workspace directory exists with proper permissions
     try {
-      await fs.promises.mkdir(fullPath, { recursive: true });
-      console.log(`[UserSessionManager] Created workspace directory: ${fullPath}`);
+      await fs.promises.mkdir(userWorkspaceDir, { recursive: true });
+      await fs.promises.chmod(userWorkspaceDir, 0o777);
+      console.log(`[UserSessionManager] Created workspace directory: ${userWorkspaceDir}`);
+      
+      // Create a README in the workspace
+      const readmePath = path.join(userWorkspaceDir, 'README.md');
+      try {
+        await fs.promises.access(readmePath);
+      } catch {
+        await fs.promises.writeFile(
+          readmePath,
+          `# User Workspace\n\nThis is your personal workspace for code development.\n\nUser ID: ${userId}\nCreated: ${new Date().toISOString()}\n`,
+        );
+      }
     } catch (error) {
       console.warn(`[UserSessionManager] Could not create workspace directory: ${error}`);
     }
 
-    console.log(`[UserSessionManager] Creating session for user ${userId} with workspace: ${fullPath}`);
+    console.log(`[UserSessionManager] Creating session for user ${userId} with workspace: ${userWorkspaceDir}`);
 
-    // Create ServerClient with config manager
+    // Create ServerClient with user's individual workspace
     const client = new ServerClient({
       apiKey: credentials?.apiKey || config.OPENAI_API_KEY,
       baseUrl: credentials?.baseUrl || config.OPENAI_BASE_URL,
-      model: credentials?.model || config.OPENAI_MODEL || 'qwen-coder-plus',
-      workingDirectory: fullPath
+      model: credentials?.model || config.OPENAI_MODEL || 'qwen3-coder:30b',
+      workingDirectory: userWorkspaceDir
     });
 
     await client.initialize();
 
+    // Create Docker sandbox for user with NFS mapping
+    console.log(`[UserSessionManager] Creating Docker sandbox for user ${userId}`);
+    const sandbox = new DockerSandbox({
+      image: process.env.SANDBOX_IMAGE || 'node:20-bookworm',
+      workspaceDir: userWorkspaceDir,
+      userId: userId,
+      network: process.env.SANDBOX_NETWORK || 'bridge',
+      memory: process.env.SANDBOX_MEMORY || '1g',
+      cpus: parseInt(process.env.SANDBOX_CPUS || '2'),
+    });
+    
+    await sandbox.start();
+    console.log(`[UserSessionManager] Docker sandbox created for user ${userId}`);
+
     const session: SessionData = {
       userId,
       sessionId,
-      workspaceDir: fullPath,
+      workspaceDir: userWorkspaceDir,
       client,
+      sandbox,
       metadata: {
         messageCount: 0,
         lastActivity: new Date(),
@@ -96,6 +125,28 @@ export class UserSessionManager {
     this.userSessions.set(userId, session);
     console.log(`Session created for user ${userId}`);
     return sessionId;
+  }
+
+  async destroySession(userId: string): Promise<void> {
+    const session = this.userSessions.get(userId);
+    if (session) {
+      try {
+        // Cleanup Docker sandbox
+        await session.sandbox.cleanup();
+        console.log(`[UserSessionManager] Docker sandbox cleaned up for user ${userId}`);
+        
+        // Cleanup ServerClient
+        await session.client.cleanup();
+        console.log(`[UserSessionManager] ServerClient cleaned up for user ${userId}`);
+        
+        // Remove from memory
+        this.userSessions.delete(userId);
+        console.log(`[UserSessionManager] Session destroyed for user ${userId}`);
+      } catch (error) {
+        console.error(`[UserSessionManager] Error destroying session for user ${userId}:`, error);
+        throw error;
+      }
+    }
   }
 
   getUserSession(userId: string): SessionData | null {

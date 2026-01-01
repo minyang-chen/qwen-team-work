@@ -58,6 +58,22 @@ export class SandboxManager {
   }
 
   /**
+   * Remove sandbox for user (on logout)
+   */
+  async removeSandbox(userId: string): Promise<void> {
+    const entry = this.sandboxes.get(userId);
+    if (entry) {
+      try {
+        await entry.sandbox.cleanup();
+        this.sandboxes.delete(userId);
+        console.log(`🐳 Removed sandbox for user: ${userId}`);
+      } catch (error) {
+        console.error(`Failed to remove sandbox for user ${userId}:`, error);
+      }
+    }
+  }
+
+  /**
    * Update last activity time for user's sandbox
    */
   updateActivity(userId: string): void {

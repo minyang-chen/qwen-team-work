@@ -180,17 +180,20 @@ export class UserSessionManager implements ISessionManager {
       });
       
       // Handle response - simulate streaming
-      if (response) {
-        const content = typeof response === 'string' ? response : response.content || response;
-        if (content) {
-          const chunkSize = 20;
-          
-          for (let i = 0; i < content.length; i += chunkSize) {
-            const chunk = content.slice(i, i + chunkSize);
-            streamHandler.onChunk(chunk);
-            await new Promise(resolve => setTimeout(resolve, 50));
-          }
+      console.log('[DEBUG] UserSessionManager response:', JSON.stringify(response, null, 2));
+      if (response && response.content) {
+        const content = response.content;
+        console.log('[DEBUG] UserSessionManager content:', content);
+        const chunkSize = 20;
+        
+        for (let i = 0; i < content.length; i += chunkSize) {
+          const chunk = content.slice(i, i + chunkSize);
+          console.log('[DEBUG] UserSessionManager calling onChunk with:', chunk);
+          streamHandler.onChunk(chunk);
+          await new Promise(resolve => setTimeout(resolve, 50));
         }
+      } else {
+        console.log('[DEBUG] UserSessionManager no content in response, response:', response);
       }
       
       streamHandler.onComplete();

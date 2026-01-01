@@ -6,30 +6,24 @@ import { ToolHandler } from '../handlers/ToolHandler.js';
 import { UserSessionManager } from '../session/UserSessionManager.js';
 import { ResponseBuilder } from '../protocol/ResponseBuilder.js';
 import { ErrorHandler } from '../protocol/ErrorHandler.js';
+import { ProtocolTranslator } from '../protocol/ProtocolTranslator.js';
 import * as config from '../config/env.js';
 
 export class MessageRouter {
-  private chatHandler: ChatHandler;
+  private chatHandler?: ChatHandler;
   private sessionHandler: SessionHandler;
   private toolHandler: ToolHandler;
   private responseBuilder: ResponseBuilder;
   private errorHandler: ErrorHandler;
+  private translator: ProtocolTranslator;
 
-  constructor(sessionManager: UserSessionManager, serverClient: ServerClient) {
+  constructor(sessionManager: UserSessionManager, serverClient: ServerClient | null) {
     this.responseBuilder = new ResponseBuilder();
     this.errorHandler = new ErrorHandler();
-    this.chatHandler = new ChatHandler({
-      sessionId: 'default',
-      workingDirectory: '/workspace',
-      model: config.OPENAI_MODEL,
-      apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
-      baseUrl: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
-    });
+    this.translator = new ProtocolTranslator();
     this.sessionHandler = new SessionHandler(sessionManager, this.responseBuilder, this.errorHandler);
-    this.toolHandler = new ToolHandler(this.responseBuilder, this.errorHandler, serverClient);
-    
-    // Initialize ChatHandler
-    this.chatHandler.initialize().catch(console.error);
+    this.toolHandler = new ToolHandler(this.responseBuilder, this.errorHandler, undefined);
+    // ChatHandler will be created per-message with user's ServerClient
   }
 
   async routeMessage(message: AcpMessage): Promise<AcpResponse> {
@@ -50,7 +44,30 @@ export class MessageRouter {
 
       switch (normalizedMessage.type) {
         case 'chat':
-          return await this.chatHandler.handleMessage(normalizedMessage);
+          // Get user's ServerClient from session
+          const userId = normalizedMessage.data?.userId;
+          if (!userId) {
+            return this.errorHandler.createErrorResponse(
+              message.id,
+              'MISSING_USER_ID',
+              'User ID is required for chat messages'
+            );
+          }
+          
+          const sessionData = this.sessionHandler.getUserSession(userId);
+          if (!sessionData?.client) {
+            return this.errorHandler.createErrorResponse(
+              message.id,
+              'NO_SESSION',
+              'No active session found for user'
+            );
+          }
+          
+          // Use user's ServerClient for chat
+          const { prompt } = this.translator.acpToSdk(normalizedMessage);
+          const result = await sessionData.client.query(prompt);
+          return this.translator.sdkToAcp(result, message.id);
+          
         case 'session':
           return await this.sessionHandler.handleSessionMessage(normalizedMessage);
         case 'tool':

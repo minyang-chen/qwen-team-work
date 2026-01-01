@@ -19,7 +19,7 @@ export interface AcpResponse {
 export class ProtocolTranslator {
   acpToSdk(message: AcpMessage): { prompt: string; config?: EnhancedServerConfig } {
     return {
-      prompt: message.data?.prompt || '',
+      prompt: message.data?.message || message.data?.prompt || '',
       config: message.data?.config
     };
   }

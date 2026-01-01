@@ -56,6 +56,7 @@ export class DockerSandbox {
           --cap-add SETGID \
           --tmpfs /tmp:rw,noexec,nosuid,size=1G \
           -v "${this.config.workspaceDir}:/workspace" \
+          -v "/workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/${this.config.userId}:/nfs" \
           -w /workspace \
           --network ${this.config.noNetwork ? 'none' : (this.config.network || 'bridge')} \
           --memory ${this.config.memory} \

@@ -65,6 +65,7 @@ export function ChatContainer() {
     socket.on(
       'message:chunk',
       (chunk: { type: string; data: { text?: string } }) => {
+        console.log('[DEBUG] team-web received message:chunk:', chunk);
         if (chunk.type === 'text' && chunk.data.text) {
           appendToCurrentMessage(chunk.data.text);
           const tokenCount = Math.ceil(chunk.data.text.length / 4);
@@ -74,11 +75,13 @@ export function ChatContainer() {
     );
 
     socket.on('message:complete', () => {
+      console.log('[DEBUG] team-web received message:complete');
       finalizeCurrentMessage();
       setStreaming(false);
     });
 
     socket.on('message:error', (error: { message: string }) => {
+      console.log('[DEBUG] team-web received message:error:', error);
       setStreaming(false);
     });
 

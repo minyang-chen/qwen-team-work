@@ -57,7 +57,21 @@ export function setupWebSocket(
       userId: socket.data.user?.userId 
     });
     
-    logger.info('Client connected');
+    // Cleanup session on disconnect
+    socket.on('disconnect', async () => {
+      const userId = socket.data.user.userId;
+      try {
+        // Send session destroy message to team-ai-agent via ACP
+        const acpClient = userSessionManager.getUserSession(userId);
+        if (acpClient) {
+          await acpClient.request('session.destroy', { userId });
+          console.log(`🐳 Sent session destroy for user ${userId} on logout`);
+        }
+      } catch (error) {
+        console.error(`🐳 Failed to destroy session for user ${userId}:`, error);
+      }
+      logger.info('Client disconnected');
+    });
 
     socket.on(
       'chat:message',
@@ -150,7 +164,9 @@ export function setupWebSocket(
           let fullResponse = '';
           const streamHandler = {
             onChunk: (chunk: string) => {
+              console.log('[DEBUG] onChunk called with chunk:', chunk);
               fullResponse += chunk;
+              console.log('[DEBUG] fullResponse now:', fullResponse);
               socket.emit('message:chunk', { 
                 type: 'text', 
                 data: { text: chunk },

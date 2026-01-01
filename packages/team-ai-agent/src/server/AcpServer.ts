@@ -15,22 +15,13 @@ export class AcpServer {
   private messageRouter: MessageRouter;
   private discoveryManager = new DiscoveryManager();
   private sessionManager: UserSessionManager;
-  private serverClient: ServerClient;
+  private serverClient?: ServerClient;
 
   constructor(port: number = 8001, agents: AgentConfig[] = []) {
     this.sessionManager = new UserSessionManager();
     
-    // CRITICAL FIX: ServerClient creates proper Config internally with all tools
-    // The Config class automatically registers ShellTool and other core tools
-    this.serverClient = new ServerClient({
-      apiKey: config.OPENAI_API_KEY,
-      baseUrl: config.OPENAI_BASE_URL,
-      model: config.OPENAI_MODEL,
-      approvalMode: 'yolo',
-      workingDirectory: process.cwd(),
-    });
-    
-    this.messageRouter = new MessageRouter(this.sessionManager, this.serverClient);
+    // Don't create global ServerClient - UserSessionManager creates per-user instances
+    this.messageRouter = new MessageRouter(this.sessionManager, null);
     this.discoveryManager.initialize(agents);
     
     // Create HTTP server for health checks

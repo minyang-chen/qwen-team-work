@@ -162,7 +162,12 @@ export class AcpClient {
     
     if (pending) {
       if (response.success) {
-        pending.resolve(response.data);
+        // For chat responses, return the full response object to preserve content
+        if ((response as any).type === 'response' && (response as any).content) {
+          pending.resolve(response);
+        } else {
+          pending.resolve(response.data);
+        }
       } else {
         console.error('ACP Request failed - Response:', JSON.stringify(response, null, 2));
         pending.reject(new Error(
