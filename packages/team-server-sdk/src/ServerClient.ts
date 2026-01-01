@@ -6,7 +6,7 @@ import {
   AuthType,
   type ToolCallRequestInfo,
   type ToolCallResponseInfo
-} from '@qwen-code/core';
+} from '@qwen-code/qwen-code-core';
 import { DockerSandbox, SandboxedToolExecutor, type DockerSandboxConfig } from '@qwen-team/shared';
 import type { EnhancedServerConfig, EnhancedQueryResult, EnhancedStreamChunk } from './types.js';
 import { OpenAIClient } from './OpenAIClient.js';

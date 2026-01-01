@@ -8,20 +8,35 @@ export function useWebSocket(url?: string) {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem('team_session_token');
+    
     socketRef.current = io(wsUrl, {
       withCredentials: true,
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       reconnectionAttempts: Infinity,
+      auth: {
+        token: token
+      }
     });
 
     socketRef.current.on('connect', () => {
+      console.log('[WebSocket] Connected to server');
       setIsConnected(true);
     });
 
     socketRef.current.on('disconnect', () => {
+      console.log('[WebSocket] Disconnected from server');
       setIsConnected(false);
+    });
+
+    socketRef.current.on('connect_error', (error) => {
+      console.error('[WebSocket] Connection error:', error);
+    });
+
+    socketRef.current.on('error', (error) => {
+      console.error('[WebSocket] Socket error:', error);
     });
 
     socketRef.current.on('reconnect', (attemptNumber) => {

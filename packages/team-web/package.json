@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@qwen-team/server-sdk": "file:../team-server-sdk",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/react-syntax-highlighter": "^15.5.13",
     "prism-react-renderer": "^2.3.0",

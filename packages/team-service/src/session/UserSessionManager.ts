@@ -174,6 +174,7 @@ export class UserSessionManager implements ISessionManager {
 
       // Send message via ACP protocol
       const response = await acpClient.request('chat.send', {
+        userId,
         sessionId,
         message,
         stream: true

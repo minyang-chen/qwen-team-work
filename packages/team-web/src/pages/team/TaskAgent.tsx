@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { API_BASE } from '../../config/api';
+import { useWebSocket } from '../../hooks/useWebSocket';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -38,6 +39,9 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string>('');
+
+  // Ensure currentSessionId is never undefined
+  const safeCurrentSessionId = currentSessionId || '';
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -46,6 +50,9 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Conversation[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // WebSocket connection for real-time AI communication
+  const { socket, isConnected: wsConnected } = useWebSocket();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -123,56 +130,109 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     scrollToBottom();
   }, [messages]);
 
+  // Handle Socket.IO AI stream chunks
   useEffect(() => {
+    if (socket && wsConnected) {
+      const handleAIStreamChunk = (data: any) => {
+        if (data.type === 'chunk' && data.messageId) {
+          setMessages(prev => prev.map(msg => 
+            msg.id === data.messageId 
+              ? { ...msg, content: msg.content + data.content }
+              : msg
+          ));
+        } else if (data.type === 'complete') {
+          setLoading(false);
+        } else if (data.type === 'error') {
+          setMessages(prev => prev.map(msg => 
+            msg.id === data.messageId 
+              ? { ...msg, content: 'Error: ' + data.message }
+              : msg
+          ));
+          setLoading(false);
+        }
+      };
+
+      socket.on('ai_stream_chunk', handleAIStreamChunk);
+
+      return () => {
+        socket.off('ai_stream_chunk', handleAIStreamChunk);
+      };
+    }
+  }, [socket, wsConnected]);
+
+  useEffect(() => {
+    console.log('[DEBUG] TaskAgent component mounted');
     // Check authentication first
     const token = localStorage.getItem('team_session_token');
     if (!token) {
+      console.log('[DEBUG] No team session token found');
       return;
     }
     
+    console.log('[DEBUG] Creating new conversation and loading list');
     // Create new conversation on mount
     createNewConversation();
     loadConversationList();
   }, []);
 
   const createNewConversation = async () => {
+    console.log('[DEBUG] createNewConversation called');
     try {
       const token = localStorage.getItem('team_session_token');
       if (!token) {
+        console.log('[DEBUG] No token in createNewConversation');
         return;
       }
       
-      // Don't create conversation yet, just set up for new session
-      setCurrentSessionId('');
+      console.log('[DEBUG] Calling createConversationOnFirstMessage');
+      // Create conversation immediately instead of waiting for first message
+      const sessionId = await createConversationOnFirstMessage();
+      if (sessionId) {
+        console.log('[DEBUG] Session created:', sessionId);
+        setCurrentSessionId(sessionId);
+      } else {
+        console.log('[DEBUG] No session ID returned');
+      }
       setMessages([]);
     } catch (error) {
+      console.error('[DEBUG] Error in createNewConversation:', error);
     }
   };
 
   const createConversationOnFirstMessage = async () => {
+    console.log('[DEBUG] createConversationOnFirstMessage started');
     try {
       const token = localStorage.getItem('team_session_token');
       if (!token) {
+        console.log('[DEBUG] No token found');
         return null;
       }
       
-      const response = await fetch(`${API_BASE}/api/conversations/new`, {
+      console.log('[DEBUG] Making POST request to /api/sessions');
+      const response = await fetch(`${API_BASE}/api/sessions`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       
+      console.log('[DEBUG] Response status:', response.status, response.ok);
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('[DEBUG] Response data:', data);
         setCurrentSessionId(data.sessionId);
         loadConversationList();
         return data.sessionId;
       } else if (response.status === 401) {
+        console.log('[DEBUG] 401 Unauthorized - redirecting to login');
         window.location.href = '/team/login';
+      } else {
+        console.log('[DEBUG] Request failed with status:', response.status);
       }
       return null;
     } catch (error) {
+      console.error('[DEBUG] Error in createConversationOnFirstMessage:', error);
       return null;
     }
   };
@@ -188,10 +248,12 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
       
       if (response.ok) {
         const data = await response.json();
-        setConversations(data.conversations);
+        setConversations(data.conversations || []);
       } else {
+        setConversations([]);
       }
     } catch (error) {
+      setConversations([]);
     }
   };
 
@@ -279,13 +341,20 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
       
       if (response.ok) {
         const data = await response.json();
-        setSearchResults(data.conversations);
+        setSearchResults(data.conversations || []);
+      } else {
+        setSearchResults([]);
       }
     } catch (error) {
+      setSearchResults([]);
     }
   };
 
   const groupConversationsByDate = (convs: Conversation[]) => {
+    if (!convs || !Array.isArray(convs)) {
+      return {};
+    }
+    
     const groups: { [key: string]: Conversation[] } = {};
     
     convs.forEach(conv => {
@@ -325,8 +394,8 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     }
 
     // Create conversation on first message if not exists
-    let sessionId = currentSessionId;
-    if (!sessionId) {
+    let sessionId = safeCurrentSessionId;
+    if (!sessionId || sessionId === '') {
       sessionId = await createConversationOnFirstMessage();
       if (!sessionId) return;
     }
@@ -339,6 +408,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const messageText = input;
     setInput('');
     setLoading(true);
 
@@ -354,62 +424,35 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     setMessages(prev => [...prev, assistantMessage]);
 
     try {
-      const response = await fetch(`${API_BASE}/api/chat/message`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ message: input })
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          window.location.href = '/team/login';
-          return;
-        }
-        throw new Error('Failed to send message');
-      }
-
-      // Handle streaming response
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || '';
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              try {
-                const data = JSON.parse(line.slice(6));
-                
-                if (data.type === 'chunk') {
-                  // Update assistant message with new chunk
-                  setMessages(prev => prev.map(msg => 
-                    msg.id === assistantMessageId 
-                      ? { ...msg, content: msg.content + data.content }
-                      : msg
-                  ));
-                } else if (data.type === 'complete') {
-                  // Streaming complete
-                  break;
-                } else if (data.type === 'error') {
-                  throw new Error(data.message);
-                }
-              } catch (parseError) {
-              }
-            }
-          }
-        }
+      // Send message via Socket.IO if connected
+      if (wsConnected && socket) {
+        console.log('[DEBUG] Sending ai_chat message:', {
+          userId: localStorage.getItem('team_username') || 'anonymous',
+          sessionId: safeCurrentSessionId,
+          message: messageText,
+          messageId: assistantMessageId
+        });
+        
+        socket.emit('ai_chat', {
+          userId: localStorage.getItem('team_username') || 'anonymous',
+          sessionId: safeCurrentSessionId,
+          message: messageText,
+          messageId: assistantMessageId
+        });
+      } else {
+        console.log('[DEBUG] WebSocket not connected. wsConnected:', wsConnected, 'socket:', !!socket);
+        // Fallback: show error message
+        const errorMessage: Message = {
+          id: (Date.now() + 2).toString(),
+          role: 'assistant',
+          content: 'WebSocket connection not available. Please refresh the page and try again.',
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev.slice(0, -1), errorMessage]);
+        setLoading(false);
       }
     } catch (error) {
+      console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: (Date.now() + 2).toString(),
         role: 'assistant',
@@ -417,7 +460,6 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
         timestamp: new Date()
       };
       setMessages(prev => [...prev.slice(0, -1), errorMessage]);
-    } finally {
       setLoading(false);
     }
   };
@@ -480,7 +522,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
               )
             ) : (
               // Grouped Conversations
-              Object.entries(groupConversationsByDate(conversations)).map(([date, convs]) => (
+              Object.entries(groupConversationsByDate(conversations || [])).map(([date, convs]) => (
                 <div key={date}>
                   <div className="px-3 py-2 bg-gray-50 text-xs font-medium text-gray-700 border-b">
                     {date}
@@ -562,7 +604,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Team Assistant</h2>
               <p className="text-sm text-gray-500">
-                Session: {currentSessionId.substring(0, 20)}
+                Session: {safeCurrentSessionId ? safeCurrentSessionId.substring(0, 20) : 'No session'}
               </p>
             </div>
             <button

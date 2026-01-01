@@ -61,6 +61,7 @@ export class AdvancedSessionManager implements ISessionService {
   }
 
   async sendMessage(sessionId: string, message: string): Promise<string> {
+    console.log('[TEAM-AI-AGENT] Received message:', { sessionId, message });
     return `Response to: ${message}`;
   }
 }

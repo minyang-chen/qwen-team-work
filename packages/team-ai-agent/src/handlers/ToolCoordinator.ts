@@ -1,5 +1,5 @@
 import { ServerClient } from '@qwen-team/server-sdk';
-import { ToolRegistry, ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-code/core';
+import { ToolRegistry, ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-team/server-sdk';
 import { DockerSandbox } from '@qwen-team/shared';
 
 export class ToolCoordinator {

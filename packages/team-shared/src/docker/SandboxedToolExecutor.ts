@@ -1,5 +1,5 @@
-import type { ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-code/core';
-import { ToolErrorType } from '@qwen-code/core';
+import type { ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-team/server-sdk';
+import { ToolErrorType } from '@qwen-team/server-sdk';
 import { DockerSandbox } from './DockerSandbox.js';
 
 export class SandboxedToolExecutor {

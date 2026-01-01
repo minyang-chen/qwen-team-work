@@ -16,10 +16,5 @@ export type {
 // Re-export shared Docker types for convenience
 export type { DockerSandboxConfig } from '@qwen-team/shared';
 
-// Re-export core types for enhanced functionality
-export type {
-  Config,
-  ToolCallRequestInfo,
-  ToolCallResponseInfo,
-  ToolRegistry
-} from '@qwen-code/core';
+// Re-export all core functionality
+export * from '@qwen-code/qwen-code-core';

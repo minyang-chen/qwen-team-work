@@ -16,7 +16,6 @@
     "@fastify/cors": "^9.0.0",
     "@qwen-team/server-sdk": "file:../team-server-sdk",
     "@qwen-team/shared": "file:../team-shared",
-    "@qwen-code/core": "file:../core",
     "dotenv": "^17.2.3",
     "fastify": "^4.25.0",
     "jsonwebtoken": "^9.0.2",

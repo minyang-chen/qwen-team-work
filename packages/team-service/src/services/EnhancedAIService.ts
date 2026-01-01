@@ -1,7 +1,7 @@
 import { ServerClient, EnhancedServerConfig, EnhancedQueryResult } from '@qwen-team/server-sdk';
 import { 
   Config
-} from '@qwen-code/core';
+} from '@qwen-team/server-sdk';
 import * as shared from '@qwen-team/shared';
 const { uiServerLogger } = shared;
 

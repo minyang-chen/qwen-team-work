@@ -1,10 +1,10 @@
-import type { Config, EditorType } from '@qwen-code/core';
+import type { Config, EditorType } from '@qwen-team/server-sdk';
 import {
   CoreToolScheduler,
   type ToolCallRequestInfo,
   type ToolCallResponseInfo,
   type CompletedToolCall,
-} from '@qwen-code/core';
+} from '@qwen-team/server-sdk';
 
 export class ToolExecutor {
   private scheduler: CoreToolScheduler;

@@ -4,7 +4,7 @@
  */
 
 import type { GenerateContentParameters } from '@google/genai';
-import type { Config } from '@qwen-code/core';
+import type { Config } from '@qwen-code/qwen-code-core';
 
 export class TeamToolInjector {
   constructor(private config: Config) {}

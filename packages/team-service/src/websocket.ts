@@ -304,6 +304,91 @@ export function setupWebSocket(
       },
     );
 
+    // AI Chat handler for WebSocket-based AI communication
+    socket.on('ai_chat', async (data: unknown) => {
+      console.log('[WEBSOCKET] Received ai_chat event:', JSON.stringify(data, null, 2));
+      const correlationId = nanoid();
+      const userId = socket.data.user.userId;
+      const requestLogger = logger.child({ correlationId });
+      
+      try {
+        // Rate limiting check
+        if (!rateLimiter.isAllowed(userId)) {
+          const error = AppError.rateLimit('Rate limit exceeded. Please wait before sending another message', correlationId);
+          socket.emit('error', error.toResponse());
+          return;
+        }
+
+        // Validate and sanitize input
+        console.log('[WEBSOCKET] Raw data received:', JSON.stringify(data, null, 2));
+        const validation = validateMessage(ChatMessageSchema, data);
+        console.log('[WEBSOCKET] Validation result:', validation);
+        if (!validation.valid) {
+          console.log('[WEBSOCKET] Validation failed:', validation.error);
+          socket.emit('error', { 
+            message: validation.error || 'Invalid message format',
+            code: 'VALIDATION_ERROR',
+            correlationId 
+          });
+          return;
+        }
+        
+        const validatedData = validation.data!;
+
+        const messageId = (data as any).messageId || nanoid();
+
+        // Create streaming handler for AI responses
+        const streamHandler = {
+          onChunk: (chunk: string) => {
+            socket.emit('ai_stream_chunk', { 
+              type: 'chunk',
+              content: chunk,
+              messageId,
+              correlationId 
+            });
+          },
+          onComplete: () => {
+            socket.emit('ai_stream_chunk', { 
+              type: 'complete',
+              messageId,
+              correlationId 
+            });
+          },
+          onError: (error: Error) => {
+            socket.emit('ai_stream_chunk', { 
+              type: 'error',
+              message: error.message,
+              messageId,
+              correlationId 
+            });
+          }
+        };
+
+        // Send message via UserSessionManager with ACP protocol
+        console.log('[WEBSOCKET] Calling sendMessageWithStreaming with:', {
+          userId: userId, // Use authenticated userId from socket
+          sessionId: validatedData.sessionId,
+          message: validatedData.message
+        });
+        
+        await userSessionManager.sendMessageWithStreaming(
+          userId, // Use authenticated userId from socket instead of validatedData.userId
+          validatedData.sessionId,
+          validatedData.message,
+          streamHandler
+        );
+
+      } catch (error) {
+        requestLogger.error('AI chat processing failed', {}, error as Error);
+        
+        const appError = error instanceof AppError ? 
+          error : 
+          AppError.internal('AI chat processing failed', correlationId);
+          
+        socket.emit('error', appError.toResponse());
+      }
+    });
+
     socket.on('tool:execute', async (data: unknown) => {
       const correlationId = nanoid();
       const userId = socket.data.user.userId;
