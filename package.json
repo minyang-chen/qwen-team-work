@@ -1,5 +1,6 @@
 {
   "name": "qwen-team-workspace",
+  "version": "1.0.8",
   "private": true,
   "workspaces": [
     "packages/team-shared",
