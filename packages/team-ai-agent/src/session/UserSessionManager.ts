@@ -1,5 +1,5 @@
 import type { ISessionManager, UserCredentials } from '@qwen-team/shared';
-import { ServerClient } from '@qwen-team/server-sdk';
+import { ServerClient } from '../server/index.js';
 import { DockerSandbox } from '@qwen-team/shared';
 import * as config from '../config/env.js';
 import { nanoid } from 'nanoid';

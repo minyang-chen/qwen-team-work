@@ -1,5 +1,6 @@
-import { ServerClient, EnhancedServerConfig, EnhancedQueryResult } from '@qwen-team/server-sdk';
-import { Config } from '@qwen-team/server-sdk';
+import type { EnhancedServerConfig, EnhancedQueryResult } from '../server/types.js';
+import { ServerClient } from '../server/ServerClient.js';
+import type { Config } from '@qwen-code/qwen-code-core';
 import { AdvancedSessionManager } from '../session/AdvancedSessionManager.js';
 
 export interface AcpMessage {

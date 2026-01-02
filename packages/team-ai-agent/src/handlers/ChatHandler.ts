@@ -1,4 +1,4 @@
-import { ServerClient, EnhancedServerConfig } from '@qwen-team/server-sdk';
+import { ServerClient, EnhancedServerConfig } from '../server/index.js';
 import { ProtocolTranslator, AcpMessage, AcpResponse } from '../protocol/ProtocolTranslator.js';
 
 export class ChatHandler {

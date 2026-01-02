@@ -1,7 +1,7 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import http from 'http';
 import { AcpMessage, AgentConfig } from '@qwen-team/shared';
-import { ServerClient } from '@qwen-team/server-sdk';
+import { ServerClient } from './ServerClient.js';
 import { MessageRouter } from './MessageRouter.js';
 import { DiscoveryManager } from '../discovery/DiscoveryManager.js';
 import { MessageValidator } from '../protocol/MessageValidator.js';

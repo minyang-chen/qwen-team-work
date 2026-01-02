@@ -1,4 +1,4 @@
-import type { ServerClient, StreamChunk } from '@qwen-team/server-sdk';
+import type { ServerClient, StreamChunk } from '@qwen-team/ai-agent';
 import type { Socket } from 'socket.io';
 import { mapErrorToStandard, ErrorCode } from '@qwen-team/shared';
 

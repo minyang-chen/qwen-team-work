@@ -15,6 +15,3 @@ export type {
 
 // Re-export shared Docker types for convenience
 export type { DockerSandboxConfig } from '@qwen-team/shared';
-
-// Re-export all core functionality
-export * from '@qwen-code/qwen-code-core';

@@ -6,6 +6,25 @@ export * from './interfaces/ISessionService.js';
 
 // Export error handling
 export * from './errors/StandardError.js';
+export { 
+  TeamError, 
+  ConfigurationError, 
+  AuthenticationError, 
+  NetworkError, 
+  ValidationError,
+  TeamErrorHandler,
+  getErrorMessage,
+  withRetry
+} from './errors/ErrorHandler.js';
+
+// Export configuration
+export * from './config/ConfigValidator.js';
+
+// Export internationalization
+export * from './i18n/I18nManager.js';
+
+// Export testing utilities (separate import to avoid vitest dependency issues)
+// export * from './testing/TestUtils.js';
 
 // Export utilities
 export * from './utils/logger.js';

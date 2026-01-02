@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "ACP server for qwen-code core integration",
-  "main": "dist/index.js",
+  "main": "dist/lib.js",
   "bin": {
     "qwen-core-agent": "dist/index.js"
   },
@@ -14,7 +14,7 @@
     "test": "node test/run-tests.js"
   },
   "dependencies": {
-    "@qwen-team/server-sdk": "file:../team-server-sdk",
+    "@qwen-code/qwen-code-core": "file:../core",
     "@qwen-team/shared": "file:../team-shared",
     "dotenv": "^16.6.1",
     "nanoid": "^5.0.0",

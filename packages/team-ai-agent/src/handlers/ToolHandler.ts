@@ -1,5 +1,5 @@
 import { AcpMessage, AcpResponse } from '@qwen-team/shared';
-import { ServerClient } from '@qwen-team/server-sdk';
+import { ServerClient } from '../server/index.js';
 import { ResponseBuilder } from '../protocol/ResponseBuilder.js';
 import { ErrorHandler } from '../protocol/ErrorHandler.js';
 

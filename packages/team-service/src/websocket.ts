@@ -209,7 +209,7 @@ export function setupWebSocket(
               console.log('[DEBUG] Using fallback with ServerClient and tools');
               
               // Create ServerClient for fallback with tools enabled
-              const { ServerClient } = await import('@qwen-team/server-sdk');
+              const { ServerClient } = await import('@qwen-team/ai-agent');
               const fallbackClient = new ServerClient({
                 apiKey: process.env['OPENAI_API_KEY'] || 'sk-svcacct-team-key',
                 baseUrl: process.env['OPENAI_BASE_URL'] || 'http://10.0.0.139:8080/v1',

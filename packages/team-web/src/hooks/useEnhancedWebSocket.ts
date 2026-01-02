@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { EnhancedStreamChunk } from '@qwen-team/server-sdk';
+import { EnhancedStreamChunk } from '@qwen-team/ai-agent';
 
 interface UseEnhancedWebSocketOptions {
   teamId?: string;

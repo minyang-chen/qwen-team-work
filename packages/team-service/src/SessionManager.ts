@@ -1,4 +1,4 @@
-import { ServerClient } from '@qwen-team/server-sdk';
+import { ServerClient } from '@qwen-team/ai-agent';
 import { nanoid } from 'nanoid';
 import type { ConversationMessage } from '@qwen-team/shared';
 import {

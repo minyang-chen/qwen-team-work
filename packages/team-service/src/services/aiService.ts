@@ -1,4 +1,4 @@
-import { ServerClient, QueryResult, StreamChunk } from '@qwen-team/server-sdk';
+import { ServerClient, QueryResult, StreamChunk } from '@qwen-team/ai-agent';
 import * as shared from '@qwen-team/shared';
 const { uiServerLogger } = shared;
 

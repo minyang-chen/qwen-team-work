@@ -1,5 +1,25 @@
-import type { ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-team/server-sdk';
-import { ToolErrorType } from '@qwen-team/server-sdk';
+// Local types to avoid heavy dependencies
+interface ToolCallRequestInfo {
+  id: string;
+  callId: string;
+  name: string;
+  parameters: any;
+}
+
+interface ToolCallResponseInfo {
+  id: string;
+  callId: string;
+  result?: any;
+  error?: Error;
+  errorType?: string;
+  responseParts?: any[];
+  resultDisplay?: string;
+}
+
+// Local enum to avoid heavy dependency
+enum ToolErrorType {
+  SHELL_EXECUTE_ERROR = 'shell_execute_error'
+}
 import { DockerSandbox } from './DockerSandbox.js';
 
 export class SandboxedToolExecutor {
@@ -33,6 +53,7 @@ export class SandboxedToolExecutor {
           const result = await this.sandbox.execute(command, signal);
           
           results.push({
+            id: request.id,
             callId: request.callId,
             responseParts: [
               {
@@ -77,6 +98,7 @@ export class SandboxedToolExecutor {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     
     return {
+      id: request.id,
       callId: request.callId,
       responseParts: [
         {

@@ -1,7 +1,7 @@
-import { ServerClient, EnhancedServerConfig, EnhancedQueryResult } from '@qwen-team/server-sdk';
+import { ServerClient, EnhancedServerConfig, EnhancedQueryResult } from '@qwen-team/ai-agent';
 import { 
   Config
-} from '@qwen-team/server-sdk';
+} from '@qwen-team/ai-agent';
 import * as shared from '@qwen-team/shared';
 const { uiServerLogger } = shared;
 

@@ -16,7 +16,9 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@qwen-team/server-sdk": "file:../team-server-sdk"
+    "@qwen-team/ai-agent": "file:../team-ai-agent",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

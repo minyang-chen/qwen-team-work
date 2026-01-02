@@ -1,5 +1,5 @@
 import { AcpMessage, AcpResponse } from '@qwen-team/shared';
-import { ServerClient } from '@qwen-team/server-sdk';
+import { ServerClient } from './ServerClient.js';
 import { ChatHandler } from '../handlers/ChatHandler.js';
 import { SessionHandler } from '../handlers/SessionHandler.js';
 import { ToolHandler } from '../handlers/ToolHandler.js';

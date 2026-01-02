@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import { EnhancedStreamChunk } from '@qwen-team/server-sdk';
+import { EnhancedStreamChunk } from '@qwen-team/ai-agent';
 
 interface CollaborativeSession {
   sessionId: string;

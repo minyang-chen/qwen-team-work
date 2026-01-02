@@ -14,7 +14,7 @@
   "dependencies": {
     "@fastify/cookie": "^9.3.0",
     "@fastify/cors": "^9.0.0",
-    "@qwen-team/server-sdk": "file:../team-server-sdk",
+    "@qwen-team/ai-agent": "file:../team-ai-agent",
     "@qwen-team/shared": "file:../team-shared",
     "dotenv": "^17.2.3",
     "fastify": "^4.25.0",

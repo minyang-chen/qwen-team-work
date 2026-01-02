@@ -14,7 +14,7 @@
     "clean": "rm -rf dist coverage"
   },
   "dependencies": {
-    "@qwen-team/server-sdk": "file:../team-server-sdk",
+    "@qwen-team/ai-agent": "file:../team-ai-agent",
     "@qwen-team/shared": "file:../team-shared"
   },
   "devDependencies": {

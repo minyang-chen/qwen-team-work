@@ -1,11 +1,11 @@
 import { 
   Config,
-  ToolRegistry,
-  CoreToolScheduler,
-  ApprovalMode,
+  ToolRegistry, 
+  CoreToolScheduler, 
+  ApprovalMode, 
   AuthType,
-  type ToolCallRequestInfo,
-  type ToolCallResponseInfo
+  ToolCallRequestInfo,
+  ToolCallResponseInfo
 } from '@qwen-code/qwen-code-core';
 import { DockerSandbox, SandboxedToolExecutor, type DockerSandboxConfig } from '@qwen-team/shared';
 import type { EnhancedServerConfig, EnhancedQueryResult, EnhancedStreamChunk } from './types.js';
@@ -13,6 +13,10 @@ import { OpenAIClient } from './OpenAIClient.js';
 
 export class ServerClient {
   private config: Config;
+
+  // Export the types that handlers need
+  static EnhancedServerConfig = {} as any;
+  static EnhancedQueryResult = {} as any;
   private client: OpenAIClient | null = null;
   private toolRegistry: ToolRegistry;
   private toolScheduler: CoreToolScheduler;
@@ -257,14 +261,14 @@ export class ServerClient {
 
     // Execute shell commands in sandbox
     if (shellRequests.length > 0 && this.sandboxedToolExecutor) {
-      const sandboxResults = await this.sandboxedToolExecutor.executeTools(shellRequests, signal);
-      results.push(...sandboxResults);
+      const sandboxResults = await this.sandboxedToolExecutor.executeTools(shellRequests as any, signal);
+      results.push(...(sandboxResults as any));
     }
 
     // Execute other tools with core scheduler
     if (otherRequests.length > 0) {
       const coreResults = await this.executeWithScheduler(otherRequests, signal);
-      results.push(...coreResults);
+      results.push(...(coreResults as any));
     }
 
     return results;

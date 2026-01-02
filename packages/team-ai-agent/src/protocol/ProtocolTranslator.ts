@@ -1,4 +1,4 @@
-import type { EnhancedServerConfig, EnhancedQueryResult, EnhancedStreamChunk } from '@qwen-team/server-sdk';
+import type { EnhancedServerConfig, EnhancedQueryResult, EnhancedStreamChunk } from '../server/index.js';
 import { StandardError, ErrorCode, mapErrorToStandard } from '@qwen-team/shared';
 
 export interface AcpMessage {

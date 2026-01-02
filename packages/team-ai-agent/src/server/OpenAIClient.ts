@@ -1,5 +1,6 @@
-import { GeminiClient, Config, type ServerGeminiStreamEvent, GeminiEventType, getCoreSystemPrompt } from '@qwen-code/qwen-code-core';
-import type { ToolCallRequestInfo } from '@qwen-code/qwen-code-core';
+import type { Config, ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-code/qwen-code-core';
+import { GeminiClient, GeminiEventType, getCoreSystemPrompt } from '@qwen-code/qwen-code-core';
+import type { ServerGeminiStreamEvent } from '@qwen-code/qwen-code-core';
 import { FinishReason } from '@google/genai';
 
 export class OpenAIClient extends GeminiClient {
