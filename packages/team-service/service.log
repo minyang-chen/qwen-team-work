@@ -7,21 +7,21 @@
   BACKEND_URL: 'http://localhost:8000',
   ACP_WEBSOCKET_URL: 'ws://localhost:8001'
 }
-[2026-01-02T11:52:30.968Z] [INFO] UI Server configuration loaded {
+[2026-01-02T12:12:38.292Z] [INFO] UI Server configuration loaded {
   port: 8002,
   env: 'development',
   baseUrl: 'http://localhost:8002',
   corsOrigin: 'http://localhost:8003'
 }
-[2026-01-02T11:52:30.968Z] [INFO] EnhancedAIService initialized {
+[2026-01-02T12:12:38.292Z] [INFO] EnhancedAIService initialized {
   agentEndpoint: 'ws://localhost:8001',
   maxSessions: 1000,
   teamFeatures: true,
   telemetry: true
 }
-[2026-01-02T11:52:30.968Z] [INFO] AI Service initialized with ACP { agentEndpoint: 'ws://localhost:8001' }
-[2026-01-02T11:52:30.969Z] [INFO] AIService initialized { model: 'qwen/qwen-coder', maxSessions: 100 }
-[2026-01-02T11:52:30.969Z] [INFO] Direct AIService initialized for shell commands
+[2026-01-02T12:12:38.292Z] [INFO] AI Service initialized with ACP { agentEndpoint: 'ws://localhost:8001' }
+[2026-01-02T12:12:38.292Z] [INFO] AIService initialized { model: 'qwen/qwen-coder', maxSessions: 100 }
+[2026-01-02T12:12:38.292Z] [INFO] Direct AIService initialized for shell commands
 🔥 INDEX.TS LOADED - TESTING COMPILATION
 Loaded 1 agent configurations
 Loaded 1 agent configurations
@@ -33,20 +33,20 @@ Loaded 1 agent configurations
 🚀 About to call app.listen()...
 🔌 Calling app.listen with port: 8002
 ✅ app.listen() returned successfully
-[2026-01-02T11:52:30.981Z] [INFO] UI Server started successfully { port: 8002, host: '0.0.0.0' }
-[2026-01-02T11:52:57.737Z] [INFO] HTTP Request {
+[2026-01-02T12:12:38.306Z] [INFO] UI Server started successfully { port: 8002, host: '0.0.0.0' }
+[2026-01-02T12:12:47.161Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
   url: '/api/auth/login',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '71ms',
+  duration: '70ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:57.755Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.180Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
@@ -58,7 +58,7 @@ Loaded 1 agent configurations
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:58.700Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.934Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
@@ -70,19 +70,19 @@ Loaded 1 agent configurations
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:58.720Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.952Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/files/list?workspace_type=team',
   userId: '695099320356ef030062423b',
   statusCode: 200,
-  duration: '6ms',
+  duration: '5ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:58.728Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.960Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
@@ -94,56 +94,56 @@ Loaded 1 agent configurations
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:58.730Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.963Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/todos',
   userId: '695099320356ef030062423b',
   statusCode: 200,
-  duration: '13ms',
+  duration: '14ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:58.735Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.965Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/user/profile',
   userId: '695099320356ef030062423b',
   statusCode: 200,
-  duration: '17ms',
+  duration: '15ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:52:58.740Z] [INFO] HTTP Request {
+[2026-01-02T12:12:47.972Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/team/active',
   userId: '695099320356ef030062423b',
   statusCode: 200,
-  duration: '7ms',
+  duration: '5ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
 [SessionRoute] Creating session with workingDirectory: /workspace
 [SessionRoute] Creating session with workingDirectory: /workspace
-[AUTH] Authenticating socket: _PNshwOHFuEDTh9jAAAC
+[AUTH] Authenticating socket: APnsS_rDdhDvcJJ_AAAC
 [AUTH] Token present: true
 [AUTH] Authentication successful for user: 695099320356ef030062423b
-[2026-01-02T11:52:59.498Z] [INFO] Client connected via optimized WebSocket
-[2026-01-02T11:52:59.507Z] [INFO] HTTP Request {
+[2026-01-02T12:12:48.687Z] [INFO] Client connected via optimized WebSocket
+[2026-01-02T12:12:48.700Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/conversations/list?limit=100',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '15ms',
+  duration: '16ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
@@ -151,38 +151,38 @@ Loaded 1 agent configurations
 Selected agent: qwen-core-primary at ws://localhost:8001
 Selected agent: qwen-core-primary at ws://localhost:8001
 Sending ACP message: {
-  "id": "sC7lsnHj08c87Cx1EKB_k",
+  "id": "dSxTUIfTg_oFhoVWcRpJ7",
   "type": "session",
   "data": {
     "action": "create",
     "userId": "695099320356ef030062423b",
     "workingDirectory": "/workspace"
   },
-  "timestamp": 1767354779521
+  "timestamp": 1767355968714
 }
 Sending ACP message: {
-  "id": "z6Mj2FvkL6pAnfazzAMm_",
+  "id": "wpGoo7AcuKbxJYMJY16HU",
   "type": "session",
   "data": {
     "action": "create",
     "userId": "695099320356ef030062423b",
     "workingDirectory": "/workspace"
   },
-  "timestamp": 1767354779521
+  "timestamp": 1767355968714
 }
 ACP Response received: {
-  "id": "sC7lsnHj08c87Cx1EKB_k",
+  "id": "wpGoo7AcuKbxJYMJY16HU",
   "success": true,
   "data": {
     "session": {
-      "sessionId": "nT-lFSm7HtGBSUmj3Wqul",
+      "sessionId": "T6Q74zyQ5QvvLg8MG1-jI",
       "userId": "695099320356ef030062423b"
     }
   },
-  "timestamp": 1767354779585
+  "timestamp": 1767355968778
 }
-Creating session for user 695099320356ef030062423b: nT-lFSm7HtGBSUmj3Wqul (attempt 1)
-[2026-01-02T11:52:59.586Z] [INFO] HTTP Request {
+Creating session for user 695099320356ef030062423b: T6Q74zyQ5QvvLg8MG1-jI (attempt 1)
+[2026-01-02T12:12:48.780Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
@@ -195,108 +195,81 @@ Creating session for user 695099320356ef030062423b: nT-lFSm7HtGBSUmj3Wqul (attem
   error: undefined
 }
 ACP Response received: {
-  "id": "z6Mj2FvkL6pAnfazzAMm_",
+  "id": "dSxTUIfTg_oFhoVWcRpJ7",
   "success": true,
   "data": {
     "session": {
-      "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
       "userId": "695099320356ef030062423b"
     }
   },
-  "timestamp": 1767354779586
+  "timestamp": 1767355968779
 }
-Creating session for user 695099320356ef030062423b: QiZfUpdSqSgTH7yTB2uzN (attempt 1)
+Creating session for user 695099320356ef030062423b: yqX6XsqupglBfDsWHNzNC (attempt 1)
 [SOCKET EVENT] ai_chat [
   {
     "userId": "demo",
-    "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-    "message": "can you use web_fetch to download content of www.google.com",
-    "messageId": "1767354781170"
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "message": "/help",
+    "messageId": "1767355972755"
   }
 ]
 [WEBSOCKET] Received ai_chat event: {
   "userId": "demo",
-  "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-  "message": "can you use web_fetch to download content of www.google.com",
-  "messageId": "1767354781170"
+  "sessionId": "yqX6XsqupglBfDsWHNzNC",
+  "message": "/help",
+  "messageId": "1767355972755"
 }
-[WEBSOCKET] Processing ai_chat for userId: 695099320356ef030062423b sessionId: QiZfUpdSqSgTH7yTB2uzN
-[WEBSOCKET] Calling aiService.processMessageStream...
-[WEBSOCKET] Got stream generator, starting iteration...
-[2026-01-02T11:53:01.171Z] [INFO] Enhanced AI session created {
-  userId: '695099320356ef030062423b',
-  teamId: undefined,
-  projectId: undefined,
-  totalSessions: 1
-}
-[AIServiceClient] streamMessage called
-Selected agent: qwen-core-primary at ws://localhost:8001
-Sending ACP message: {
-  "id": "Uf-G2IucHNAAN4yFRrAcF",
-  "type": "chat",
-  "data": {
-    "action": "send",
-    "message": "can you use web_fetch to download content of www.google.com",
-    "sessionId": "695099320356ef030062423b-individual-default",
-    "userId": "695099320356ef030062423b"
-  },
-  "timestamp": 1767354781175
-}
-[2026-01-02T11:53:01.188Z] [INFO] HTTP Request {
+[WEBSOCKET] Processing ai_chat for userId: 695099320356ef030062423b sessionId: yqX6XsqupglBfDsWHNzNC
+[WEBSOCKET] Slash command detected: /help
+[WEBSOCKET] Command executed: help
+[2026-01-02T12:12:52.774Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '9ms',
+  duration: '11ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:53:01.193Z] [INFO] HTTP Request {
+[2026-01-02T12:12:52.780Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/conversations/list?limit=100',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '3ms',
+  duration: '4ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-ACP Response received: {
-  "id": "Uf-G2IucHNAAN4yFRrAcF",
-  "success": true,
-  "timestamp": 1767354800739,
-  "type": "response",
-  "content": "I'll fetch the content of www.google.com for you using the web_fetch tool.\n\nI've analyzed the content of the Google homepage and summarized its main elements and structure. The page features a clean, minimalist design with:\n\n1. **Header/Navigation Bar**:\n   - Prominent search bar\n   - Navigation links (Images, Maps, Play, YouTube, News, Gmail, Drive)\n   - \"More »\" dropdown menu\n   - Web History and Settings links\n   - Sign in functionality\n\n2. **Search Functionality**:\n   - Main search input field\n   - Advanced search link\n\n3. **Language Options**:\n   - Google offered in: Français (French)\n\n4. **Footer Section**:\n   - Advertising services links\n   - Business Solutions\n   - About Google\n   - Google.ca (regional variation)\n   - Copyright and legal information (© 2026 - Privacy - Terms)\n\nThe structure emphasizes the search experience as the primary function, with standard navigation elements, account management features, and legal/privacy information.\n\nI've marked this task as complete in my todo list."
+[SOCKET EVENT] ai_chat [
+  {
+    "userId": "demo",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "message": "/agents",
+    "messageId": "1767355992128"
+  }
+]
+[WEBSOCKET] Received ai_chat event: {
+  "userId": "demo",
+  "sessionId": "yqX6XsqupglBfDsWHNzNC",
+  "message": "/agents",
+  "messageId": "1767355992128"
 }
-[AIServiceClient] Got content, length: 1014
-[WEBSOCKET] Received chunk: {"type":"content","text":"I'll fetch the conte"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"nt of www.google.com"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:20.752Z] [INFO] HTTP Request {
+[WEBSOCKET] Processing ai_chat for userId: 695099320356ef030062423b sessionId: yqX6XsqupglBfDsWHNzNC
+[WEBSOCKET] Slash command detected: /agents
+[AgentConfigLoader] Loaded agent configuration
+[WEBSOCKET] Command executed: agents
+[2026-01-02T12:13:12.141Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '7ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":" for you using the w"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:20.763Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'GET',
-  url: '/api/conversations/list?limit=100',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
   userId: 'anonymous',
   statusCode: 200,
   duration: '8ms',
@@ -304,352 +277,7 @@ ACP Response received: {
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":"eb_fetch tool.\n\nI've"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" analyzed the conten"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"t of the Google home"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"page and summarized "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"its main elements an"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"d structure. The pag"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"e features a clean, "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"minimalist design wi"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:20.853Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '4ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"th:\n\n1. **Header/Nav"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"igation Bar**:\n   - "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:20.869Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'GET',
-  url: '/api/conversations/list?limit=100',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '3ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"Prominent search bar"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"\n   - Navigation lin"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ks (Images, Maps, Pl"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ay, YouTube, News, G"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"mail, Drive)\n   - \"M"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ore »\" dropdown menu"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"\n   - Web History an"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"d Settings links\n   "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:20.954Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '4ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"- Sign in functional"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ity\n\n2. **Search Fun"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:20.969Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'GET',
-  url: '/api/conversations/list?limit=100',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '3ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"ctionality**:\n   - M"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ain search input fie"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ld\n   - Advanced sea"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"rch link\n\n3. **Langu"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"age Options**:\n   - "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"Google offered in: F"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"rançais (French)\n\n4."}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" **Footer Section**:"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:21.056Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '3ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"\n   - Advertising se"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"rvices links\n   - Bu"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:21.072Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'GET',
-  url: '/api/conversations/list?limit=100',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '4ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"siness Solutions\n   "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"- About Google\n   - "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"Google.ca (regional "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"variation)\n   - Copy"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"right and legal info"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"rmation (© 2026 - Pr"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ivacy - Terms)\n\nThe "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"structure emphasizes"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:21.160Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '3ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":" the search experien"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:21.173Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'GET',
-  url: '/api/conversations/list?limit=100',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '2ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"ce as the primary fu"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"nction, with standar"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"d navigation element"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"s, account managemen"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"t features, and lega"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"l/privacy informatio"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"n.\n\nI've marked this"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" task as complete in"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" my todo list."}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:53:21.264Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '3ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"finished"}
-[WEBSOCKET] Emitting complete
-[WEBSOCKET] Stream iteration complete
-[2026-01-02T11:53:21.267Z] [INFO] AI chat streaming completed
-Sending ACP message: {
-  "id": "Qu5MPscZE7zmXf9OkbU-T",
-  "type": "session",
-  "data": {
-    "action": "getStats",
-    "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-    "userId": "695099320356ef030062423b"
-  },
-  "timestamp": 1767354810984
-}
-ACP Response received: {
-  "id": "Qu5MPscZE7zmXf9OkbU-T",
-  "success": true,
-  "data": {
-    "stats": {
-      "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-      "userId": "695099320356ef030062423b",
-      "messageCount": 0,
-      "tokenUsage": {
-        "inputTokens": 0,
-        "outputTokens": 0,
-        "totalTokens": 0
-      },
-      "createdAt": "2026-01-02T11:52:59.586Z",
-      "lastActivity": "2026-01-02T11:52:59.586Z"
-    }
-  },
-  "timestamp": 1767354810985
-}
-[SOCKET EVENT] ai_chat [
-  {
-    "userId": "demo",
-    "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-    "message": "can you use web_fetch to download content of this url: https://forums.redflagdeals.com/best-buy-turtle-beach-burst-ii-air-white-44-99-available-online-store-free-shipping-2796771/ then provider a short summary.",
-    "messageId": "1767354867381"
-  }
-]
-[WEBSOCKET] Received ai_chat event: {
-  "userId": "demo",
-  "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-  "message": "can you use web_fetch to download content of this url: https://forums.redflagdeals.com/best-buy-turtle-beach-burst-ii-air-white-44-99-available-online-store-free-shipping-2796771/ then provider a short summary.",
-  "messageId": "1767354867381"
-}
-[WEBSOCKET] Processing ai_chat for userId: 695099320356ef030062423b sessionId: QiZfUpdSqSgTH7yTB2uzN
-[WEBSOCKET] Calling aiService.processMessageStream...
-[WEBSOCKET] Got stream generator, starting iteration...
-[AIServiceClient] streamMessage called
-Sending ACP message: {
-  "id": "Gvr6CeYvm4zX2lOdRMjN-",
-  "type": "chat",
-  "data": {
-    "action": "send",
-    "message": "can you use web_fetch to download content of this url: https://forums.redflagdeals.com/best-buy-turtle-beach-burst-ii-air-white-44-99-available-online-store-free-shipping-2796771/ then provider a short summary.",
-    "sessionId": "695099320356ef030062423b-individual-default",
-    "userId": "695099320356ef030062423b"
-  },
-  "timestamp": 1767354867382
-}
-[2026-01-02T11:54:27.397Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '5ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[2026-01-02T11:54:27.402Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'GET',
-  url: '/api/conversations/list?limit=100',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '3ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-Sending ACP message: {
-  "id": "u_jEq5fcwF2kaaXYjDYYS",
-  "type": "session",
-  "data": {
-    "action": "getStats",
-    "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-    "userId": "695099320356ef030062423b"
-  },
-  "timestamp": 1767354870986
-}
-ACP Response received: {
-  "id": "u_jEq5fcwF2kaaXYjDYYS",
-  "success": true,
-  "data": {
-    "stats": {
-      "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
-      "userId": "695099320356ef030062423b",
-      "messageCount": 0,
-      "tokenUsage": {
-        "inputTokens": 0,
-        "outputTokens": 0,
-        "totalTokens": 0
-      },
-      "createdAt": "2026-01-02T11:52:59.586Z",
-      "lastActivity": "2026-01-02T11:52:59.586Z"
-    }
-  },
-  "timestamp": 1767354870986
-}
-ACP Response received: {
-  "id": "Gvr6CeYvm4zX2lOdRMjN-",
-  "success": true,
-  "timestamp": 1767354884193,
-  "type": "response",
-  "content": "I'll use the web_fetch tool to retrieve and summarize the content from that RedFlagDeals forum post about the Best Buy Turtle Beach Burst II Air White headset.\n\nHere's a summary of the RedFlagDeals forum post about the Turtle Beach Burst II Air White headset:\n\n**Deal Summary:**\n- **Price**: Reduced from $129.99 to $44.99 (65% off)\n- **Availability**: Both online and in-store at Best Buy\n- **Shipping**: Free shipping included\n- **Requirements**: Must be logged into your My Best Buy account to access the deal\n- **Expiration**: January 8, 2026\n\nThe deal can be accessed both online (automatic discount when adding to cart) and in-store (verification required at checkout). This appears to be an exclusive Best Buy promotion for their members."
-}
-[AIServiceClient] Got content, length: 745
-[WEBSOCKET] Received chunk: {"type":"content","text":"I'll use the web_fet"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ch tool to retrieve "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.208Z] [INFO] HTTP Request {
-  method: 'RequestLogger.logRequest',
-  service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
-  statusCode: 200,
-  duration: '8ms',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
-  ip: '127.0.0.1',
-  error: undefined
-}
-[WEBSOCKET] Received chunk: {"type":"content","text":"and summarize the co"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.217Z] [INFO] HTTP Request {
+[2026-01-02T12:13:12.152Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
@@ -661,39 +289,445 @@ ACP Response received: {
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":"ntent from that RedF"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"lagDeals forum post "}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"about the Best Buy T"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"urtle Beach Burst II"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" Air White headset.\n"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"\nHere's a summary of"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" the RedFlagDeals fo"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"rum post about the T"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"urtle Beach Burst II"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.311Z] [INFO] HTTP Request {
+[2026-01-02T12:13:21.135Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
-  httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
-  userId: 'anonymous',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
   statusCode: 200,
   duration: '3ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":" Air White headset:\n"}
+[2026-01-02T12:13:22.243Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:22.792Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '2ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:23.666Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:23.852Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:24.568Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:24.758Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:25.279Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:25.683Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:26.352Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:26.519Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:27.040Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:27.889Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:28.796Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:31.424Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:31.629Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:32.288Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:32.524Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:33.021Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:33.582Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:13:33.991Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+Sending ACP message: {
+  "id": "jbGyiwyRHY36sG6O01Mbb",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356018303
+}
+ACP Response received: {
+  "id": "jbGyiwyRHY36sG6O01Mbb",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356018304
+}
+Sending ACP message: {
+  "id": "jvkXgtsvkWezBLYt9N678",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356078319
+}
+ACP Response received: {
+  "id": "jvkXgtsvkWezBLYt9N678",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356078319
+}
+Sending ACP message: {
+  "id": "P8-kkV2OvUZ19vtluhJIS",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356138401
+}
+ACP Response received: {
+  "id": "P8-kkV2OvUZ19vtluhJIS",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356138401
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[2026-01-02T12:16:16.895Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/sessions',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SOCKET EVENT] ai_chat [
+  {
+    "userId": "demo",
+    "sessionId": "",
+    "message": "what is new",
+    "messageId": "1767356176897"
+  }
+]
+[WEBSOCKET] Received ai_chat event: {
+  "userId": "demo",
+  "sessionId": "",
+  "message": "what is new",
+  "messageId": "1767356176897"
+}
+[WEBSOCKET] Processing ai_chat for userId: 695099320356ef030062423b sessionId: 
+[WEBSOCKET] Calling aiService.processMessageStream...
+[WEBSOCKET] Got stream generator, starting iteration...
+[2026-01-02T12:16:16.897Z] [INFO] Enhanced AI session created {
+  userId: '695099320356ef030062423b',
+  teamId: undefined,
+  projectId: undefined,
+  totalSessions: 1
+}
+[AIServiceClient] streamMessage called
+Selected agent: qwen-core-primary at ws://localhost:8001
+Sending ACP message: {
+  "id": "UeDukQSysMZsd8oN7NPct",
+  "type": "chat",
+  "data": {
+    "action": "send",
+    "message": "what is new",
+    "sessionId": "695099320356ef030062423b-individual-default",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356176902
+}
+[2026-01-02T12:16:16.904Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '7ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:16:16.909Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '8ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+ACP Response received: {
+  "id": "UeDukQSysMZsd8oN7NPct",
+  "success": true,
+  "timestamp": 1767356183241,
+  "type": "response",
+  "content": "Hello! I'm currently working on implementing a new feature for tracking usage metrics and exporting them to various formats. I've been analyzing the existing codebase to understand how metrics are currently handled, and I'm planning to build upon that foundation.\n\nI've identified that we need to:\n1. Research existing metrics tracking in the codebase\n2. Design the metrics collection system\n3. Implement core metrics tracking functionality\n4. Create export functionality for different formats\n\nWould you like me to proceed with implementing this feature? I can start by examining the current metrics implementation and then build the new export capabilities."
+}
+[AIServiceClient] Got content, length: 659
+[WEBSOCKET] Received chunk: {"type":"content","text":"Hello! I'm currently"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.318Z] [INFO] HTTP Request {
+[WEBSOCKET] Received chunk: {"type":"content","text":" working on implemen"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[2026-01-02T12:16:23.255Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[WEBSOCKET] Received chunk: {"type":"content","text":"ting a new feature f"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[2026-01-02T12:16:23.263Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
@@ -705,39 +739,39 @@ ACP Response received: {
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":"\n**Deal Summary:**\n-"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"or tracking usage me"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" **Price**: Reduced "}
+[WEBSOCKET] Received chunk: {"type":"content","text":"trics and exporting "}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"from $129.99 to $44."}
+[WEBSOCKET] Received chunk: {"type":"content","text":"them to various form"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"99 (65% off)\n- **Ava"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"ats. I've been analy"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ilability**: Both on"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"zing the existing co"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"line and in-store at"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"debase to understand"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" Best Buy\n- **Shippi"}
+[WEBSOCKET] Received chunk: {"type":"content","text":" how metrics are cur"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ng**: Free shipping "}
+[WEBSOCKET] Received chunk: {"type":"content","text":"rently handled, and "}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"included\n- **Require"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.415Z] [INFO] HTTP Request {
+[2026-01-02T12:16:23.356Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '3ms',
+  duration: '4ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":"ments**: Must be log"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"I'm planning to buil"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.419Z] [INFO] HTTP Request {
+[WEBSOCKET] Received chunk: {"type":"content","text":"d upon that foundati"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[2026-01-02T12:16:23.373Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
@@ -749,80 +783,155 @@ ACP Response received: {
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":"ged into your My Bes"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"on.\n\nI've identified"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"t Buy account to acc"}
+[WEBSOCKET] Received chunk: {"type":"content","text":" that we need to:\n1."}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ess the deal\n- **Exp"}
+[WEBSOCKET] Received chunk: {"type":"content","text":" Research existing m"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"iration**: January 8"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"etrics tracking in t"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":", 2026\n\nThe deal can"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"he codebase\n2. Desig"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" be accessed both on"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"n the metrics collec"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"line (automatic disc"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"tion system\n3. Imple"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"ount when adding to "}
+[WEBSOCKET] Received chunk: {"type":"content","text":"ment core metrics tr"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"cart) and in-store ("}
+[2026-01-02T12:16:23.458Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[WEBSOCKET] Received chunk: {"type":"content","text":"acking functionality"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"verification require"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"\n4. Create export fu"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[2026-01-02T11:54:44.521Z] [INFO] HTTP Request {
+[2026-01-02T12:16:23.475Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'GET',
   url: '/api/conversations/list?limit=100',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '4ms',
+  duration: '3ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[2026-01-02T11:54:44.521Z] [INFO] HTTP Request {
+[WEBSOCKET] Received chunk: {"type":"content","text":"nctionality for diff"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":"erent formats\n\nWould"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":" you like me to proc"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":"eed with implementin"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":"g this feature? I ca"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":"n start by examining"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":" the current metrics"}
+[WEBSOCKET] Emitting ai_stream_chunk
+[WEBSOCKET] Received chunk: {"type":"content","text":" implementation and "}
+[WEBSOCKET] Emitting ai_stream_chunk
+[2026-01-02T12:16:23.559Z] [INFO] HTTP Request {
   method: 'RequestLogger.logRequest',
   service: 'team-service',
   httpMethod: 'POST',
-  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN/save',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
   userId: 'anonymous',
   statusCode: 200,
-  duration: '4ms',
+  duration: '3ms',
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
   ip: '127.0.0.1',
   error: undefined
 }
-[WEBSOCKET] Received chunk: {"type":"content","text":"d at checkout). This"}
+[WEBSOCKET] Received chunk: {"type":"content","text":"then build the new e"}
 [WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":" appears to be an ex"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"clusive Best Buy pro"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"motion for their mem"}
-[WEBSOCKET] Emitting ai_stream_chunk
-[WEBSOCKET] Received chunk: {"type":"content","text":"bers."}
+[WEBSOCKET] Received chunk: {"type":"content","text":"xport capabilities."}
 [WEBSOCKET] Emitting ai_stream_chunk
 [WEBSOCKET] Received chunk: {"type":"finished"}
 [WEBSOCKET] Emitting complete
 [WEBSOCKET] Stream iteration complete
-[2026-01-02T11:54:44.580Z] [INFO] AI chat streaming completed
+[2026-01-02T12:16:23.581Z] [INFO] AI chat streaming completed
+[2026-01-02T12:16:23.582Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '2ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SOCKET EVENT] ai_chat [
+  {
+    "userId": "demo",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "message": "/stats",
+    "messageId": "1767356195534"
+  }
+]
+[WEBSOCKET] Received ai_chat event: {
+  "userId": "demo",
+  "sessionId": "yqX6XsqupglBfDsWHNzNC",
+  "message": "/stats",
+  "messageId": "1767356195534"
+}
+[WEBSOCKET] Processing ai_chat for userId: 695099320356ef030062423b sessionId: yqX6XsqupglBfDsWHNzNC
+[WEBSOCKET] Slash command detected: /stats
+[WEBSOCKET] Command executed: stats
+[2026-01-02T12:16:35.547Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:16:35.556Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
 Sending ACP message: {
-  "id": "mIc8jNhU_Vam9lVH0oKS2",
+  "id": "WhAkmLyq4SeyhXlrXElvY",
   "type": "session",
   "data": {
     "action": "getStats",
-    "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
     "userId": "695099320356ef030062423b"
   },
-  "timestamp": 1767354930992
+  "timestamp": 1767356198402
 }
 ACP Response received: {
-  "id": "mIc8jNhU_Vam9lVH0oKS2",
+  "id": "WhAkmLyq4SeyhXlrXElvY",
   "success": true,
   "data": {
     "stats": {
-      "sessionId": "QiZfUpdSqSgTH7yTB2uzN",
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
       "userId": "695099320356ef030062423b",
       "messageCount": 0,
       "tokenUsage": {
@@ -830,9 +939,871 @@ ACP Response received: {
         "outputTokens": 0,
         "totalTokens": 0
       },
-      "createdAt": "2026-01-02T11:52:59.586Z",
-      "lastActivity": "2026-01-02T11:52:59.586Z"
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
     }
   },
-  "timestamp": 1767354930992
+  "timestamp": 1767356198402
+}
+[2026-01-02T12:17:00.198Z] [INFO] Enhanced session removed {
+  userId: '695099320356ef030062423b',
+  teamId: undefined,
+  projectId: undefined,
+  remainingSessions: 0
+}
+[2026-01-02T12:17:00.198Z] [INFO] Session cleaned up on disconnect
+[2026-01-02T12:17:01.257Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/profile',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:01.268Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/team/list',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:07.676Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/team/select',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:07.689Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/teams/my-teams',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:07.692Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/files/list?workspace_type=team',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '6ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:07.696Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/user/profile',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '9ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:07.697Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/todos',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '11ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:07.698Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/team/active',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[2026-01-02T12:17:08.980Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/sessions',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[AUTH] Authenticating socket: dqvSj3bfmFdSMepHAAAF
+[AUTH] Token present: true
+[AUTH] Authentication successful for user: 695099320356ef030062423b
+[2026-01-02T12:17:08.984Z] [INFO] Client connected via optimized WebSocket
+[2026-01-02T12:17:08.985Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:17:12.105Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+Sending ACP message: {
+  "id": "gBPBRxknGL8wv2oj3lSKo",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356258401
+}
+ACP Response received: {
+  "id": "gBPBRxknGL8wv2oj3lSKo",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356258402
+}
+[2026-01-02T12:18:05.516Z] [INFO] Session cleaned up on disconnect
+[SessionRoute] Creating session with workingDirectory: /workspace
+[2026-01-02T12:18:05.521Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/sessions',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[AUTH] Authenticating socket: UDMcgop9uoh8mtwyAAAH
+[AUTH] Token present: true
+[AUTH] Authentication successful for user: 695099320356ef030062423b
+[2026-01-02T12:18:05.524Z] [INFO] Client connected via optimized WebSocket
+[2026-01-02T12:18:05.531Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '10ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:23.073Z] [INFO] Session cleaned up on disconnect
+[2026-01-02T12:18:23.412Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/profile',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:23.422Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/team/list',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:24.353Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/team/select',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:24.369Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/files/list?workspace_type=team',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:24.375Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/teams/my-teams',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '9ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:24.377Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/user/profile',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '9ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:24.377Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/todos',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '10ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:24.384Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/team/active',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[2026-01-02T12:18:25.033Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/sessions',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[2026-01-02T12:18:25.039Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '6ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[AUTH] Authenticating socket: PkBlbrtOhio3aQh-AAAK
+[AUTH] Token present: true
+[AUTH] Authentication successful for user: 695099320356ef030062423b
+[2026-01-02T12:18:25.044Z] [INFO] Client connected via optimized WebSocket
+[2026-01-02T12:18:27.053Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:27.993Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:28.953Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:29.764Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:30.700Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:31.102Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '2ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:31.291Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:32.582Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:32.757Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '2ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:33.307Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:33.498Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:37.498Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:37.831Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:18:38.141Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+Sending ACP message: {
+  "id": "rCYH38qlniMVaa8OZcRQI",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356318404
+}
+ACP Response received: {
+  "id": "rCYH38qlniMVaa8OZcRQI",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356318404
+}
+[2026-01-02T12:18:39.021Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/QiZfUpdSqSgTH7yTB2uzN',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '2ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+Sending ACP message: {
+  "id": "e2QQVD_w03QVhA0_Emdh2",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356378404
+}
+ACP Response received: {
+  "id": "e2QQVD_w03QVhA0_Emdh2",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356378404
+}
+Sending ACP message: {
+  "id": "QdgMVZd1uqwYNwnG2UyMQ",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356438444
+}
+ACP Response received: {
+  "id": "QdgMVZd1uqwYNwnG2UyMQ",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356438444
+}
+[2026-01-02T12:20:47.183Z] [INFO] Session cleaned up on disconnect
+[2026-01-02T12:20:47.440Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/profile',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '13ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:47.449Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/team/list',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:48.509Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/team/select',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '8ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:48.524Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/files/list?workspace_type=team',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '6ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:48.529Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/teams/my-teams',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '10ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:48.532Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/todos',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '12ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:48.535Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/user/profile',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '15ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:48.537Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/team/active',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[2026-01-02T12:20:49.276Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/sessions',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '1ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[SessionRoute] Creating session with workingDirectory: /workspace
+[AUTH] Authenticating socket: 41qbE96muCBzdTg-AAAN
+[AUTH] Token present: true
+[AUTH] Authentication successful for user: 695099320356ef030062423b
+[2026-01-02T12:20:49.287Z] [INFO] Client connected via optimized WebSocket
+[2026-01-02T12:20:49.294Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '18ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:51.279Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:51.314Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/YD9g7Vgwy_1g6NIdJqFt7/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '8ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:51.321Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:55.559Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:55.580Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '6ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:55.586Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:58.699Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC',
+  userId: '695099320356ef030062423b',
+  statusCode: 200,
+  duration: '5ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:58.713Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'POST',
+  url: '/api/conversations/yqX6XsqupglBfDsWHNzNC/save',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '4ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+[2026-01-02T12:20:58.718Z] [INFO] HTTP Request {
+  method: 'RequestLogger.logRequest',
+  service: 'team-service',
+  httpMethod: 'GET',
+  url: '/api/conversations/list?limit=100',
+  userId: 'anonymous',
+  statusCode: 200,
+  duration: '3ms',
+  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  ip: '127.0.0.1',
+  error: undefined
+}
+Sending ACP message: {
+  "id": "9cUJWtyHxa_iL0Ac6z3Cg",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356498445
+}
+ACP Response received: {
+  "id": "9cUJWtyHxa_iL0Ac6z3Cg",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356498445
 }

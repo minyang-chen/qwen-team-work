@@ -36,6 +36,7 @@ export * from './utils/ToolMetricsCollector.js';
 export * from './utils/ToolRetryHandler.js';
 export * from './utils/ToolTimeoutHandler.js';
 export * from './utils/ToolErrorFormatter.js';
+export * from './config/AgentConfigLoader.js';
 
 // Export Docker sandbox functionality
 export * from './docker/DockerSandboxConfig.js';

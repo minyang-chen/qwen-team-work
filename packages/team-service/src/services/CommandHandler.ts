@@ -2,6 +2,8 @@
  * Simple command handler for essential slash commands
  */
 
+import { AgentConfigLoader } from '@qwen-team/shared';
+
 interface SavedSession {
   name: string;
   userId: string;
@@ -14,10 +16,12 @@ interface SavedSession {
 export class CommandHandler {
   private commands: Map<string, (args: string[], userId: string) => Promise<string>>;
   private storageUrl: string;
+  private agentConfigLoader: AgentConfigLoader;
 
   constructor() {
     this.commands = new Map();
     this.storageUrl = process.env['STORAGE_URL'] || 'http://localhost:8000';
+    this.agentConfigLoader = new AgentConfigLoader();
     this.registerCommands();
   }
 
@@ -36,6 +40,9 @@ export class CommandHandler {
 /load_session {name} - Load saved session
 /sessions - List all saved sessions
 /delete_session {name} - Delete saved session
+/agent - Show current agent
+/agents - List all available agents
+/switch_agent {id} - Switch to a different agent
 
 Use ! prefix for direct shell commands (e.g., !ls -la)`;
     });
@@ -166,6 +173,42 @@ Features: Tool execution, Docker sandbox, Real-time streaming`;
         return `✅ Session "${name}" deleted successfully!`;
       } catch (error) {
         return `Error deleting session: ${(error as Error).message}`;
+      }
+    });
+
+    // Agent commands
+    this.commands.set('agent', async () => {
+      const activeAgent = this.agentConfigLoader.getActiveAgent();
+      return `🤖 Current Agent: ${activeAgent.name} (${activeAgent.id})
+Description: ${activeAgent.description}
+Tools: ${activeAgent.tools.length} available
+Skills: ${activeAgent.skills.join(', ')}
+Rules: ${activeAgent.rules.length} active`;
+    });
+
+    this.commands.set('agents', async () => {
+      const agents = this.agentConfigLoader.getAllAgents();
+      const list = agents.map((a: any) => 
+        `  ${a.active ? '✓' : ' '} ${a.id} - ${a.name}\n    ${a.description}\n    Tools: ${a.tools.length}, Skills: ${a.skills.length}`
+      ).join('\n\n');
+      return `Available Agents:\n\n${list}\n\nUse /switch_agent {id} to switch agents`;
+    });
+
+    this.commands.set('switch_agent', async (args) => {
+      if (args.length === 0) {
+        return 'Usage: /switch_agent {id}\nExample: /switch_agent code_assistant\n\nUse /agents to see available agents';
+      }
+      const agentId = args[0];
+      if (!agentId) {
+        return 'Error: Agent ID is required';
+      }
+      const success = this.agentConfigLoader.setActiveAgent(agentId);
+      
+      if (success) {
+        const agent = this.agentConfigLoader.getAgentById(agentId);
+        return `✅ Switched to agent: ${agent?.name || agentId}\nTools: ${agent?.tools.join(', ') || 'none'}\n\n⚠️ Note: Restart the AI agent service for changes to take effect`;
+      } else {
+        return `❌ Agent "${agentId}" not found. Use /agents to see available agents`;
       }
     });
   }

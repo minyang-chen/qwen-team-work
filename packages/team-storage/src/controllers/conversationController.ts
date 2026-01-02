@@ -29,7 +29,30 @@ export const getConversationList = async (req: Request, res: Response): Promise<
   }
 };
 
-export const switchConversation = async (req: Request, res: Response): Promise<void> => { res.json({ success: true }); };
+export const switchConversation = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = (req as any).user?.userId;
+    const { sessionId } = req.params;
+    
+    const session = await Session.findOne({ sessionId, userId });
+    
+    if (!session) {
+      res.status(404).json({ error: 'Conversation not found' });
+      return;
+    }
+    
+    res.json({
+      sessionId: session.sessionId,
+      messages: session.conversationHistory || [],
+      createdAt: session.createdAt,
+      lastActivity: session.lastActivity,
+      name: session.metadata?.name || `Chat ${new Date(session.createdAt).toLocaleDateString()}`
+    });
+  } catch (error) {
+    console.error('Switch conversation error:', error);
+    res.status(500).json({ error: 'Failed to load conversation' });
+  }
+};
 export const renameConversation = async (req: Request, res: Response): Promise<void> => { res.json({ success: true }); };
 export const deleteConversation = async (req: Request, res: Response): Promise<void> => { res.json({ success: true }); };
 export const searchConversations = async (req: Request, res: Response): Promise<void> => { res.json({ success: true }); };

@@ -7,7 +7,7 @@ Local .env exists: true
 Routes type: function isFunction: true
 MongoDB connected successfully
 Vector search, image search, and full-text search indexes created successfully for MongoDB Community Edition
-[2026-01-02T11:52:30.816Z] [INFO] Backend server started {
+[2026-01-02T12:20:36.926Z] [INFO] Backend server started {
   port: 8000,
   env: 'development',
   allowedOrigins: [
@@ -17,9 +17,5 @@ Vector search, image search, and full-text search indexes created successfully f
     'http://localhost:8003'
   ]
 }
-[2026-01-02T11:53:00.792Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-02T11:53:30.782Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-02T11:54:00.782Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-02T11:54:30.781Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-02T11:55:00.781Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-02T11:55:30.781Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T12:21:06.896Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T12:21:36.886Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }

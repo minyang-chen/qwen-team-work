@@ -316,6 +316,31 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     }
   };
 
+  const loadConversation = async (sessionId: string) => {
+    try {
+      const token = localStorage.getItem('team_session_token');
+      const response = await fetch(`${API_BASE}/api/conversations/${sessionId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setCurrentSessionId(data.sessionId);
+        const formattedMessages = (data.messages || []).map((msg: any, index: number) => ({
+          id: index.toString(),
+          role: msg.role,
+          content: msg.content,
+          timestamp: new Date(msg.timestamp)
+        }));
+        setMessages(formattedMessages);
+      }
+    } catch (error) {
+      console.error('Failed to load conversation:', error);
+    }
+  };
+
   const renameConversation = async (sessionId: string, newName: string) => {
     try {
       const token = localStorage.getItem('team_session_token');
@@ -635,6 +660,12 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
                             </div>
                           </div>
                           <div className="flex space-x-1 mt-2">
+                            <button
+                              onClick={() => loadConversation(conv.sessionId)}
+                              className="text-xs text-green-600 hover:text-green-800"
+                            >
+                              Load
+                            </button>
                             <button
                               onClick={() => startEdit(conv.sessionId, conv.name)}
                               className="text-xs text-blue-600 hover:text-blue-800"

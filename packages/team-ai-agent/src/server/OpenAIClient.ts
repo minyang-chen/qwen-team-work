@@ -2,12 +2,15 @@ import type { Config, ToolCallRequestInfo, ToolCallResponseInfo } from '@qwen-co
 import { GeminiClient, GeminiEventType, getCoreSystemPrompt } from '@qwen-code/qwen-code-core';
 import type { ServerGeminiStreamEvent } from '@qwen-code/qwen-code-core';
 import { FinishReason } from '@google/genai';
+import { AgentConfigLoader } from '@qwen-team/shared';
 
 export class OpenAIClient extends GeminiClient {
   private currentCycleHistory: Array<any> = [];
+  private agentConfigLoader: AgentConfigLoader;
   
   constructor(config: Config) {
     super(config);
+    this.agentConfigLoader = new AgentConfigLoader();
   }
 
   async *sendMessageStream(
@@ -20,12 +23,18 @@ export class OpenAIClient extends GeminiClient {
     // Check if this is a continuation (request contains functionResponse)
     const isContinuation = Array.isArray(request) && request.some(part => part.functionResponse);
     
-    // Get tools from config
+    // Get active agent configuration
+    const activeAgent = this.agentConfigLoader.getActiveAgent();
+    console.log('[OpenAIClient] Active agent:', activeAgent.name, '(' + activeAgent.id + ')');
+    
+    // Get tools from config and filter by agent's allowed tools
     const toolRegistry = (this as any).config.getToolRegistry();
     const allToolDeclarations = toolRegistry.getFunctionDeclarations();
     
-    // Use all available tools
-    const toolDeclarations = allToolDeclarations;
+    // Filter tools based on active agent configuration
+    const toolDeclarations = allToolDeclarations.filter((t: any) => 
+      activeAgent.tools.includes(t.name)
+    );
     console.log('[OpenAIClient] Using tools:', toolDeclarations.map((t: any) => t.name));
     
     // Convert to OpenAI format with proper parameters
@@ -79,7 +88,21 @@ export class OpenAIClient extends GeminiClient {
       // Get system prompt and clean it for OpenAI function calling
       const userMemory = (this as any).config.getUserMemory();
       const model = (this as any).config.getModel();
-      let systemPrompt = getCoreSystemPrompt(userMemory, model);
+      
+      // Get system prompt based on active agent configuration
+      let systemPrompt: string;
+      if (activeAgent.systemPrompt === 'default') {
+        // Use core system prompt from packages/core
+        systemPrompt = getCoreSystemPrompt(userMemory, model);
+      } else {
+        // Use agent-specific system prompt
+        systemPrompt = activeAgent.systemPrompt;
+        
+        // Add user memory if available
+        if (userMemory && userMemory.trim()) {
+          systemPrompt += `\n\n# User Memory\n${userMemory}`;
+        }
+      }
       
       // Remove Qwen-specific tool_call syntax that conflicts with OpenAI function calling
       // Replace [tool_call: ...] with generic instruction
