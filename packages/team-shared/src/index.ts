@@ -29,6 +29,13 @@ export * from './i18n/I18nManager.js';
 // Export utilities
 export * from './utils/logger.js';
 export * from './utils/errorHandler.js';
+export * from './utils/ToolRequestAdapter.js';
+export * from './utils/ToolRegistryValidator.js';
+export * from './utils/ToolOutputTruncator.js';
+export * from './utils/ToolMetricsCollector.js';
+export * from './utils/ToolRetryHandler.js';
+export * from './utils/ToolTimeoutHandler.js';
+export * from './utils/ToolErrorFormatter.js';
 
 // Export Docker sandbox functionality
 export * from './docker/DockerSandboxConfig.js';

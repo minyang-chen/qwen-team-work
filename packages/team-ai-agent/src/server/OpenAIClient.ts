@@ -30,36 +30,9 @@ export class OpenAIClient extends GeminiClient {
     
     // Convert to OpenAI format with proper parameters
     const tools = toolDeclarations.map((tool: any) => {
-      let parameters = tool.parameters || { type: "object", properties: {} };
-      
-      // Add proper parameters for essential tools
-      if (tool.name === 'write_file') {
-        parameters = {
-          type: "object",
-          properties: {
-            file_path: { type: "string", description: "The absolute path to the file to write to" },
-            content: { type: "string", description: "The content to write to the file" }
-          },
-          required: ["file_path", "content"]
-        };
-      } else if (tool.name === 'run_shell_command') {
-        parameters = {
-          type: "object",
-          properties: {
-            command: { type: "string", description: "The shell command to execute" },
-            is_background: { type: "boolean", description: "Whether to run the command in background", default: false }
-          },
-          required: ["command"]
-        };
-      } else if (tool.name === 'list_directory') {
-        parameters = {
-          type: "object",
-          properties: {
-            path: { type: "string", description: "The directory path to list" }
-          },
-          required: ["path"]
-        };
-      }
+      // Use parametersJsonSchema from the tool registry (Gemini format)
+      // and convert it to OpenAI format
+      let parameters = tool.parametersJsonSchema || tool.parameters || { type: "object", properties: {} };
       
       return {
         type: "function",
@@ -87,20 +60,7 @@ export class OpenAIClient extends GeminiClient {
         }
       }
       
-      // Add explicit instruction with context about what was done
-      const toolSummary = request.map(part => {
-        if (part.functionResponse) {
-          const response = part.functionResponse.response;
-          return `Tool ${part.functionResponse.name} completed: ${JSON.stringify(response).substring(0, 200)}`;
-        }
-        return '';
-      }).filter(Boolean).join('\n');
-      
-      this.currentCycleHistory.push({
-        role: 'system',
-        content: `The following tools have been executed successfully:\n${toolSummary}\n\nProvide a brief, natural language summary of what was accomplished. Do not output any XML tags or call more functions. Just describe what was done in 1-2 sentences.`
-      });
-      
+      // Don't add system message - let LLM naturally summarize from tool results
       messages = this.currentCycleHistory;
       console.log('[OpenAIClient] Current cycle history now has', messages.length, 'messages');
     } else {
@@ -148,7 +108,7 @@ export class OpenAIClient extends GeminiClient {
       messages: messages,
       // Don't send tools in continuation - we want text summary only
       tools: isContinuation ? undefined : (tools.length > 0 ? tools : undefined),
-      tool_choice: isContinuation ? undefined : (tools.length > 0 ? "auto" : undefined)
+      tool_choice: isContinuation ? "none" : (tools.length > 0 ? "auto" : undefined)
     };
 
     console.log('[OpenAIClient] Using model:', (this as any).config.getModel());

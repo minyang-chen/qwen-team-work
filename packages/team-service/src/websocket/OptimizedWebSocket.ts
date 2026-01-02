@@ -1,6 +1,7 @@
 import type { Server as SocketServer, Socket } from 'socket.io';
 import type { UserSessionManager } from '../session/UserSessionManager.js';
 import type { EnhancedAIService } from '../services/EnhancedAIService.js';
+import { CommandHandler } from '../services/CommandHandler.js';
 import { uiServerLogger, AppError, ErrorCode } from '@qwen-team/shared';
 import jwt from 'jsonwebtoken';
 import { nanoid } from 'nanoid';
@@ -49,6 +50,9 @@ export function setupWebSocket(
 ) {
   // Apply authentication middleware
   io.use(authenticateSocket);
+  
+  // Initialize command handler
+  const commandHandler = new CommandHandler();
 
   io.on('connection', (socket: Socket) => {
     const logger = uiServerLogger.child({ 
@@ -200,6 +204,36 @@ export function setupWebSocket(
         const msgId = messageId || nanoid();
 
         console.log('[WEBSOCKET] Processing ai_chat for userId:', userId, 'sessionId:', sessionId);
+
+        // Handle slash commands
+        if (commandHandler.isCommand(message)) {
+          console.log('[WEBSOCKET] Slash command detected:', message);
+          
+          try {
+            const result = await commandHandler.execute(message, userId);
+            
+            socket.emit('ai_stream_chunk', {
+              type: 'chunk',
+              messageId: msgId,
+              content: result.output
+            });
+            socket.emit('ai_stream_chunk', {
+              type: 'complete',
+              messageId: msgId
+            });
+            
+            console.log('[WEBSOCKET] Command executed:', result.type);
+          } catch (error) {
+            console.error('[WEBSOCKET] Command error:', error);
+            socket.emit('error', {
+              messageId: msgId,
+              message: error instanceof Error ? error.message : 'Command execution failed'
+            });
+          }
+          
+          activeRequests.delete(socket.id);
+          return;
+        }
 
         // Handle direct shell commands with ! prefix
         if (message.startsWith('!')) {

@@ -23,6 +23,8 @@ import {
   sendMessage,
   getChatHistory,
 } from '../controllers/chatController.js';
+import sessionRoutes from './sessions.js';
+import { Session } from '../models/UnifiedModels.js';
 import {
   createNewConversation,
   getConversationList,
@@ -112,6 +114,9 @@ router.post('/api/teams/signin', teamSignin);
 router.post('/api/chat/message', authenticate, sendMessage);
 router.get('/api/chat/history', authenticate, getChatHistory);
 
+// Session management routes
+router.use('/api/sessions', sessionRoutes);
+
 // Conversation management routes
 router.post('/api/conversations/new', authenticate, createNewConversation);
 router.get('/api/conversations/list', authenticate, getConversationList);
@@ -119,6 +124,40 @@ router.get('/api/conversations/search', authenticate, searchConversations);
 router.get('/api/conversations/:sessionId', authenticate, switchConversation);
 router.put('/api/conversations/:sessionId/rename', authenticate, renameConversation);
 router.delete('/api/conversations/:sessionId', authenticate, deleteConversation);
+
+// Auto-save conversation
+router.post('/api/conversations/:sessionId/save', authenticate, async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const { messages } = req.body;
+    const userId = (req as any).user?.userId;
+    
+    await Session.updateOne(
+      { sessionId },
+      { 
+        $set: { 
+          conversationHistory: messages,
+          lastActivity: new Date()
+        },
+        $setOnInsert: {
+          sessionId,
+          userId,
+          status: 'active',
+          workspacePath: '',
+          tokenUsage: { input: 0, output: 0, total: 0 },
+          metadata: {},
+          createdAt: new Date()
+        }
+      },
+      { upsert: true }
+    );
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Save conversation error:', error);
+    res.status(500).json({ message: 'Failed to save conversation' });
+  }
+});
 
 // Team member routes
 router.get('/api/teams/:teamId/members', authenticate, getTeamMembers);

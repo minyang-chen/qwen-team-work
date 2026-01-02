@@ -465,6 +465,52 @@ app.post('/api/auth/logout', async (request, reply) => {
   return { success: true };
 });
 
+// Proxy conversation save to team-storage
+app.post('/api/conversations/:sessionId/save', async (request, reply) => {
+  try {
+    const { sessionId } = request.params as { sessionId: string };
+    const token = request.headers.authorization;
+    
+    const storageUrl = process.env['STORAGE_URL'] || 'http://localhost:8000';
+    const response = await fetch(`${storageUrl}/api/conversations/${sessionId}/save`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token || ''
+      },
+      body: JSON.stringify(request.body)
+    });
+    
+    const data = await response.json();
+    reply.code(response.status).send(data);
+  } catch (error) {
+    console.error('Proxy save error:', error);
+    reply.code(500).send({ message: 'Failed to save conversation' });
+  }
+});
+
+// Proxy conversation list to team-storage
+app.get('/api/conversations/list', async (request, reply) => {
+  try {
+    const token = request.headers.authorization;
+    const query = request.query as { limit?: string };
+    const limit = query.limit || '100';
+    
+    const storageUrl = process.env['STORAGE_URL'] || 'http://localhost:8000';
+    const response = await fetch(`${storageUrl}/api/conversations/list?limit=${limit}`, {
+      headers: {
+        'Authorization': token || ''
+      }
+    });
+    
+    const data = await response.json();
+    reply.code(response.status).send(data);
+  } catch (error) {
+    console.error('Proxy list error:', error);
+    reply.code(500).send({ conversations: [] });
+  }
+});
+
 // Session routes moved to routes/sessions.ts to support Bearer token authentication
 // All session routes moved to routes/sessions.ts to avoid duplicates and support Bearer auth
 // Health check moved to routes/system.ts to avoid duplicates

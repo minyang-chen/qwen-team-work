@@ -49,6 +49,9 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const [editName, setEditName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Conversation[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [autoSave, setAutoSave] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // WebSocket connection for real-time AI communication
@@ -128,7 +131,39 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
 
   useEffect(() => {
     scrollToBottom();
+    
+    // Auto-save conversation when messages change (only if enabled)
+    if (autoSave && messages.length > 0 && safeCurrentSessionId) {
+      saveConversationToStorage();
+    }
   }, [messages]);
+
+  const saveConversationToStorage = async () => {
+    try {
+      const token = localStorage.getItem('team_session_token');
+      if (!token || !safeCurrentSessionId) return;
+
+      await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          messages: messages.map(m => ({
+            role: m.role,
+            content: m.content,
+            timestamp: m.timestamp
+          }))
+        })
+      });
+      
+      // Refresh conversation list to show updated preview
+      loadConversationList();
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+    }
+  };
 
   // Handle Socket.IO AI stream chunks
   useEffect(() => {
@@ -240,7 +275,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const loadConversationList = async () => {
     try {
       const token = localStorage.getItem('team_session_token');
-      const response = await fetch(`${API_BASE}/api/conversations/list`, {
+      const response = await fetch(`${API_BASE}/api/conversations/list?limit=100`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -464,6 +499,31 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     }
   };
 
+  const cancelRequest = () => {
+    if (socket && wsConnected) {
+      socket.emit('chat:cancel');
+    }
+    setLoading(false);
+    
+    // Remove the last assistant message if it's empty
+    setMessages(prev => {
+      const lastMsg = prev[prev.length - 1];
+      if (lastMsg && lastMsg.role === 'assistant' && !lastMsg.content.trim()) {
+        return prev.slice(0, -1);
+      }
+      return prev;
+    });
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setUploadedFiles(prev => [...prev, ...files]);
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -568,7 +628,10 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
                               {conv.name}
                             </div>
                             <div className="text-xs text-gray-500 mt-1">
-                              {conv.messageCount} messages • {new Date(conv.lastActivity).toLocaleTimeString()}
+                              {new Date(conv.lastActivity).toLocaleString()}
+                            </div>
+                            <div className="text-xs text-gray-400 mt-0.5">
+                              {conv.messageCount} messages
                             </div>
                           </div>
                           <div className="flex space-x-1 mt-2">
@@ -601,11 +664,26 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
         {/* Header */}
         <div className="border-b border-gray-200 p-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900">Team Assistant</h2>
-              <p className="text-sm text-gray-500">
+            <div className="flex items-center space-x-3">
+              <p className="text-sm text-gray-700">
                 Session: {safeCurrentSessionId ? safeCurrentSessionId.substring(0, 20) : 'No session'}
               </p>
+              <span className="text-sm">
+                {wsConnected ? (
+                  <span className="text-green-600">● Connected</span>
+                ) : (
+                  <span className="text-red-600">● Disconnected</span>
+                )}
+              </span>
+              <label className="flex items-center space-x-1 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={autoSave}
+                  onChange={(e) => setAutoSave(e.target.checked)}
+                  className="rounded"
+                />
+                <span className="text-gray-600">Auto-save</span>
+              </label>
             </div>
             <button
               onClick={() => setShowSidebar(!showSidebar)}
@@ -642,9 +720,17 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
           {loading && (
             <div className="flex justify-start">
               <div className="bg-gray-100 text-gray-900 max-w-xs lg:max-w-md px-4 py-2 rounded-lg">
-                <div className="flex items-center space-x-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
-                  <span className="text-sm">Assistant is typing...</span>
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+                    <span className="text-sm">Assistant is typing...</span>
+                  </div>
+                  <button
+                    onClick={cancelRequest}
+                    className="text-xs text-red-600 hover:text-red-800 font-medium"
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
@@ -654,6 +740,23 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
 
         {/* Input */}
         <div className="border-t border-gray-200 p-4">
+          {/* File attachments preview */}
+          {uploadedFiles.length > 0 && (
+            <div className="mb-2 flex flex-wrap gap-2">
+              {uploadedFiles.map((file, index) => (
+                <div key={index} className="flex items-center bg-gray-100 rounded px-2 py-1 text-sm">
+                  <span className="mr-2">{file.name}</span>
+                  <button
+                    onClick={() => removeFile(index)}
+                    className="text-red-600 hover:text-red-800"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          
           <div className="flex space-x-2">
             <textarea
               value={input}
@@ -663,6 +766,21 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
               className="flex-1 resize-none border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={2}
             />
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".txt,.html,.htm,.md,.js,.jsx,.ts,.tsx,.py,.java,.c,.cpp,.h,.hpp,.cs,.go,.rs,.rb,.php,.swift,.kt,.scala,.sh,.bash,.json,.xml,.yaml,.yml,.css,.scss,.sass,.sql,.pdf,.doc,.docx,.png,.jpg,.jpeg,.gif,.bmp,.svg,.webp,.mp3,.wav,.ogg,.mp4,.webm,.avi,.mov"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+              title="Upload files"
+            >
+              📎
+            </button>
             <button
               onClick={sendMessage}
               disabled={!input.trim() || loading}

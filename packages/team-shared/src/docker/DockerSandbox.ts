@@ -68,6 +68,9 @@ export class DockerSandbox {
           ${this.config.image} \
           tail -f /dev/null`);
         console.log(`🐳 ✅ Created container for session: ${this.containerName}`);
+        
+        // Create python symlink for convenience (as root)
+        await execAsync(`docker exec -u root ${this.containerName} bash -c "ln -sf /usr/bin/python3 /usr/local/bin/python"`);
       }
 
       this.isRunning = true;
