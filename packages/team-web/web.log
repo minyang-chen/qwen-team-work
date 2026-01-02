@@ -3,25 +3,11 @@
 > vite
 
 Vite config - UI Server port: 8002
+Re-optimizing dependencies because lockfile has changed
 
-  VITE v5.4.21  ready in 98 ms
+  VITE v5.4.21  ready in 117 ms
 
   ➜  Local:   http://localhost:8003/
   ➜  Network: http://192.168.1.188:8003/
+  ➜  Network: http://172.17.0.1:8003/
   ➜  Network: http://172.19.0.1:8003/
-12:08:08 AM [vite] http proxy error: /api/health
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1139:18)
-    at afterConnectMultiple (node:net:1714:7)
-12:08:08 AM [vite] http proxy error: /api/config
-AggregateError [ECONNREFUSED]: 
-    at internalConnectMultiple (node:net:1139:18)
-    at afterConnectMultiple (node:net:1714:7)
-Killed
-npm error Lifecycle script `dev` failed with error:
-npm error code 137
-npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-web
-npm error workspace @qwen-team/web@0.3.0
-npm error location /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-web
-npm error command failed
-npm error command sh -c vite

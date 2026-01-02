@@ -1,84 +1,115 @@
-import type { EnhancedServerConfig, EnhancedQueryResult } from '../server/types.js';
-import { ServerClient } from '../server/ServerClient.js';
-import type { Config } from '@qwen-code/qwen-code-core';
-import { AdvancedSessionManager } from '../session/AdvancedSessionManager.js';
-
-export interface AcpMessage {
-  id: string;
-  type: string;
-  data?: any;
-}
-
-export interface AcpResponse {
-  id: string;
-  success: boolean;
-  timestamp: number;
-  type: string;
-  content?: string;
-  toolName?: string;
-}
+import { AcpMessage, AcpResponse } from '@qwen-team/shared';
+import { AIExecutionEngine } from '../execution/AIExecutionEngine.js';
+import { ResponseBuilder } from '../protocol/ResponseBuilder.js';
+import { ErrorHandler } from '../protocol/ErrorHandler.js';
 
 export class EnhancedChatHandler {
-  private sessionManager: AdvancedSessionManager;
-  private serverClient: ServerClient;
+  constructor(
+    private aiEngine: AIExecutionEngine,
+    private responseBuilder: ResponseBuilder,
+    private errorHandler: ErrorHandler
+  ) {}
 
-  constructor(config: EnhancedServerConfig) {
-    this.sessionManager = new AdvancedSessionManager();
-    this.serverClient = new ServerClient(config);
-  }
-
-  async initialize(): Promise<void> {
-    await this.serverClient.initialize();
-  }
-
-  async handleMessage(message: AcpMessage): Promise<AcpResponse> {
+  async handleChatMessage(message: AcpMessage): Promise<AcpResponse> {
+    console.log('[EnhancedChatHandler] Received chat message:', JSON.stringify(message, null, 2));
     try {
-      const result = await this.serverClient.query(message.data.prompt || '');
+      const { message: userMessage, sessionId, userId, teamId, projectId, workingDirectory } = message.data;
       
-      return {
+      console.log('[EnhancedChatHandler] Executing message with aiEngine');
+      const context = {
+        sessionId,
+        userId,
+        teamId,
+        projectId,
+        workingDirectory
+      };
+
+      const result = await this.aiEngine.executeMessage(userMessage, context);
+      
+      return this.responseBuilder.createSuccessResponse(message.id, { 
+        text: result.text,
+        usage: result.usage,
+        toolResults: result.toolResults
+      });
+    } catch (error) {
+      return this.errorHandler.createErrorResponse(
+        message.id,
+        'CHAT_EXECUTION_ERROR',
+        'Failed to execute chat message',
+        error
+      );
+    }
+  }
+
+  async *handleChatStream(message: AcpMessage): AsyncGenerator<any> {
+    try {
+      const { message: userMessage, sessionId, userId, teamId, projectId, workingDirectory } = message.data;
+      
+      const context = {
+        sessionId,
+        userId,
+        teamId,
+        projectId,
+        workingDirectory
+      };
+
+      for await (const chunk of this.aiEngine.executeMessageStream(userMessage, context)) {
+        yield {
+          id: message.id,
+          type: 'stream_chunk',
+          data: chunk
+        };
+      }
+
+      yield {
         id: message.id,
-        success: true,
-        timestamp: Date.now(),
-        type: 'response',
-        content: result.text
+        type: 'stream_complete',
+        data: { finished: true }
       };
     } catch (error) {
-      return {
+      yield {
         id: message.id,
-        success: false,
-        timestamp: Date.now(),
-        type: 'error',
-        content: error instanceof Error ? error.message : 'Unknown error'
+        type: 'stream_error',
+        data: { error: error instanceof Error ? error.message : 'Unknown error' }
       };
     }
   }
 
-  async *handleStreamingMessage(message: AcpMessage): AsyncGenerator<AcpResponse, void, unknown> {
+  async handleToolExecution(message: AcpMessage): Promise<AcpResponse> {
     try {
-      const stream = this.serverClient.queryStream(message.data.prompt || '');
+      const { toolName, parameters, sessionId, userId, teamId, projectId } = message.data;
       
-      for await (const chunk of stream) {
-        yield {
-          id: message.id,
-          success: true,
-          timestamp: Date.now(),
-          type: chunk.type,
-          content: chunk.type === 'content' ? chunk.text : undefined,
-          toolName: chunk.type === 'tool' ? chunk.toolName : undefined
-        };
-      }
-    } catch (error) {
-      yield {
-        id: message.id,
-        success: false,
-        timestamp: Date.now(),
-        type: 'error',
-        content: error instanceof Error ? error.message : 'Unknown error'
+      const context = { sessionId, userId, teamId, projectId };
+      const executor = await this.aiEngine.getToolExecutor(context);
+      
+      const toolRequest = {
+        callId: `tool-${Date.now()}`,
+        name: toolName,
+        args: parameters,
+        isClientInitiated: false,
+        prompt_id: `prompt-${Date.now()}`
       };
+
+      const results = await executor.executeTools([toolRequest], new AbortController().signal, sessionId);
+      
+      return this.responseBuilder.createSuccessResponse(message.id, { 
+        results: results.map(r => ({
+          callId: r.callId,
+          result: r.resultDisplay,
+          error: r.error?.message
+        }))
+      });
+    } catch (error) {
+      return this.errorHandler.createErrorResponse(
+        message.id,
+        'TOOL_EXECUTION_ERROR',
+        'Failed to execute tool',
+        error
+      );
     }
   }
 
   async cleanup(): Promise<void> {
-    await this.serverClient.cleanup();
+    await this.aiEngine.cleanupAll();
   }
 }

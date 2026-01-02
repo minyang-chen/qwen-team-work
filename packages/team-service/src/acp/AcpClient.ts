@@ -113,13 +113,14 @@ export class AcpClient {
         reject(error);
       }
 
-      // Request timeout
+      // Request timeout (configurable via env, default 120 seconds)
+      const timeoutMs = parseInt(process.env['ACP_REQUEST_TIMEOUT'] || '120000');
       setTimeout(() => {
         if (this.pendingRequests.has(id)) {
           this.pendingRequests.delete(id);
-          reject(new Error(`Request timeout for ${type}`));
+          reject(new Error(`Request timeout for ${type} after ${timeoutMs}ms`));
         }
-      }, 30000);
+      }, timeoutMs);
     });
   }
 
@@ -229,6 +230,73 @@ export class AcpClient {
 
   isConnected(): boolean {
     return this.connectionState === 'connected' && this.ws?.readyState === WebSocket.OPEN;
+  }
+
+  async *stream(type: 'chat.stream', payload: any): AsyncGenerator<any> {
+    if (this.connectionState !== 'connected') {
+      await this.ensureConnection();
+    }
+
+    const id = nanoid();
+    const message: ExtendedAcpMessage = {
+      id,
+      type: 'chat' as any,
+      data: { action: 'stream', ...payload },
+      timestamp: Date.now()
+    };
+
+    console.log('Sending ACP stream request:', JSON.stringify(message, null, 2));
+
+    // Set up listener for stream chunks
+    const chunks: any[] = [];
+    let streamComplete = false;
+    let streamError: Error | null = null;
+
+    const messageHandler = (event: any) => {
+      try {
+        const data = typeof event.data === 'string' ? event.data : new TextDecoder().decode(event.data as ArrayBuffer);
+        const response: any = JSON.parse(data);
+        
+        if (response.id === id) {
+          if (response.type === 'stream_chunk') {
+            chunks.push(response.data);
+          } else if (response.type === 'stream_complete') {
+            streamComplete = true;
+          } else if (response.type === 'stream_error') {
+            streamError = new Error(response.data?.error || 'Stream error');
+            streamComplete = true;
+          }
+        }
+      } catch (error) {
+        console.error('Failed to parse stream response:', error);
+      }
+    };
+
+    this.ws!.addEventListener('message', messageHandler);
+
+    try {
+      this.ws!.send(JSON.stringify(message));
+
+      // Yield chunks as they arrive
+      while (!streamComplete) {
+        if (chunks.length > 0) {
+          yield chunks.shift();
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
+
+        if (streamError) {
+          throw streamError;
+        }
+      }
+
+      // Yield remaining chunks
+      while (chunks.length > 0) {
+        yield chunks.shift();
+      }
+    } finally {
+      this.ws!.removeEventListener('message', messageHandler);
+    }
   }
 }
 

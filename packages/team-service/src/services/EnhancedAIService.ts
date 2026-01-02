@@ -1,12 +1,8 @@
-import { ServerClient, EnhancedServerConfig, EnhancedQueryResult } from '@qwen-team/ai-agent';
-import { 
-  Config
-} from '@qwen-team/ai-agent';
+import { AIServiceClient } from './AIServiceClient.js';
 import * as shared from '@qwen-team/shared';
 const { uiServerLogger } = shared;
 
 interface EnhancedClientSession {
-  client: ServerClient;
   userId: string;
   teamId?: string;
   projectId?: string;
@@ -41,9 +37,7 @@ interface EnhancedMessageContext {
 }
 
 interface EnhancedAIServiceConfig {
-  apiKey: string;
-  baseUrl?: string;
-  model?: string;
+  agentEndpoint: string;
   sessionTimeout?: number;
   maxSessions?: number;
   enableTelemetry?: boolean;
@@ -54,6 +48,7 @@ export class EnhancedAIService {
   private sessions = new Map<string, EnhancedClientSession>();
   private config: EnhancedAIServiceConfig;
   private cleanupInterval: NodeJS.Timeout;
+  private aiClient: AIServiceClient;
   private telemetryService?: any;
   private authService?: any;
 
@@ -66,6 +61,13 @@ export class EnhancedAIService {
       ...config,
     };
 
+    // Initialize AI service client
+    this.aiClient = new AIServiceClient({
+      agentEndpoint: this.config.agentEndpoint,
+      timeout: 30000,
+      retries: 3
+    });
+
     // Initialize enhanced services
     this.setupEnhancedServices();
 
@@ -75,7 +77,7 @@ export class EnhancedAIService {
     }, 5 * 60 * 1000); // Check every 5 minutes
 
     uiServerLogger.info('EnhancedAIService initialized', {
-      model: this.config.model,
+      agentEndpoint: this.config.agentEndpoint,
       maxSessions: this.config.maxSessions,
       teamFeatures: this.config.enableTeamFeatures,
       telemetry: this.config.enableTelemetry,
@@ -94,12 +96,12 @@ export class EnhancedAIService {
     }
   }
 
-  async getClient(
+  async getOrCreateSession(
     userId: string, 
     teamId?: string, 
     projectId?: string,
     workingDirectory?: string
-  ): Promise<ServerClient> {
+  ): Promise<EnhancedClientSession> {
     const sessionKey = `${userId}-${teamId || 'individual'}-${projectId || 'default'}`;
     let session = this.sessions.get(sessionKey);
 
@@ -112,63 +114,34 @@ export class EnhancedAIService {
       // Load team context if teamId provided
       const teamContext = teamId ? await this.loadTeamContext(teamId, projectId) : undefined;
 
-      // Create enhanced client configuration
-      const clientConfig: EnhancedServerConfig = {
-        apiKey: this.config.apiKey,
-        baseUrl: this.config.baseUrl,
-        model: await this.getModelForTeam(teamId),
-        sessionId: sessionKey,
-        workingDirectory: workingDirectory || '/workspace',
-        approvalMode: 'yolo',
+      session = {
+        userId,
         teamId,
         projectId,
-        mcpServers: await this.getMCPServersForTeam(teamId),
-        toolPreferences: await this.getToolPreferences(userId, teamId),
-        collaborationMode: teamId ? 'shared' : 'individual',
+        createdAt: Date.now(),
+        lastActivity: Date.now(),
+        messageCount: 0,
+        tokenUsage: {
+          input: 0,
+          output: 0,
+          total: 0,
+        },
+        capabilities: ['compression', 'streaming', 'tools', 'collaboration'],
+        teamContext,
       };
 
-      const client = new ServerClient(clientConfig);
-
-      try {
-        await client.initialize();
-
-        session = {
-          client,
-          userId,
-          teamId,
-          projectId,
-          createdAt: Date.now(),
-          lastActivity: Date.now(),
-          messageCount: 0,
-          tokenUsage: {
-            input: 0,
-            output: 0,
-            total: 0,
-          },
-          capabilities: ['compression', 'streaming', 'tools', 'collaboration'],
-          teamContext,
-        };
-
-        this.sessions.set(sessionKey, session);
-        uiServerLogger.info('Enhanced AI client created', { 
-          userId, 
-          teamId, 
-          projectId,
-          totalSessions: this.sessions.size 
-        });
-      } catch (error) {
-        uiServerLogger.error('Failed to initialize enhanced AI client', { 
-          userId, 
-          teamId, 
-          projectId 
-        }, error as Error);
-        throw error;
-      }
+      this.sessions.set(sessionKey, session);
+      uiServerLogger.info('Enhanced AI session created', { 
+        userId, 
+        teamId, 
+        projectId,
+        totalSessions: this.sessions.size 
+      });
     }
 
     // Update last activity
     session.lastActivity = Date.now();
-    return session.client;
+    return session;
   }
 
   async processMessage(
@@ -176,23 +149,22 @@ export class EnhancedAIService {
     message: string,
     context: EnhancedMessageContext = {},
     workingDirectory?: string
-  ): Promise<EnhancedQueryResult> {
-    const client = await this.getClient(
+  ): Promise<any> {
+    const session = await this.getOrCreateSession(
       userId, 
       context.teamId, 
       context.projectId, 
       workingDirectory
     );
-    
-    const sessionKey = `${userId}-${context.teamId || 'individual'}-${context.projectId || 'default'}`;
-    const session = this.sessions.get(sessionKey)!;
 
     try {
-      // Enhanced processing with full context
-      const result = await client.query(message, {
-        sessionContext: session.teamContext ? [session.teamContext] : [],
-        mcpServers: await this.getMCPServersForTeam(context.teamId),
-        toolPreferences: await this.getToolPreferences(userId, context.teamId),
+      // Send message to AI agent via ACP
+      const result = await this.aiClient.sendMessage(message, {
+        sessionId: `${userId}-${context.teamId || 'individual'}-${context.projectId || 'default'}`,
+        userId,
+        teamId: context.teamId,
+        projectId: context.projectId,
+        workingDirectory
       });
 
       // Update session stats
@@ -208,7 +180,7 @@ export class EnhancedAIService {
       if (this.telemetryService) {
         this.telemetryService.recordInteraction(userId, {
           messageLength: message.length,
-          responseLength: result.text.length,
+          responseLength: result.text?.length || 0,
           tokenUsage: result.usage,
           teamId: context.teamId,
           projectId: context.projectId,
@@ -216,7 +188,7 @@ export class EnhancedAIService {
         });
       }
 
-      uiServerLogger.info('Enhanced message processed', {
+      uiServerLogger.info('Enhanced message processed via ACP', {
         userId,
         teamId: context.teamId,
         projectId: context.projectId,
@@ -242,24 +214,24 @@ export class EnhancedAIService {
     context: EnhancedMessageContext = {},
     workingDirectory?: string
   ): AsyncIterator<any> {
-    const client = await this.getClient(
+    const session = await this.getOrCreateSession(
       userId, 
       context.teamId, 
       context.projectId, 
       workingDirectory
     );
-    
-    const sessionKey = `${userId}-${context.teamId || 'individual'}-${context.projectId || 'default'}`;
-    const session = this.sessions.get(sessionKey)!;
 
     try {
       session.messageCount++;
       session.lastActivity = Date.now();
 
-      const stream = client.queryStream(message, {
-        sessionContext: session.teamContext ? [session.teamContext] : [],
-        mcpServers: await this.getMCPServersForTeam(context.teamId),
-        toolPreferences: await this.getToolPreferences(userId, context.teamId),
+      // Stream message via ACP
+      const stream = this.aiClient.streamMessage(message, {
+        sessionId: `${userId}-${context.teamId || 'individual'}-${context.projectId || 'default'}`,
+        userId,
+        teamId: context.teamId,
+        projectId: context.projectId,
+        workingDirectory
       });
 
       for await (const chunk of stream) {
@@ -267,7 +239,7 @@ export class EnhancedAIService {
         yield chunk;
       }
 
-      uiServerLogger.info('Enhanced stream completed', {
+      uiServerLogger.info('Enhanced stream completed via ACP', {
         userId,
         teamId: context.teamId,
         projectId: context.projectId,
@@ -295,29 +267,6 @@ export class EnhancedAIService {
     };
   }
 
-  private async getModelForTeam(teamId?: string): Promise<string> {
-    if (!teamId) return this.config.model || 'qwen-coder-plus';
-    
-    // TODO: Load team-specific model preferences
-    return this.config.model || 'qwen-coder-plus';
-  }
-
-  private async getMCPServersForTeam(teamId?: string): Promise<any> {
-    if (!teamId) return {};
-    
-    // TODO: Load team-specific MCP server configurations
-    return {};
-  }
-
-  private async getToolPreferences(userId: string, teamId?: string): Promise<any> {
-    // TODO: Load user/team tool preferences
-    return {
-      preferredShell: 'bash',
-      autoApproveTools: ['read_file', 'ls', 'grep'],
-      requireApproval: ['write_file', 'shell'],
-    };
-  }
-
   getSessionStats(userId: string, teamId?: string, projectId?: string): EnhancedClientSession | null {
     const sessionKey = `${userId}-${teamId || 'individual'}-${projectId || 'default'}`;
     return this.sessions.get(sessionKey) || null;
@@ -327,16 +276,29 @@ export class EnhancedAIService {
     return this.sessions.size;
   }
 
-  getHealthStatus() {
-    return {
-      status: 'healthy',
-      activeSessions: this.sessions.size,
-      maxSessions: this.config.maxSessions,
-      model: this.config.model,
-      teamFeatures: this.config.enableTeamFeatures,
-      telemetry: this.config.enableTelemetry,
-      timestamp: new Date().toISOString(),
-    };
+  async getHealthStatus() {
+    try {
+      const agentHealth = await this.aiClient.getHealth();
+      return {
+        status: 'healthy',
+        activeSessions: this.sessions.size,
+        maxSessions: this.config.maxSessions,
+        agentHealth,
+        teamFeatures: this.config.enableTeamFeatures,
+        telemetry: this.config.enableTelemetry,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      return {
+        status: 'degraded',
+        activeSessions: this.sessions.size,
+        maxSessions: this.config.maxSessions,
+        agentHealth: { status: 'unhealthy', error: (error as Error).message },
+        teamFeatures: this.config.enableTeamFeatures,
+        telemetry: this.config.enableTelemetry,
+        timestamp: new Date().toISOString(),
+      };
+    }
   }
 
   async removeSession(userId: string, teamId?: string, projectId?: string): Promise<boolean> {
@@ -344,24 +306,14 @@ export class EnhancedAIService {
     const session = this.sessions.get(sessionKey);
     
     if (session) {
-      try {
-        await session.client.cleanup();
-        this.sessions.delete(sessionKey);
-        uiServerLogger.info('Enhanced session removed', { 
-          userId, 
-          teamId, 
-          projectId,
-          remainingSessions: this.sessions.size 
-        });
-        return true;
-      } catch (error) {
-        uiServerLogger.error('Failed to remove enhanced session', { 
-          userId, 
-          teamId, 
-          projectId 
-        }, error as Error);
-        return false;
-      }
+      this.sessions.delete(sessionKey);
+      uiServerLogger.info('Enhanced session removed', { 
+        userId, 
+        teamId, 
+        projectId,
+        remainingSessions: this.sessions.size 
+      });
+      return true;
     }
     return false;
   }
@@ -394,10 +346,8 @@ export class EnhancedAIService {
 
     uiServerLogger.info('Shutting down EnhancedAIService', { activeSessions: this.sessions.size });
 
-    const promises = Array.from(this.sessions.values()).map((session) => 
-      this.removeSession(session.userId, session.teamId, session.projectId)
-    );
-    await Promise.all(promises);
+    await this.aiClient.disconnect();
+    this.sessions.clear();
 
     uiServerLogger.info('EnhancedAIService shutdown complete');
   }

@@ -2,9 +2,40 @@
 > @qwen-team/ai-agent@1.0.0 start
 > node dist/index.js
 
-[INFO] Starting Core Agent server { port: 8001, env: 'development', agentCount: 1 }
-[INFO] Loaded 1 agents from configuration
-[INFO] ACP Server started on port 8001
+{
+  service: 'team-ai-agent',
+  level: 'info',
+  timestamp: '2026-01-02T09:26:20.346Z',
+  message: 'Starting Enhanced AI Agent server',
+  port: 8001,
+  env: 'development',
+  agentCount: 1
+}
+{
+  service: 'team-ai-agent',
+  level: 'info',
+  timestamp: '2026-01-02T09:26:20.347Z',
+  message: 'Loaded 1 agents from configuration'
+}
+{
+  service: 'team-ai-agent',
+  level: 'info',
+  timestamp: '2026-01-02T09:26:20.348Z',
+  message: 'ACP Server started on port 8001'
+}
+{
+  service: 'team-ai-agent',
+  level: 'info',
+  timestamp: '2026-01-02T09:26:20.348Z',
+  message: 'ACP Server fully initialized and ready'
+}
+[INFO] Enhanced ACP Server fully started and initialized
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
 ToolRegistry created [
   'task',
   'list_directory',
@@ -20,12 +51,222 @@ ToolRegistry created [
   'exit_plan_mode',
   'web_fetch'
 ]
-Session created for user test-user-123
-Killed
-npm error Lifecycle script `start` failed with error:
-npm error code 137
-npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-ai-agent
-npm error workspace @qwen-team/ai-agent@1.0.0
-npm error location /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-ai-agent
-npm error command failed
-npm error command sh -c node dist/index.js
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[ServerClient] Initialized with 13 tools
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[SessionHandler] Creating session for user 695099320356ef030062423b with workingDirectory: /workspace
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Created workspace directory: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[UserSessionManager] Creating session for user 695099320356ef030062423b with workspace: /workdisk/hosting/my_qwen_code/qwen-team-work/infrastructure/nfs-data/individual/695099320356ef030062423b
+ToolRegistry created [
+  'task',
+  'list_directory',
+  'read_file',
+  'grep_search',
+  'glob',
+  'edit',
+  'write_file',
+  'read_many_files',
+  'run_shell_command',
+  'save_memory',
+  'todo_write',
+  'exit_plan_mode',
+  'web_fetch'
+]
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+[ServerClient] Initialized with 13 tools
+[UserSessionManager] Creating Docker sandbox for user 695099320356ef030062423b
+🐳 Starting sandbox for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b
+🐳 ✅ Started existing container: qwen-sandbox-695099320356ef030062423b
+[UserSessionManager] Docker sandbox created for user 695099320356ef030062423b
+Session created for user 695099320356ef030062423b

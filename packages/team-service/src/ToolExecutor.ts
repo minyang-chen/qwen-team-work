@@ -1,55 +1,12 @@
-import type { Config, EditorType } from '@qwen-team/ai-agent';
-import {
-  CoreToolScheduler,
-  type ToolCallRequestInfo,
-  type ToolCallResponseInfo,
-  type CompletedToolCall,
-} from '@qwen-team/ai-agent';
+// This file is deprecated - tool execution now handled by team-ai-agent via ACP
+// Keeping minimal interface for backward compatibility
 
 export class ToolExecutor {
-  private scheduler: CoreToolScheduler;
-
-  constructor(config: Config) {
-    this.scheduler = new CoreToolScheduler({
-      config,
-      chatRecordingService: config.getChatRecordingService(),
-      outputUpdateHandler: () => {}, // No live output for web-ui
-      onAllToolCallsComplete: async () => {}, // Handled via promise
-      onToolCallsUpdate: () => {}, // No UI updates needed
-      getPreferredEditor: (): EditorType | undefined => undefined,
-      onEditorClose: () => {},
-    });
+  constructor(config: any) {
+    console.warn('[DEPRECATED] ToolExecutor in team-service is deprecated. Tool execution now handled by team-ai-agent via ACP.');
   }
 
-  async executeTools(
-    toolRequests: ToolCallRequestInfo[],
-    signal: AbortSignal,
-  ): Promise<ToolCallResponseInfo[]> {
-    return new Promise((resolve) => {
-      const completedResults: ToolCallResponseInfo[] = [];
-
-      // Override the completion handler for this execution
-      const originalScheduler = this.scheduler;
-      const schedulerWithHandler = new CoreToolScheduler({
-        config: (originalScheduler as unknown as { config: Config }).config,
-        chatRecordingService: (
-          originalScheduler as unknown as {
-            chatRecordingService: ReturnType<Config['getChatRecordingService']>;
-          }
-        ).chatRecordingService,
-        outputUpdateHandler: () => {},
-        onAllToolCallsComplete: async (completedCalls: CompletedToolCall[]) => {
-          for (const call of completedCalls) {
-            completedResults.push(call.response);
-          }
-          resolve(completedResults);
-        },
-        onToolCallsUpdate: () => {},
-        getPreferredEditor: (): EditorType | undefined => undefined,
-        onEditorClose: () => {},
-      });
-
-      schedulerWithHandler.schedule(toolRequests, signal);
-    });
+  async executeTools(toolRequests: any[], signal: AbortSignal): Promise<any[]> {
+    throw new Error('Tool execution moved to team-ai-agent. Use AIServiceClient instead.');
   }
 }

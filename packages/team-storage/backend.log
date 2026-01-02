@@ -1,13 +1,13 @@
 
-> @qwen-team/storage@1.0.0 dev
-> tsx watch src/index.ts
+> @qwen-team/storage@1.0.0 start
+> node dist/index.js
 
 Backend loading local .env from: /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-storage/.env
 Local .env exists: true
 Routes type: function isFunction: true
 MongoDB connected successfully
 Vector search, image search, and full-text search indexes created successfully for MongoDB Community Edition
-[INFO] Backend server started {
+[2026-01-02T05:07:28.596Z] [INFO] Backend server started {
   port: 8000,
   env: 'development',
   allowedOrigins: [
@@ -17,43 +17,265 @@ Vector search, image search, and full-text search indexes created successfully f
     'http://localhost:8003'
   ]
 }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
-[DEBUG] Embedding health check request { baseUrl: 'http://10.0.0.139:11434/v1', model: 'embeddinggemma' }
+[2026-01-02T05:07:58.575Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:08:28.563Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:08:58.562Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:09:28.563Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:09:58.563Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:10:28.563Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:10:58.563Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:11:28.563Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:11:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:12:28.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:12:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:13:28.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:13:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:14:28.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:14:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:15:28.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:15:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:16:28.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:16:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:17:28.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:17:58.564Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:18:28.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:18:58.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:19:28.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:19:58.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:20:28.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:20:58.565Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:21:28.566Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:21:58.566Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:22:28.566Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:22:58.566Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:23:28.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:23:58.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:24:28.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:24:58.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:25:28.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:25:58.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:26:28.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:26:58.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:27:28.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:27:58.567Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:28:28.568Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:28:58.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:29:28.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:29:58.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:30:28.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:30:58.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:31:28.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:31:58.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:32:28.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:32:58.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:33:28.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:33:58.570Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:34:28.570Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:34:58.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:35:28.569Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:35:58.570Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:36:28.571Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:36:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:37:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:37:58.571Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:38:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:38:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:39:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:39:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:40:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:40:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:41:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:41:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:42:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:42:58.571Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:43:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:43:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:44:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:44:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:45:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:45:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:46:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:46:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:47:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:47:58.573Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:48:28.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:48:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:49:28.571Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:49:58.572Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:50:28.573Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:50:58.573Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:51:28.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:51:58.573Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:52:28.573Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:52:58.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:53:28.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:53:58.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:54:28.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:54:58.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:55:28.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:55:58.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:56:28.574Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:56:58.575Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:57:28.576Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:57:58.576Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:58:28.576Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:58:58.577Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:59:28.577Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T05:59:58.579Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:00:28.579Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:00:58.579Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:01:28.579Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:01:58.580Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:02:28.581Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:02:58.582Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:03:28.581Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:03:58.582Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:04:28.582Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:04:58.582Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:05:28.582Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:05:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:06:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:06:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:07:28.584Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:07:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:08:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:08:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:09:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:09:58.582Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:10:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:10:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:11:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:11:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:12:28.584Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:12:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:13:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:13:58.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:14:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:14:58.584Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:15:28.583Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:15:58.584Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:16:28.584Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:16:58.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:17:28.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:17:58.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:18:28.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:18:58.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:19:28.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:19:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:20:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:20:58.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:21:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:21:58.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:22:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:22:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:23:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:23:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:24:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:24:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:25:28.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:25:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:26:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:26:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:27:28.586Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:27:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:28:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:28:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:29:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:29:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:30:28.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:30:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:31:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:31:58.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:32:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:32:58.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:33:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:33:58.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:34:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:34:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:35:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:35:58.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:36:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:36:58.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:37:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:37:58.587Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:38:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:38:58.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:39:28.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:39:58.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:40:28.588Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:40:58.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:41:28.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:41:58.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:42:28.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:42:58.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:43:28.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:43:58.589Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:44:28.590Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:44:58.590Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:45:28.590Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:45:58.590Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:46:28.591Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:46:58.591Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:47:28.592Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:47:58.592Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:48:28.592Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:48:58.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:49:28.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:49:58.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:50:28.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:50:58.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:51:28.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:51:58.593Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:52:28.592Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:52:58.594Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:53:28.594Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:53:58.594Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:54:28.595Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:54:58.596Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:55:28.596Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:55:58.598Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:56:28.598Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:56:58.598Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:57:28.598Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:57:58.599Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:58:28.599Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:58:58.599Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:59:28.599Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T06:59:58.599Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:00:28.600Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:00:58.600Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:01:28.601Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:01:58.603Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:02:28.603Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:02:58.604Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:03:28.604Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:03:58.605Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:04:28.607Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:04:58.605Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:05:28.605Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:05:58.606Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:06:28.607Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:06:58.607Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:07:28.607Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:07:58.607Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:08:28.609Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:08:58.609Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:09:28.608Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:09:58.609Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:10:28.610Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:10:58.610Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:11:28.610Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:11:58.611Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:12:28.612Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:12:58.612Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:13:28.612Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:13:58.612Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-02T07:14:28.612Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+Killed
+npm error Lifecycle script `start` failed with error:
+npm error code 137
+npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-storage
+npm error workspace @qwen-team/storage@1.0.0
+npm error location /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-storage
+npm error command failed
+npm error command sh -c node dist/index.js

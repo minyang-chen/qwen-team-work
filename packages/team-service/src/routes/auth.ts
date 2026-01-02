@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { JWT_SECRET } from '../config.js';
+import { JWT_SECRET, BACKEND_URL } from '../config.js';
 
 export async function registerAuthRoutes(app: FastifyInstance) {
   // OAuth Device Flow - Initiate
@@ -24,14 +24,34 @@ export async function registerAuthRoutes(app: FastifyInstance) {
     return reply.status(501).send({ error: 'Not implemented' });
   });
 
-  // Traditional login
+  // Traditional login - proxy to team-storage
   app.post('/api/auth/login', async (request, reply) => {
-    return reply.status(501).send({ error: 'Not implemented' });
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request.body)
+      });
+      const data = await response.json();
+      return reply.status(response.status).send(data);
+    } catch (error) {
+      return reply.status(500).send({ error: 'Login failed' });
+    }
   });
 
-  // Signup
+  // Signup - proxy to team-storage
   app.post('/api/auth/signup', async (request, reply) => {
-    return reply.status(501).send({ error: 'Not implemented' });
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request.body)
+      });
+      const data = await response.json();
+      return reply.status(response.status).send(data);
+    } catch (error) {
+      return reply.status(500).send({ error: 'Signup failed' });
+    }
   });
 
   // OpenAI-compatible login

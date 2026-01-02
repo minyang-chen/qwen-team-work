@@ -34,19 +34,31 @@ logger.info('UI Server configuration loaded', {
   corsOrigin: CORS_ORIGIN
 });
 
-// Initialize AI Service
+// Initialize AI Service with ACP endpoint
+const AI_AGENT_ENDPOINT = process.env['AI_AGENT_ENDPOINT'] || 'ws://localhost:8001';
 const aiService = createAIService({
-  apiKey: OPENAI_API_KEY || '',
-  baseUrl: OPENAI_BASE_URL,
-  model: OPENAI_MODEL,
+  agentEndpoint: AI_AGENT_ENDPOINT,
   sessionTimeout: 30 * 60 * 1000, // 30 minutes
   maxSessions: 1000,
+  enableTelemetry: true,
+  enableTeamFeatures: true,
 });
 
-logger.info('AI Service initialized', {
-  model: OPENAI_MODEL,
-  baseUrl: OPENAI_BASE_URL
+logger.info('AI Service initialized with ACP', {
+  agentEndpoint: AI_AGENT_ENDPOINT
 });
+
+// Also initialize old AIService for direct shell commands (! prefix)
+import { createAIService as createDirectAIService } from './services/aiService.js';
+createDirectAIService({
+  apiKey: process.env['OPENAI_API_KEY'] || 'dummy',
+  baseUrl: AI_AGENT_ENDPOINT.replace('ws://', 'http://').replace('ws', 'http'),
+  model: process.env['OPENAI_MODEL'] || 'qwen3-coder',
+  maxSessions: 100,
+  sessionTimeout: 30 * 60 * 1000,
+});
+
+logger.info('Direct AIService initialized for shell commands');
 
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
@@ -548,7 +560,7 @@ const io = new SocketServer(app.server, {
 });
 
 console.log('🔌 Setting up WebSocket...');
-setupWebSocket(io, userSessionManager);
+setupWebSocket(io, userSessionManager, aiService);
 console.log('✅ WebSocket setup complete');
 
 // Cleanup old session.s every hour

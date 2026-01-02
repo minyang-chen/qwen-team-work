@@ -109,34 +109,56 @@ export class ServerClient {
   }): Promise<EnhancedQueryResult> {
     console.log('[ServerClient] Starting query with prompt:', prompt.substring(0, 100) + '...');
     
-    let responseText = '';
+    let beforeToolsText = '';
+    let afterToolsText = '';
     let toolResults: any[] = [];
-    let tokenUsage = { input: 0, output: 0, total: 0 };
+    let hasTools = false;
 
     // Collect all stream chunks
     for await (const chunk of this.queryStream(prompt, options)) {
+      console.log('[ServerClient] Query received chunk type:', chunk.type);
       switch (chunk.type) {
         case 'content':
-          responseText += chunk.text;
+          if (hasTools) {
+            // Content after tools (continuation response)
+            afterToolsText += chunk.text;
+          } else {
+            // Content before tools
+            beforeToolsText += chunk.text;
+          }
+          break;
+        case 'tool':
+          hasTools = true;
           break;
         case 'tool_result':
+          console.log('[ServerClient] Tool result:', chunk.toolName);
           toolResults.push({
             name: chunk.toolName,
             result: chunk.result
           });
           break;
         case 'finished':
-          // Stream is complete
+          console.log('[ServerClient] Query stream finished');
           break;
         case 'error':
           throw new Error(chunk.error || 'Unknown error');
       }
     }
 
+    // Build final response: strip <tool_call> tags from both before and after
+    let responseText = beforeToolsText.replace(/<tool_call>.*$/s, '').trim();
+    if (afterToolsText) {
+      const cleanAfterText = afterToolsText.replace(/<tool_call>.*$/s, '').trim();
+      if (cleanAfterText) {
+        responseText += (responseText ? '\n\n' : '') + cleanAfterText;
+      }
+    }
+
+    console.log('[ServerClient] Query complete. Response length:', responseText.length, 'Tool results:', toolResults.length);
     return {
       text: responseText,
       usage: {
-        input: 0, // TODO: Extract from OpenAI response
+        input: 0,
         output: 0,
         total: 0
       },
@@ -155,8 +177,7 @@ export class ServerClient {
     const stream = this.client!.sendMessageStream(
       [{ text: prompt }],
       abortController.signal,
-      promptId,
-      { isContinuation: false }
+      promptId
     );
 
     const toolRequests: ToolCallRequestInfo[] = [];
@@ -211,15 +232,24 @@ export class ServerClient {
       
       // Emit tool results
       for (const result of toolResults) {
+        const toolRequest = toolRequests.find(r => r.callId === result.callId);
         const resultText = typeof result.resultDisplay === 'string' 
           ? result.resultDisplay 
           : result.error?.message || 'Tool completed';
           
         yield {
           type: 'tool_result',
-          toolName: toolRequests.find(r => r.callId === result.callId)?.name || 'unknown',
+          toolName: toolRequest?.name || 'unknown',
           result: resultText
         };
+        
+        // For write_file, also show the written content
+        if (toolRequest?.name === 'write_file' && toolRequest.args?.content) {
+          yield {
+            type: 'content',
+            text: `\n\nCreated file with the following content:\n\`\`\`\n${toolRequest.args.content}\n\`\`\`\n`
+          };
+        }
       }
 
       // Send tool results back to LLM for continuation (like CLI does)
@@ -228,8 +258,7 @@ export class ServerClient {
         const continuationStream = this.client!.sendMessageStream(
           responseParts as any,
           abortController.signal,
-          `${promptId}-continuation`,
-          { isContinuation: true }
+          `${promptId}-continuation`
         );
 
         for await (const event of continuationStream) {
@@ -324,5 +353,39 @@ export class ServerClient {
       return this.dockerSandbox.getStatus();
     }
     return 'not-found';
+  }
+
+  async executeShellCommand(command: string): Promise<string> {
+    console.log('[ServerClient] executeShellCommand called:', command);
+    
+    // Use sandboxed executor directly if available
+    if (this.sandboxedToolExecutor) {
+      const callId = `shell-${Date.now()}`;
+      const toolRequest = {
+        id: callId,
+        callId: callId,
+        name: 'run_shell_command',
+        parameters: { command, is_background: false },
+        args: { command, is_background: false } // SandboxedToolExecutor looks for args
+      } as any;
+      
+      const abortController = new AbortController();
+      const results = await this.sandboxedToolExecutor.executeTools([toolRequest], abortController.signal);
+      console.log('[ServerClient] Sandbox execution complete:', results);
+      
+      if (results && results.length > 0) {
+        const result = results[0];
+        if (result) {
+          if (result.error) {
+            throw new Error(result.error.message);
+          }
+          if (result.resultDisplay) {
+            return result.resultDisplay;
+          }
+        }
+      }
+    }
+    
+    throw new Error('Sandbox not available or command failed');
   }
 }

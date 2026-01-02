@@ -16,6 +16,7 @@ export class AcpServer {
   private discoveryManager = new DiscoveryManager();
   private sessionManager: UserSessionManager;
   private serverClient?: ServerClient;
+  private messageHandlers = new Map<string, (msg: AcpMessage) => Promise<any>>();
 
   constructor(port: number = 8001, agents: AgentConfig[] = []) {
     this.sessionManager = new UserSessionManager();
@@ -87,6 +88,10 @@ export class AcpServer {
     });
 
     Logger.info(`ACP Server started on port ${port}`);
+  }
+
+  registerHandler(messageType: string, handler: (msg: AcpMessage) => Promise<any>): void {
+    this.messageHandlers.set(messageType, handler);
   }
 
   async start(): Promise<void> {
