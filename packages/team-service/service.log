@@ -1807,3 +1807,767 @@ ACP Response received: {
   },
   "timestamp": 1767356498445
 }
+Sending ACP message: {
+  "id": "zmUwOMOdQmN6FdrRdkCrv",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356558444
+}
+ACP Response received: {
+  "id": "zmUwOMOdQmN6FdrRdkCrv",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356558444
+}
+Sending ACP message: {
+  "id": "x2yqdfNWOmvE0Y4P8n63m",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356618524
+}
+ACP Response received: {
+  "id": "x2yqdfNWOmvE0Y4P8n63m",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356618525
+}
+Sending ACP message: {
+  "id": "g4zbDJXIzpz5DayK_XDbD",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356678525
+}
+ACP Response received: {
+  "id": "g4zbDJXIzpz5DayK_XDbD",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356678525
+}
+Sending ACP message: {
+  "id": "3X3V2qGxePX-QWW8iNElS",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356738593
+}
+ACP Response received: {
+  "id": "3X3V2qGxePX-QWW8iNElS",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356738594
+}
+Sending ACP message: {
+  "id": "1gr49kZwXyPrrCs3Q9maz",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356798593
+}
+ACP Response received: {
+  "id": "1gr49kZwXyPrrCs3Q9maz",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356798594
+}
+Sending ACP message: {
+  "id": "H7YE-bWtxiuQz6SLzYfsr",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356858594
+}
+ACP Response received: {
+  "id": "H7YE-bWtxiuQz6SLzYfsr",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356858595
+}
+Sending ACP message: {
+  "id": "VwjgxS4zP37FeDiM2MzIX",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356918618
+}
+ACP Response received: {
+  "id": "VwjgxS4zP37FeDiM2MzIX",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356918619
+}
+Sending ACP message: {
+  "id": "dg5qCcvw1-ONAgprVIqFM",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767356978618
+}
+ACP Response received: {
+  "id": "dg5qCcvw1-ONAgprVIqFM",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767356978619
+}
+Sending ACP message: {
+  "id": "_ex9vNbyZdojLyX5rLCzL",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357038671
+}
+ACP Response received: {
+  "id": "_ex9vNbyZdojLyX5rLCzL",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357038671
+}
+Sending ACP message: {
+  "id": "QzHVKrfkFl8nKjga0tiF9",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357098671
+}
+ACP Response received: {
+  "id": "QzHVKrfkFl8nKjga0tiF9",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357098671
+}
+Sending ACP message: {
+  "id": "oeirt9rQuI9LxrNZRLwGM",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357158673
+}
+ACP Response received: {
+  "id": "oeirt9rQuI9LxrNZRLwGM",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357158673
+}
+Sending ACP message: {
+  "id": "bDD3vmL5xrPez4zqRSjrd",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357218763
+}
+ACP Response received: {
+  "id": "bDD3vmL5xrPez4zqRSjrd",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357218763
+}
+Sending ACP message: {
+  "id": "2whw6MRuXrnParJd272jk",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357278764
+}
+ACP Response received: {
+  "id": "2whw6MRuXrnParJd272jk",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357278765
+}
+Sending ACP message: {
+  "id": "WFtKOpxjUZfpCYDKjBV5g",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357338829
+}
+ACP Response received: {
+  "id": "WFtKOpxjUZfpCYDKjBV5g",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357338829
+}
+Sending ACP message: {
+  "id": "KLkWIZ7TRcYF7aEjzBgja",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357398829
+}
+ACP Response received: {
+  "id": "KLkWIZ7TRcYF7aEjzBgja",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357398829
+}
+Sending ACP message: {
+  "id": "GvG6qhdvw5IvaCJX-1x8N",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357458831
+}
+ACP Response received: {
+  "id": "GvG6qhdvw5IvaCJX-1x8N",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357458831
+}
+Sending ACP message: {
+  "id": "spuEtgoJojBwYd9UUbXhQ",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357518914
+}
+ACP Response received: {
+  "id": "spuEtgoJojBwYd9UUbXhQ",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357518914
+}
+Sending ACP message: {
+  "id": "mNLsBr-UGU9CND21EOkJ8",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357578915
+}
+ACP Response received: {
+  "id": "mNLsBr-UGU9CND21EOkJ8",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357578915
+}
+Sending ACP message: {
+  "id": "kZs7g_eYruZBPKTViU22x",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357638936
+}
+ACP Response received: {
+  "id": "kZs7g_eYruZBPKTViU22x",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357638936
+}
+Sending ACP message: {
+  "id": "3Iaf1kbkSeqMtRnlYUkW4",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357698936
+}
+ACP Response received: {
+  "id": "3Iaf1kbkSeqMtRnlYUkW4",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357698937
+}
+Sending ACP message: {
+  "id": "PSA43UOqBX5bsb9W2Pn-z",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357758939
+}
+ACP Response received: {
+  "id": "PSA43UOqBX5bsb9W2Pn-z",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357758940
+}
+Sending ACP message: {
+  "id": "b2rc7k4t9d6oHb28EyqYc",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357819023
+}
+ACP Response received: {
+  "id": "b2rc7k4t9d6oHb28EyqYc",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357819024
+}
+Sending ACP message: {
+  "id": "cQIbUVbg4MFEUbCvxvO-g",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357879024
+}
+ACP Response received: {
+  "id": "cQIbUVbg4MFEUbCvxvO-g",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357879024
+}
+Sending ACP message: {
+  "id": "HUIwPeRU0KFLVJET88wzF",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357939079
+}
+ACP Response received: {
+  "id": "HUIwPeRU0KFLVJET88wzF",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357939079
+}
+Sending ACP message: {
+  "id": "2Trz4DwJ_xmbEtFdIn4q4",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767357999079
+}
+ACP Response received: {
+  "id": "2Trz4DwJ_xmbEtFdIn4q4",
+  "success": true,
+  "data": {
+    "stats": {
+      "sessionId": "yqX6XsqupglBfDsWHNzNC",
+      "userId": "695099320356ef030062423b",
+      "messageCount": 0,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "totalTokens": 0
+      },
+      "createdAt": "2026-01-02T12:12:48.779Z",
+      "lastActivity": "2026-01-02T12:12:48.779Z"
+    }
+  },
+  "timestamp": 1767357999080
+}
+Sending ACP message: {
+  "id": "D9h-diWboV42BmtalxzbH",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767358059082
+}
+ACP Response received: {
+  "id": "D9h-diWboV42BmtalxzbH",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358059083
+}
+ACP Request failed - Response: {
+  "id": "D9h-diWboV42BmtalxzbH",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358059083
+}
+Error getting session stats: Error: Session not found
+    at AcpClient.handleResponse (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:156:32)
+    at ws.onmessage (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:134:22)
+    at callListener (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:209:9)
+    at WebSocket.emit (node:events:518:28)
+    at Receiver.receiverOnMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/websocket.js:1220:20)
+    at Receiver.emit (node:events:518:28)
+    at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
+    at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
+    at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)

@@ -153,3 +153,7 @@ Session created for user 695099320356ef030062423b
 [ServerClient] Query received chunk type: finished
 [ServerClient] Query stream finished
 [ServerClient] Query complete. Response length: 659 Tool results: 0
+Cleaning up inactive session for user 695099320356ef030062423b
+🐳 Cleaning up container for user server-1767355968717
+🐳 ✅ Cleaned up container: qwen-sandbox-server-1767355968717
+Session deleted for user 695099320356ef030062423b
