@@ -24,6 +24,11 @@ interface Message {
     url: string;
     name: string;
   }>;
+  metrics?: {
+    responseTime?: number; // in milliseconds
+    tokensPerSecond?: number;
+    totalTokens?: number;
+  };
 }
 
 interface Conversation {
@@ -54,6 +59,8 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const [autoSave, setAutoSave] = useState(true);
   const [contexts, setContexts] = useState<Array<{name: string, type: string, content?: string, url?: string}>>([]);
   const [skills, setSkills] = useState<Array<{name: string, description: string}>>([]);
+  const messageStartTimes = useRef<Map<string, number>>(new Map());
+  const messageTokenCounts = useRef<Map<string, number>>(new Map());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -177,6 +184,20 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
       const handleAIStreamChunk = (data: any) => {
         if (data.type === 'chunk' && data.messageId) {
           setLoading(false); // Hide loading indicator on first chunk
+          
+          // Track first chunk time
+          if (!messageStartTimes.current.has(data.messageId)) {
+            const now = Date.now();
+            messageStartTimes.current.set(data.messageId, now);
+            console.log('[Metrics] Started tracking for message:', data.messageId, 'at', now);
+          }
+          
+          // Track token count (approximate: ~4 chars per token)
+          const currentCount = messageTokenCounts.current.get(data.messageId) || 0;
+          const newCount = currentCount + Math.ceil(data.content.length / 4);
+          messageTokenCounts.current.set(data.messageId, newCount);
+          console.log('[Metrics] Token count for', data.messageId, ':', newCount);
+          
           setMessages(prev => prev.map(msg => 
             msg.id === data.messageId 
               ? { ...msg, content: msg.content + data.content }
@@ -184,6 +205,44 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
           ));
         } else if (data.type === 'complete') {
           setLoading(false);
+          
+          // Calculate metrics
+          const startTime = messageStartTimes.current.get(data.messageId);
+          const tokenCount = messageTokenCounts.current.get(data.messageId);
+          
+          console.log('[Metrics] Complete for message:', data.messageId);
+          console.log('[Metrics] Start time:', startTime);
+          console.log('[Metrics] Token count:', tokenCount);
+          console.log('[Metrics] Current maps:', {
+            startTimes: Array.from(messageStartTimes.current.entries()),
+            tokenCounts: Array.from(messageTokenCounts.current.entries())
+          });
+          
+          if (startTime && tokenCount) {
+            const responseTime = Date.now() - startTime;
+            const tokensPerSecond = (tokenCount / responseTime) * 1000;
+            
+            console.log('[Metrics] Calculated:', { responseTime, tokensPerSecond, tokenCount });
+            
+            setMessages(prev => prev.map(msg => 
+              msg.id === data.messageId 
+                ? { 
+                    ...msg, 
+                    metrics: {
+                      responseTime,
+                      tokensPerSecond: Math.round(tokensPerSecond * 10) / 10,
+                      totalTokens: tokenCount
+                    }
+                  }
+                : msg
+            ));
+            
+            // Clean up
+            messageStartTimes.current.delete(data.messageId);
+            messageTokenCounts.current.delete(data.messageId);
+          } else {
+            console.log('[Metrics] ERROR: Missing data for metrics calculation');
+          }
         } else if (data.type === 'error') {
           setMessages(prev => prev.map(msg => 
             msg.id === data.messageId 
@@ -1094,10 +1153,10 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} group`}
             >
               <div
-                className={`px-4 py-2 rounded-lg ${
+                className={`px-4 py-2 rounded-lg relative ${
                   message.role === 'user'
                     ? 'bg-blue-600 text-white max-w-xs lg:max-w-md'
                     : 'bg-gray-100 text-gray-900 max-w-[80%]'
@@ -1105,9 +1164,45 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
               >
                 <div className="space-y-2">
                   {renderMessageContent(message)}
-                  <p className="text-xs mt-1 opacity-70">
-                    {message.timestamp.toLocaleTimeString()}
-                  </p>
+                  <div className="flex items-center justify-between text-xs mt-1 opacity-70">
+                    <span>{message.timestamp.toLocaleTimeString()}</span>
+                    {message.role === 'assistant' && message.metrics && (
+                      <span className="ml-2">
+                        {(message.metrics.responseTime / 1000).toFixed(1)}s • {message.metrics.tokensPerSecond} tok/s
+                      </span>
+                    )}
+                    {message.role === 'assistant' && !message.metrics && (
+                      <span className="ml-2 text-gray-400">No metrics</span>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Message Actions */}
+                <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity flex space-x-1">
+                  <button
+                    onClick={() => navigator.clipboard.writeText(message.content)}
+                    className={`p-1 rounded hover:bg-opacity-20 ${message.role === 'user' ? 'hover:bg-white' : 'hover:bg-gray-400'}`}
+                    title="Copy"
+                  >
+                    📋
+                  </button>
+                  <button
+                    onClick={() => {
+                      setInput(message.content);
+                      setMessages(prev => prev.filter(m => m.id !== message.id));
+                    }}
+                    className={`p-1 rounded hover:bg-opacity-20 ${message.role === 'user' ? 'hover:bg-white' : 'hover:bg-gray-400'}`}
+                    title="Edit"
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    onClick={() => setMessages(prev => prev.filter(m => m.id !== message.id))}
+                    className={`p-1 rounded hover:bg-opacity-20 ${message.role === 'user' ? 'hover:bg-white' : 'hover:bg-gray-400'}`}
+                    title="Delete"
+                  >
+                    🗑️
+                  </button>
                 </div>
               </div>
             </div>
