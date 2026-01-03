@@ -107,7 +107,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
         
         {/* Then show text content */}
         <ReactMarkdownComponent
-          className="prose prose-sm max-w-none"
+          className="prose prose-base max-w-none"
           components={{
             code({ node, inline, className, children, ...props }: any) {
               const match = /language-(\w+)/.exec(className || '');
@@ -176,6 +176,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     if (socket && wsConnected) {
       const handleAIStreamChunk = (data: any) => {
         if (data.type === 'chunk' && data.messageId) {
+          setLoading(false); // Hide loading indicator on first chunk
           setMessages(prev => prev.map(msg => 
             msg.id === data.messageId 
               ? { ...msg, content: msg.content + data.content }
@@ -1099,7 +1100,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
                 className={`px-4 py-2 rounded-lg ${
                   message.role === 'user'
                     ? 'bg-blue-600 text-white max-w-xs lg:max-w-md'
-                    : 'bg-gray-100 text-gray-900 w-full text-[80%]'
+                    : 'bg-gray-100 text-gray-900 max-w-[80%]'
                 }`}
               >
                 <div className="space-y-2">
