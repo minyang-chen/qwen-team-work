@@ -2571,3 +2571,168 @@ Error getting session stats: Error: Session not found
     at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
     at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
     at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)
+Sending ACP message: {
+  "id": "6Oik-rd-Xw5wMImt_CF5m",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767358119165
+}
+ACP Response received: {
+  "id": "6Oik-rd-Xw5wMImt_CF5m",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358119165
+}
+ACP Request failed - Response: {
+  "id": "6Oik-rd-Xw5wMImt_CF5m",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358119165
+}
+Error getting session stats: Error: Session not found
+    at AcpClient.handleResponse (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:156:32)
+    at ws.onmessage (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:134:22)
+    at callListener (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:209:9)
+    at WebSocket.emit (node:events:518:28)
+    at Receiver.receiverOnMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/websocket.js:1220:20)
+    at Receiver.emit (node:events:518:28)
+    at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
+    at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
+    at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)
+Sending ACP message: {
+  "id": "RduXW3ZnuYFL39FsKMI0a",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767358179165
+}
+ACP Response received: {
+  "id": "RduXW3ZnuYFL39FsKMI0a",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358179166
+}
+ACP Request failed - Response: {
+  "id": "RduXW3ZnuYFL39FsKMI0a",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358179166
+}
+Error getting session stats: Error: Session not found
+    at AcpClient.handleResponse (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:156:32)
+    at ws.onmessage (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:134:22)
+    at callListener (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:209:9)
+    at WebSocket.emit (node:events:518:28)
+    at Receiver.receiverOnMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/websocket.js:1220:20)
+    at Receiver.emit (node:events:518:28)
+    at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
+    at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
+    at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)
+[2026-01-02T12:50:01.281Z] [INFO] Session cleaned up on disconnect
+Sending ACP message: {
+  "id": "ck5rJb8U6o-rwqgOt7CbB",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767358239259
+}
+ACP Response received: {
+  "id": "ck5rJb8U6o-rwqgOt7CbB",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358239259
+}
+ACP Request failed - Response: {
+  "id": "ck5rJb8U6o-rwqgOt7CbB",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358239259
+}
+Error getting session stats: Error: Session not found
+    at AcpClient.handleResponse (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:156:32)
+    at ws.onmessage (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:134:22)
+    at callListener (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:209:9)
+    at WebSocket.emit (node:events:518:28)
+    at Receiver.receiverOnMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/websocket.js:1220:20)
+    at Receiver.emit (node:events:518:28)
+    at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
+    at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
+    at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)
+Sending ACP message: {
+  "id": "wjRlB6ostCJfKAtJ_rh36",
+  "type": "session",
+  "data": {
+    "action": "getStats",
+    "sessionId": "yqX6XsqupglBfDsWHNzNC",
+    "userId": "695099320356ef030062423b"
+  },
+  "timestamp": 1767358299259
+}
+ACP Response received: {
+  "id": "wjRlB6ostCJfKAtJ_rh36",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358299259
+}
+ACP Request failed - Response: {
+  "id": "wjRlB6ostCJfKAtJ_rh36",
+  "success": false,
+  "error": {
+    "code": "SESSION_NOT_FOUND",
+    "message": "Session not found"
+  },
+  "timestamp": 1767358299259
+}
+Error getting session stats: Error: Session not found
+    at AcpClient.handleResponse (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:156:32)
+    at ws.onmessage (file:///workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service/dist/acp/AcpClient.js:134:22)
+    at callListener (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/event-target.js:209:9)
+    at WebSocket.emit (node:events:518:28)
+    at Receiver.receiverOnMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/websocket.js:1220:20)
+    at Receiver.emit (node:events:518:28)
+    at Receiver.dataMessage (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:596:14)
+    at Receiver.getData (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:496:10)
+    at Receiver.startLoop (/workdisk/hosting/my_qwen_code/qwen-team-work/node_modules/ws/lib/receiver.js:167:16)
+Killed
+npm error Lifecycle script `start` failed with error:
+npm error code 137
+npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service
+npm error workspace @qwen-team/service@0.3.0
+npm error location /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-service
+npm error command failed
+npm error command sh -c node dist/index.js

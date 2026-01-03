@@ -234,6 +234,11 @@ export class UserSessionManager {
     }
   }
 
+  getConversationHistory(sessionId: string): ChatMessage[] {
+    const session = this.getSessionById(sessionId);
+    return session?.conversationHistory || [];
+  }
+
   private estimateTokenCount(text: string): number {
     // Simple token estimation: ~4 characters per token
     return Math.ceil(text.length / 4);

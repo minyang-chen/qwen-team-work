@@ -106,8 +106,10 @@ export class ServerClient {
     sessionContext?: any[];
     mcpServers?: any;
     toolPreferences?: any;
+    conversationHistory?: Array<{role: string, content: string}>;
   }): Promise<EnhancedQueryResult> {
     console.log('[ServerClient] Starting query with prompt:', prompt.substring(0, 100) + '...');
+    console.log('[ServerClient] Conversation history:', options?.conversationHistory?.length || 0, 'messages');
     
     let beforeToolsText = '';
     let afterToolsText = '';
@@ -170,14 +172,18 @@ export class ServerClient {
     sessionContext?: any[];
     mcpServers?: any;
     toolPreferences?: any;
+    conversationHistory?: Array<{role: string, content: string}>;
   }): AsyncGenerator<EnhancedStreamChunk> {
     const abortController = new AbortController();
     const promptId = `stream-${Date.now()}`;
 
+    console.log('[ServerClient] queryStream called with history:', options?.conversationHistory?.length || 0, 'messages');
+
     const stream = this.client!.sendMessageStream(
       [{ text: prompt }],
       abortController.signal,
-      promptId
+      promptId,
+      options?.conversationHistory  // Pass conversation history
     );
 
     const toolRequests: ToolCallRequestInfo[] = [];

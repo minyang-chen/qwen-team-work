@@ -16,9 +16,11 @@ export class OpenAIClient extends GeminiClient {
   async *sendMessageStream(
     request: any,
     signal: AbortSignal,
-    prompt_id: string
+    prompt_id: string,
+    conversationHistory?: Array<{role: string, content: string}>
   ): AsyncGenerator<ServerGeminiStreamEvent, any> {
     console.log('[OpenAIClient] Starting OpenAI API call...');
+    console.log('[OpenAIClient] Conversation history provided:', conversationHistory?.length || 0, 'messages');
     
     // Check if this is a continuation (request contains functionResponse)
     const isContinuation = Array.isArray(request) && request.some(part => part.functionResponse);
@@ -73,9 +75,8 @@ export class OpenAIClient extends GeminiClient {
       messages = this.currentCycleHistory;
       console.log('[OpenAIClient] Current cycle history now has', messages.length, 'messages');
     } else {
-      // New query: reset cycle history
-      console.log('[OpenAIClient] NEW QUERY - resetting cycle history (was', this.currentCycleHistory.length, 'messages)');
-      this.currentCycleHistory = [];
+      // New query: Get conversation history from session
+      console.log('[OpenAIClient] NEW QUERY');
       
       // Extract prompt text for initial call
       const promptText = Array.isArray(request) 
@@ -117,9 +118,14 @@ export class OpenAIClient extends GeminiClient {
       console.log('[OpenAIClient] Working directory:', targetDir);
       console.log('[OpenAIClient] System prompt sample:', systemPrompt.substring(0, 500));
       
+      // Use provided conversation history (from MongoDB)
+      const historyMessages = conversationHistory || [];
+      console.log('[OpenAIClient] Using', historyMessages.length, 'history messages from MongoDB');
+      
       messages = [
         { role: "system", content: systemPrompt },
-        { role: "user", content: promptText }
+        ...historyMessages,  // Include conversation history from MongoDB
+        { role: "user", content: promptText }  // Current message
       ];
       
       // Save to cycle history for continuation

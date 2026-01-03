@@ -197,10 +197,14 @@ const sessionSchema = new Schema<ISession>({
     role: { type: String, enum: ['user', 'assistant', 'system', 'tool'], required: true },
     content: { type: String, required: true },
     attachments: [{
-      fileName: { type: String, required: true },
-      fileType: { type: String, required: true },
-      filePath: { type: String, required: true },
-      contentHash: { type: String, required: true }
+      id: { type: String, required: true },
+      name: { type: String, required: true },
+      filename: { type: String, required: true },
+      type: { type: String, enum: ['image', 'video', 'audio', 'document'], required: true },
+      mimeType: { type: String, required: true },
+      size: { type: Number, required: true },
+      path: { type: String, required: true },
+      url: { type: String, required: true }
     }],
     toolCalls: [{
       callId: { type: String, required: true },

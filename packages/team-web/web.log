@@ -11,3 +11,11 @@ Vite config - UI Server port: 8002
   ➜  Network: http://172.17.0.1:8003/
   ➜  Network: http://172.19.0.1:8003/
 7:18:05 AM [vite] hmr update /src/pages/team/TaskAgent.tsx, /src/index.css
+Killed
+npm error Lifecycle script `dev` failed with error:
+npm error code 137
+npm error path /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-web
+npm error workspace @qwen-team/web@0.3.0
+npm error location /workdisk/hosting/my_qwen_code/qwen-team-work/packages/team-web
+npm error command failed
+npm error command sh -c vite

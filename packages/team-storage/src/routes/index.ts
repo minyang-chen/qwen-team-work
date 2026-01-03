@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express';
 import { Router } from 'express';
+import mongoose from 'mongoose';
 import { signup, login } from '../controllers/authController.js';
 import {
   createTeam,
@@ -24,6 +25,7 @@ import {
   getChatHistory,
 } from '../controllers/chatController.js';
 import sessionRoutes from './sessions.js';
+import attachmentRoutes from './attachments.js';
 import { Session } from '../models/UnifiedModels.js';
 import {
   createNewConversation,
@@ -81,6 +83,33 @@ router.get('/api/health', (req, res) => {
   });
 });
 
+// Debug route to check sessions
+router.get('/api/debug/sessions', authenticate, async (req, res) => {
+  try {
+    const userId = (req as any).user?.id || (req as any).user?.userId;
+    const total = await Session.countDocuments();
+    const userSessions = await Session.countDocuments({ userId });
+    const withMessages = await Session.countDocuments({ 'conversationHistory.0': { $exists: true } });
+    
+    const samples = await Session.find({ userId }).limit(3).select('sessionId userId conversationHistory');
+    
+    res.json({
+      total,
+      userSessions,
+      withMessages,
+      userId,
+      samples: samples.map(s => ({
+        sessionId: s.sessionId,
+        userId: s.userId,
+        messageCount: s.conversationHistory?.length || 0,
+        firstMessage: s.conversationHistory?.[0]?.content?.substring(0, 50)
+      }))
+    });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
 // Team selection routes
 router.get('/api/team/list', authenticate, listTeams);
 router.post('/api/team/select', authenticate, selectTeam);
@@ -117,6 +146,9 @@ router.get('/api/chat/history', authenticate, getChatHistory);
 // Session management routes
 router.use('/api/sessions', sessionRoutes);
 
+// Attachment management routes
+router.use('/api/attachments', attachmentRoutes);
+
 // Conversation management routes
 router.post('/api/conversations/new', authenticate, createNewConversation);
 router.get('/api/conversations/list', authenticate, getConversationList);
@@ -130,18 +162,20 @@ router.post('/api/conversations/:sessionId/save', authenticate, async (req, res)
   try {
     const { sessionId } = req.params;
     const { messages } = req.body;
-    const userId = (req as any).user?.userId;
+    const userId = (req as any).user?.id || (req as any).user?.userId;
+    
+    console.log('[AUTO-SAVE] Saving conversation:', sessionId, 'userId:', userId, 'messages:', messages?.length);
     
     await Session.updateOne(
       { sessionId },
       { 
         $set: { 
           conversationHistory: messages,
-          lastActivity: new Date()
+          lastActivity: new Date(),
+          userId: new mongoose.Types.ObjectId(userId)  // Convert to ObjectId
         },
         $setOnInsert: {
           sessionId,
-          userId,
           status: 'active',
           workspacePath: '',
           tokenUsage: { input: 0, output: 0, total: 0 },

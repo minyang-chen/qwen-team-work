@@ -16,8 +16,10 @@ export class MessageRouter {
   private responseBuilder: ResponseBuilder;
   private errorHandler: ErrorHandler;
   private translator: ProtocolTranslator;
+  private sessionManager: UserSessionManager;
 
   constructor(sessionManager: UserSessionManager, serverClient: ServerClient | null) {
+    this.sessionManager = sessionManager;
     this.responseBuilder = new ResponseBuilder();
     this.errorHandler = new ErrorHandler();
     this.translator = new ProtocolTranslator();
@@ -63,9 +65,29 @@ export class MessageRouter {
             );
           }
           
-          // Use user's ServerClient for chat
+          // Get conversation history from UserSessionManager
+          const history = this.sessionManager.getConversationHistory(sessionData.sessionId);
+          console.log('[MessageRouter] Loaded', history.length, 'messages from session history');
+          
+          // Convert to OpenAI format
+          const conversationHistory = history.map(msg => ({
+            role: msg.role === 'system' ? 'system' : (msg.role === 'user' ? 'user' : 'assistant'),
+            content: msg.content
+          }));
+          
+          // Add user message to history
+          const userMessage = normalizedMessage.data?.message || '';
+          this.sessionManager.addMessageToHistory(sessionData.sessionId, 'user', userMessage);
+          
+          // Use user's ServerClient for chat with conversation history
           const { prompt } = this.translator.acpToSdk(normalizedMessage);
-          const result = await sessionData.client.query(prompt);
+          const result = await sessionData.client.query(prompt, { conversationHistory });
+          
+          // Add assistant response to history
+          if (result.text) {
+            this.sessionManager.addMessageToHistory(sessionData.sessionId, 'assistant', result.text);
+          }
+          
           return this.translator.sdkToAcp(result, message.id);
           
         case 'session':
