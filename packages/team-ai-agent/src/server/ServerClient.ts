@@ -179,11 +179,15 @@ export class ServerClient {
 
     console.log('[ServerClient] queryStream called with history:', options?.conversationHistory?.length || 0, 'messages');
 
+    // Set conversation history on client if it's OpenAIClient
+    if (options?.conversationHistory && 'conversationHistory' in this.client!) {
+      (this.client as any).conversationHistory = options.conversationHistory;
+    }
+
     const stream = this.client!.sendMessageStream(
       [{ text: prompt }],
       abortController.signal,
-      promptId,
-      options?.conversationHistory  // Pass conversation history
+      promptId
     );
 
     const toolRequests: ToolCallRequestInfo[] = [];

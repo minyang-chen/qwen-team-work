@@ -111,6 +111,23 @@ export class EnhancedAIService {
         throw new Error('Maximum number of sessions reached');
       }
 
+      // Create ACP session in team-ai-agent first
+      try {
+        if (!this.aiClient.isConnected()) {
+          await this.aiClient.connect(['session.create']);
+        }
+        
+        await this.aiClient.request('session.create', {
+          userId,
+          workingDirectory: workingDirectory || '/workspace'
+        });
+        
+        console.log('[EnhancedAIService] Created ACP session for user:', userId);
+      } catch (error) {
+        console.error('[EnhancedAIService] Failed to create ACP session:', error);
+        // Continue anyway - some operations might still work
+      }
+
       // Load team context if teamId provided
       const teamContext = teamId ? await this.loadTeamContext(teamId, projectId) : undefined;
 

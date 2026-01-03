@@ -3,27 +3,44 @@ import { GeminiClient, GeminiEventType, getCoreSystemPrompt } from '@qwen-code/q
 import type { ServerGeminiStreamEvent } from '@qwen-code/qwen-code-core';
 import { FinishReason } from '@google/genai';
 import { AgentConfigLoader } from '@qwen-team/shared';
+import { ModelProviderRegistry, type ModelProvider } from '../models/index.js';
 
 export class OpenAIClient extends GeminiClient {
   private currentCycleHistory: Array<any> = [];
   private agentConfigLoader: AgentConfigLoader;
+  private modelProviderRegistry: ModelProviderRegistry;
+  private currentProvider: ModelProvider;
+  public conversationHistory: Array<{role: string, content: string}> = [];
   
   constructor(config: Config) {
     super(config);
     this.agentConfigLoader = new AgentConfigLoader();
+    
+    // Initialize provider registry
+    this.modelProviderRegistry = new ModelProviderRegistry();
+    
+    // Detect provider from model name and base URL
+    const modelName = (this as any).config.getModel();
+    const baseUrl = process.env.OPENAI_BASE_URL;
+    this.currentProvider = this.modelProviderRegistry.detectProvider(modelName, baseUrl);
+    
+    console.log('[OpenAIClient] Using model provider:', this.currentProvider.name);
   }
 
   async *sendMessageStream(
     request: any,
     signal: AbortSignal,
     prompt_id: string,
-    conversationHistory?: Array<{role: string, content: string}>
+    options?: { isContinuation: boolean },
+    turns?: number
   ): AsyncGenerator<ServerGeminiStreamEvent, any> {
+    // Use conversation history from instance
+    const conversationHistory = this.conversationHistory;
     console.log('[OpenAIClient] Starting OpenAI API call...');
     console.log('[OpenAIClient] Conversation history provided:', conversationHistory?.length || 0, 'messages');
     
-    // Check if this is a continuation (request contains functionResponse)
-    const isContinuation = Array.isArray(request) && request.some(part => part.functionResponse);
+    // Use provider to check continuation
+    const isContinuation = this.currentProvider.isContinuation(request);
     
     // Get active agent configuration
     const activeAgent = this.agentConfigLoader.getActiveAgent();
@@ -39,21 +56,8 @@ export class OpenAIClient extends GeminiClient {
     );
     console.log('[OpenAIClient] Using tools:', toolDeclarations.map((t: any) => t.name));
     
-    // Convert to OpenAI format with proper parameters
-    const tools = toolDeclarations.map((tool: any) => {
-      // Use parametersJsonSchema from the tool registry (Gemini format)
-      // and convert it to OpenAI format
-      let parameters = tool.parametersJsonSchema || tool.parameters || { type: "object", properties: {} };
-      
-      return {
-        type: "function",
-        function: {
-          name: tool.name,
-          description: tool.description,
-          parameters: parameters
-        }
-      };
-    });
+    // Use provider to format tools
+    const tools = this.currentProvider.formatTools(toolDeclarations);
 
     // Handle different request types
     let messages;
@@ -105,11 +109,8 @@ export class OpenAIClient extends GeminiClient {
         }
       }
       
-      // Remove Qwen-specific tool_call syntax that conflicts with OpenAI function calling
-      // Replace [tool_call: ...] with generic instruction
-      systemPrompt = systemPrompt.replace(/\[tool_call:[^\]]+\]/g, '[use the appropriate tool]');
-      // Remove any <tool_call> XML tags
-      systemPrompt = systemPrompt.replace(/<tool_call>[\s\S]*?<\/tool_call>/g, '');
+      // Use provider to format system prompt
+      systemPrompt = this.currentProvider.formatSystemPrompt(systemPrompt);
       
       // Add working directory information
       const targetDir = (this as any).config.getTargetDir();
@@ -170,59 +171,33 @@ export class OpenAIClient extends GeminiClient {
           console.log('[OpenAIClient] Saved assistant message with tool_calls to cycle history');
         }
         
-        // Yield content (only if not null)
-        if (message.content) {
-          let cleanContent = message.content;
-          
-          // Try to extract content from XML tool calls that Qwen outputs
-          const xmlMatch = message.content.match(/<parameter=content>\s*([\s\S]*?)\s*<\/parameter>/);
-          if (xmlMatch && xmlMatch[1]) {
-            // Found content in XML, extract and display it
-            const extractedContent = xmlMatch[1].trim();
-            // Also get the text before the XML
-            const beforeXml = message.content.substring(0, message.content.indexOf('<tool_call>')).trim();
-            cleanContent = beforeXml + (beforeXml ? '\n\n' : '') + '```\n' + extractedContent + '\n```';
-          } else {
-            // No XML content found, just strip the XML tags
-            cleanContent = message.content.replace(/<tool_call>[\s\S]*$/g, '').trim();
-            cleanContent = cleanContent.replace(/<function=[\s\S]*$/g, '').trim();
-          }
-          
-          if (cleanContent) {
-            yield {
-              type: GeminiEventType.Content,
-              value: cleanContent
-            };
-          }
+        // Use provider to parse response
+        const parsed = this.currentProvider.parseResponse(response);
+        
+        // Yield content
+        if (parsed.content) {
+          yield {
+            type: GeminiEventType.Content,
+            value: parsed.content
+          };
         }
 
         // Convert tool_calls to tool_call_request events
-        if (message.tool_calls && message.tool_calls.length > 0) {
-          console.log('[OpenAIClient] Converting', message.tool_calls.length, 'tool calls');
-          console.log('[OpenAIClient] Tool calls:', JSON.stringify(message.tool_calls, null, 2));
+        if (parsed.toolCalls && parsed.toolCalls.length > 0) {
+          console.log('[OpenAIClient] Converting', parsed.toolCalls.length, 'tool calls');
           
-          for (const toolCall of message.tool_calls) {
-            console.log('[OpenAIClient] Processing tool call:', toolCall.function.name);
-            console.log('[OpenAIClient] Raw arguments:', toolCall.function.arguments);
+          for (const toolCall of parsed.toolCalls) {
+            console.log('[OpenAIClient] Processing tool call:', toolCall.name);
             
-            let parsedArgs;
-            try {
-              parsedArgs = JSON.parse(toolCall.function.arguments);
-              console.log('[OpenAIClient] Parsed arguments:', parsedArgs);
-              
-              // Add default values for missing parameters
-              if (toolCall.function.name === 'run_shell_command' && !('is_background' in parsedArgs)) {
-                parsedArgs.is_background = false;
-              }
-            } catch (e) {
-              console.error('[OpenAIClient] Failed to parse arguments:', e);
-              parsedArgs = {};
+            // Add default values for missing parameters
+            if (toolCall.name === 'run_shell_command' && !('is_background' in toolCall.arguments)) {
+              toolCall.arguments.is_background = false;
             }
             
             const toolRequest: ToolCallRequestInfo = {
               callId: toolCall.id,
-              name: toolCall.function.name,
-              args: parsedArgs,
+              name: toolCall.name,
+              args: toolCall.arguments,
               isClientInitiated: false,
               prompt_id: prompt_id,
               response_id: response.id || 'unknown'

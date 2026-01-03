@@ -277,11 +277,6 @@ export class UserSessionManager {
     }
   }
 
-  getConversationHistory(sessionId: string): ChatMessage[] {
-    const session = this.getSessionById(sessionId);
-    return session ? session.conversationHistory : [];
-  }
-
   clearConversationHistory(sessionId: string): void {
     const session = this.getSessionById(sessionId);
     if (session) {

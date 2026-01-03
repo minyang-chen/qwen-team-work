@@ -18,6 +18,20 @@ export class AIServiceClient {
     this.acpClient = new AcpClient(this.agentDiscovery);
   }
 
+  async connect(capabilities: string | string[]): Promise<void> {
+    if (!this.acpClient.isConnected()) {
+      await this.acpClient.connect(capabilities);
+    }
+  }
+
+  isConnected(): boolean {
+    return this.acpClient.isConnected();
+  }
+
+  async request(type: string, data: any): Promise<any> {
+    return await this.acpClient.request(type as any, data);
+  }
+
   async sendMessage(
     message: string,
     context: {

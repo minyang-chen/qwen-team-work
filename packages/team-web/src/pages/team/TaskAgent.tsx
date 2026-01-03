@@ -149,7 +149,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
       const token = localStorage.getItem('team_session_token');
       if (!token || !safeCurrentSessionId) return;
 
-      await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/save`, {
+      await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -281,7 +281,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const loadConversationList = async () => {
     try {
       const token = localStorage.getItem('team_session_token');
-      const response = await fetch(`${API_BASE}/api/conversations/list?limit=100`, {
+      const response = await fetch(`${STORAGE_BASE}/api/conversations/list?limit=100`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -301,7 +301,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const switchConversation = async (sessionId: string) => {
     try {
       const token = localStorage.getItem('team_session_token');
-      const response = await fetch(`${API_BASE}/api/conversations/${sessionId}`, {
+      const response = await fetch(`${STORAGE_BASE}/api/conversations/${sessionId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -320,10 +320,10 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
         
         // Load contexts and skills
         const [ctxRes, skillRes] = await Promise.all([
-          fetch(`${API_BASE}/api/conversations/${sessionId}/contexts`, {
+          fetch(`${STORAGE_BASE}/api/conversations/${sessionId}/contexts`, {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          fetch(`${API_BASE}/api/conversations/${sessionId}/skills`, {
+          fetch(`${STORAGE_BASE}/api/conversations/${sessionId}/skills`, {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -343,7 +343,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const loadConversation = async (sessionId: string) => {
     try {
       const token = localStorage.getItem('team_session_token');
-      const response = await fetch(`${API_BASE}/api/conversations/${sessionId}`, {
+      const response = await fetch(`${STORAGE_BASE}/api/conversations/${sessionId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -368,7 +368,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const renameConversation = async (sessionId: string, newName: string) => {
     try {
       const token = localStorage.getItem('team_session_token');
-      const response = await fetch(`${API_BASE}/api/conversations/${sessionId}/rename`, {
+      const response = await fetch(`${STORAGE_BASE}/api/conversations/${sessionId}/rename`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -394,7 +394,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
       const token = localStorage.getItem('team_session_token');
       console.log('[DELETE] Deleting conversation:', sessionId);
       
-      const response = await fetch(`${API_BASE}/api/conversations/${sessionId}`, {
+      const response = await fetch(`${STORAGE_BASE}/api/conversations/${sessionId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`
@@ -438,7 +438,7 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     
     try {
       const token = localStorage.getItem('team_session_token');
-      const response = await fetch(`${API_BASE}/api/conversations/search?query=${encodeURIComponent(query)}`, {
+      const response = await fetch(`${STORAGE_BASE}/api/conversations/search?query=${encodeURIComponent(query)}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -539,7 +539,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
       }
 
       if (cmd === '/contexts') {
-        const res = await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
+        const res = await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -560,7 +560,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
         if (action === 'add_url' && parts.length >= 4) {
           const name = parts[2];
           const url = parts.slice(3).join(' ');
-          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
+          await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ name, type: 'url', url })
@@ -576,7 +576,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
         if (action === 'add' && parts.length >= 4) {
           const name = parts[2];
           const content = parts.slice(3).join(' ');
-          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
+          await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ name, type: 'block', content })
@@ -591,7 +591,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
         }
         if (action === 'remove' && parts.length >= 3) {
           const name = parts[2];
-          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts/${name}`, {
+          await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/contexts/${name}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -606,7 +606,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
       }
 
       if (cmd === '/skills') {
-        const res = await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills`, {
+        const res = await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/skills`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -627,7 +627,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
         if (action === 'add' && parts.length >= 4) {
           const name = parts[2];
           const description = parts.slice(3).join(' ');
-          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills`, {
+          await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/skills`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ name, description })
@@ -642,7 +642,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
         }
         if (action === 'remove' && parts.length >= 3) {
           const name = parts[2];
-          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills/${name}`, {
+          await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/skills/${name}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -657,7 +657,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
         if (action === 'edit' && parts.length >= 4) {
           const name = parts[2];
           const description = parts.slice(3).join(' ');
-          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills/${name}`, {
+          await fetch(`${STORAGE_BASE}/api/conversations/${safeCurrentSessionId}/skills/${name}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ description })
@@ -1099,7 +1099,7 @@ Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
                 className={`px-4 py-2 rounded-lg ${
                   message.role === 'user'
                     ? 'bg-blue-600 text-white max-w-xs lg:max-w-md'
-                    : 'bg-gray-100 text-gray-900 w-full'
+                    : 'bg-gray-100 text-gray-900 w-full text-[80%]'
                 }`}
               >
                 <div className="space-y-2">

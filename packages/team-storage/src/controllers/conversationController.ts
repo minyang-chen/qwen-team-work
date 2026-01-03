@@ -39,10 +39,13 @@ export const getConversationList = async (req: Request, res: Response): Promise<
 
 export const switchConversation = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = (req as any).user?.id || (req as any).user?.userId;
     const { sessionId } = req.params;
     
-    const session = await Session.findOne({ sessionId, userId });
+    const session = await Session.findOne({ 
+      sessionId, 
+      userId: new mongoose.Types.ObjectId(userId) 
+    });
     
     if (!session) {
       res.status(404).json({ error: 'Conversation not found' });
