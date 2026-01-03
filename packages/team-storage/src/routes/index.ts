@@ -34,6 +34,13 @@ import {
   renameConversation,
   deleteConversation,
   searchConversations,
+  addContext,
+  removeContext,
+  getContexts,
+  addSkill,
+  removeSkill,
+  editSkill,
+  getSkills,
 } from '../controllers/conversationController.js';
 import {
   listFiles,
@@ -156,6 +163,17 @@ router.get('/api/conversations/search', authenticate, searchConversations);
 router.get('/api/conversations/:sessionId', authenticate, switchConversation);
 router.put('/api/conversations/:sessionId/rename', authenticate, renameConversation);
 router.delete('/api/conversations/:sessionId', authenticate, deleteConversation);
+
+// Context management routes
+router.post('/api/conversations/:sessionId/contexts', authenticate, addContext);
+router.delete('/api/conversations/:sessionId/contexts/:name', authenticate, removeContext);
+router.get('/api/conversations/:sessionId/contexts', authenticate, getContexts);
+
+// Skill management routes
+router.post('/api/conversations/:sessionId/skills', authenticate, addSkill);
+router.delete('/api/conversations/:sessionId/skills/:name', authenticate, removeSkill);
+router.put('/api/conversations/:sessionId/skills/:name', authenticate, editSkill);
+router.get('/api/conversations/:sessionId/skills', authenticate, getSkills);
 
 // Auto-save conversation
 router.post('/api/conversations/:sessionId/save', authenticate, async (req, res) => {

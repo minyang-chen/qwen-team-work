@@ -214,3 +214,155 @@ export const searchConversations = async (req: Request, res: Response): Promise<
     res.status(500).json({ error: 'Failed to search conversations' });
   }
 };
+
+
+// Context management
+export const addContext = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId } = req.params;
+    const { name, type, content, url } = req.body;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    if (!session.contexts) session.contexts = [];
+    session.contexts.push({ name, type, content, url, createdAt: new Date() });
+    await session.save();
+
+    res.json({ success: true, contexts: session.contexts });
+  } catch (error) {
+    console.error('Add context error:', error);
+    res.status(500).json({ error: 'Failed to add context' });
+  }
+};
+
+export const removeContext = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId, name } = req.params;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    session.contexts = session.contexts?.filter(c => c.name !== name) || [];
+    await session.save();
+
+    res.json({ success: true, contexts: session.contexts });
+  } catch (error) {
+    console.error('Remove context error:', error);
+    res.status(500).json({ error: 'Failed to remove context' });
+  }
+};
+
+export const getContexts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId } = req.params;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    res.json({ contexts: session.contexts || [] });
+  } catch (error) {
+    console.error('Get contexts error:', error);
+    res.status(500).json({ error: 'Failed to get contexts' });
+  }
+};
+
+// Skill management
+export const addSkill = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId } = req.params;
+    const { name, description } = req.body;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    if (!session.skills) session.skills = [];
+    session.skills.push({ name, description, createdAt: new Date() });
+    await session.save();
+
+    res.json({ success: true, skills: session.skills });
+  } catch (error) {
+    console.error('Add skill error:', error);
+    res.status(500).json({ error: 'Failed to add skill' });
+  }
+};
+
+export const removeSkill = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId, name } = req.params;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    session.skills = session.skills?.filter(s => s.name !== name) || [];
+    await session.save();
+
+    res.json({ success: true, skills: session.skills });
+  } catch (error) {
+    console.error('Remove skill error:', error);
+    res.status(500).json({ error: 'Failed to remove skill' });
+  }
+};
+
+export const editSkill = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId, name } = req.params;
+    const { description } = req.body;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    const skill = session.skills?.find(s => s.name === name);
+    if (skill) {
+      skill.description = description;
+      await session.save();
+    }
+
+    res.json({ success: true, skills: session.skills });
+  } catch (error) {
+    console.error('Edit skill error:', error);
+    res.status(500).json({ error: 'Failed to edit skill' });
+  }
+};
+
+export const getSkills = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { sessionId } = req.params;
+    const userId = (req as any).user?.id;
+
+    const session = await Session.findOne({ sessionId, userId: new mongoose.Types.ObjectId(userId) });
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    res.json({ skills: session.skills || [] });
+  } catch (error) {
+    console.error('Get skills error:', error);
+    res.status(500).json({ error: 'Failed to get skills' });
+  }
+};

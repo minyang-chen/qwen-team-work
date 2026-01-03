@@ -52,6 +52,8 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
   const [searchLoading, setSearchLoading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [autoSave, setAutoSave] = useState(true);
+  const [contexts, setContexts] = useState<Array<{name: string, type: string, content?: string, url?: string}>>([]);
+  const [skills, setSkills] = useState<Array<{name: string, description: string}>>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -315,6 +317,24 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
           timestamp: new Date(msg.timestamp)
         }));
         setMessages(formattedMessages);
+        
+        // Load contexts and skills
+        const [ctxRes, skillRes] = await Promise.all([
+          fetch(`${API_BASE}/api/conversations/${sessionId}/contexts`, {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          fetch(`${API_BASE}/api/conversations/${sessionId}/skills`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+        ]);
+        if (ctxRes.ok) {
+          const ctxData = await ctxRes.json();
+          setContexts(ctxData.contexts || []);
+        }
+        if (skillRes.ok) {
+          const skillData = await skillRes.json();
+          setSkills(skillData.skills || []);
+        }
       }
     } catch (error) {
     }
@@ -471,8 +491,211 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
     setEditName(currentName);
   };
 
+  const handleCommand = async (command: string): Promise<boolean> => {
+    const token = localStorage.getItem('team_session_token');
+    if (!token || !safeCurrentSessionId) return false;
+
+    const parts = command.trim().split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+
+    try {
+      if (cmd === '/help') {
+        // Show ALL commands: frontend + backend
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: `**Available Commands:**
+
+**Context & Skill Commands (Frontend):**
+- \`/contexts\` - Display all contexts
+- \`/context add_url {name} {url}\` - Add URL context
+- \`/context add {name} {description}\` - Add text block context
+- \`/context remove {name}\` - Remove context
+- \`/skills\` - Display all skills
+- \`/skill add {name} {description}\` - Add skill
+- \`/skill remove {name}\` - Remove skill
+- \`/skill edit {name} {description}\` - Edit skill
+
+**AI Agent Commands (Backend):**
+- \`/help\` - Show this help message
+- \`/clear\` - Clear conversation history
+- \`/stats\` - Show session statistics
+- \`/model\` - Show current model
+- \`/quit\`, \`/exit\` - Exit (not applicable in web)
+- \`/compress\` - Compress conversation history
+- \`/about\` - About this application
+- \`/save_session {name}\` - Save current session
+- \`/load_session {name}\` - Load saved session
+- \`/sessions\` - List all saved sessions
+- \`/delete_session {name}\` - Delete saved session
+- \`/agent\` - Show current agent
+- \`/agents\` - List all available agents
+- \`/switch_agent {id}\` - Switch to a different agent
+
+Use \`!\` prefix for direct shell commands (e.g., \`!ls -la\`)`,
+          timestamp: new Date()
+        }]);
+        return true;
+      }
+
+      if (cmd === '/contexts') {
+        const res = await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        setContexts(data.contexts || []);
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: data.contexts?.length ? 
+            `**Contexts:**\n${data.contexts.map((c: any) => `- ${c.name} (${c.type})`).join('\n')}` :
+            'No contexts added yet.',
+          timestamp: new Date()
+        }]);
+        return true;
+      }
+
+      if (cmd === '/context') {
+        const action = parts[1]?.toLowerCase();
+        if (action === 'add_url' && parts.length >= 4) {
+          const name = parts[2];
+          const url = parts.slice(3).join(' ');
+          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ name, type: 'url', url })
+          });
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `✓ Added context "${name}" with URL: ${url}`,
+            timestamp: new Date()
+          }]);
+          return true;
+        }
+        if (action === 'add' && parts.length >= 4) {
+          const name = parts[2];
+          const content = parts.slice(3).join(' ');
+          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ name, type: 'block', content })
+          });
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `✓ Added context "${name}"`,
+            timestamp: new Date()
+          }]);
+          return true;
+        }
+        if (action === 'remove' && parts.length >= 3) {
+          const name = parts[2];
+          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/contexts/${name}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `✓ Removed context "${name}"`,
+            timestamp: new Date()
+          }]);
+          return true;
+        }
+      }
+
+      if (cmd === '/skills') {
+        const res = await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        setSkills(data.skills || []);
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: data.skills?.length ?
+            `**Skills:**\n${data.skills.map((s: any) => `- ${s.name}: ${s.description}`).join('\n')}` :
+            'No skills added yet.',
+          timestamp: new Date()
+        }]);
+        return true;
+      }
+
+      if (cmd === '/skill') {
+        const action = parts[1]?.toLowerCase();
+        if (action === 'add' && parts.length >= 4) {
+          const name = parts[2];
+          const description = parts.slice(3).join(' ');
+          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ name, description })
+          });
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `✓ Added skill "${name}"`,
+            timestamp: new Date()
+          }]);
+          return true;
+        }
+        if (action === 'remove' && parts.length >= 3) {
+          const name = parts[2];
+          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills/${name}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `✓ Removed skill "${name}"`,
+            timestamp: new Date()
+          }]);
+          return true;
+        }
+        if (action === 'edit' && parts.length >= 4) {
+          const name = parts[2];
+          const description = parts.slice(3).join(' ');
+          await fetch(`${API_BASE}/api/conversations/${safeCurrentSessionId}/skills/${name}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ description })
+          });
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `✓ Updated skill "${name}"`,
+            timestamp: new Date()
+          }]);
+          return true;
+        }
+      }
+    } catch (error) {
+      console.error('Command error:', error);
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: `✗ Command failed: ${error}`,
+        timestamp: new Date()
+      }]);
+      return true;
+    }
+
+    return false;
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
+
+    // Check if it's a command
+    if (input.startsWith('/')) {
+      const handled = await handleCommand(input);
+      if (handled) {
+        setInput('');
+        return;
+      }
+    }
 
     const token = localStorage.getItem('team_session_token');
     if (!token) {
@@ -549,6 +772,32 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
         })
       );
       enhancedMessage = input + fileContents.join('');
+    }
+
+    // Append contexts and skills to message
+    if (contexts.length > 0 || skills.length > 0) {
+      let contextBlock = '\n\n--- Session Context ---\n';
+      
+      if (contexts.length > 0) {
+        contextBlock += '\nContexts:\n';
+        contexts.forEach(ctx => {
+          if (ctx.type === 'url') {
+            contextBlock += `- ${ctx.name}: ${ctx.url}\n`;
+          } else {
+            contextBlock += `- ${ctx.name}: ${ctx.content}\n`;
+          }
+        });
+      }
+      
+      if (skills.length > 0) {
+        contextBlock += '\nSkills:\n';
+        skills.forEach(skill => {
+          contextBlock += `- ${skill.name}: ${skill.description}\n`;
+        });
+      }
+      
+      contextBlock += '--- End Session Context ---\n';
+      enhancedMessage += contextBlock;
     }
 
     const userMessage: Message = {
@@ -885,6 +1134,36 @@ export function TaskAgent({ workspaceType, selectedTeamId }: TaskAgentProps) {
 
         {/* Input */}
         <div className="border-t border-gray-200 p-4">
+          {/* Contexts and Skills Display */}
+          {(contexts.length > 0 || skills.length > 0) && (
+            <div className="mb-3 p-2 bg-gray-50 rounded border border-gray-200 text-xs">
+              {contexts.length > 0 && (
+                <div className="mb-2">
+                  <span className="font-medium text-gray-700">Contexts:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {contexts.map((ctx, i) => (
+                      <span key={i} className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded">
+                        {ctx.name} ({ctx.type})
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {skills.length > 0 && (
+                <div>
+                  <span className="font-medium text-gray-700">Skills:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {skills.map((skill, i) => (
+                      <span key={i} className="bg-green-100 text-green-800 px-2 py-0.5 rounded">
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* File attachments preview */}
           {uploadedFiles.length > 0 && (
             <div className="mb-2 flex flex-wrap gap-2">

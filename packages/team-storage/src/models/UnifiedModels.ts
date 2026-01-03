@@ -176,6 +176,18 @@ export interface ISession extends Document {
     timestamp: Date;
     embedding?: number[];
   }[];
+  contexts: {
+    name: string;
+    type: 'url' | 'block';
+    content?: string;
+    url?: string;
+    createdAt: Date;
+  }[];
+  skills: {
+    name: string;
+    description: string;
+    createdAt: Date;
+  }[];
   tokenUsage: {
     input: number;
     output: number;
@@ -226,6 +238,18 @@ const sessionSchema = new Schema<ISession>({
     },
     timestamp: { type: Date, default: Date.now },
     embedding: [{ type: Number }]
+  }],
+  contexts: [{
+    name: { type: String, required: true },
+    type: { type: String, enum: ['url', 'block'], required: true },
+    content: { type: String },
+    url: { type: String },
+    createdAt: { type: Date, default: Date.now }
+  }],
+  skills: [{
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
   }],
   tokenUsage: {
     input: { type: Number, default: 0 },

@@ -7,7 +7,7 @@ Local .env exists: true
 Routes type: function isFunction: true
 MongoDB connected successfully
 Vector search, image search, and full-text search indexes created successfully for MongoDB Community Edition
-[2026-01-03T01:39:09.740Z] [INFO] Backend server started {
+[2026-01-03T02:49:06.072Z] [INFO] Backend server started {
   port: 8000,
   env: 'development',
   allowedOrigins: [
@@ -17,1693 +17,192 @@ Vector search, image search, and full-text search indexes created successfully f
     'http://localhost:8003'
   ]
 }
-[2026-01-03T01:39:39.714Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:40:09.704Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:40:39.704Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:41:09.704Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:41:39.704Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:49:36.043Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:50:06.031Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 0 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 0 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 0 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 0 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:42:09.705Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:42:39.705Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:43:09.705Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:43:39.705Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:44:09.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:44:39.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:45:09.705Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:45:39.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:46:09.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:46:39.707Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:47:09.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:47:39.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:48:09.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:48:39.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:49:09.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:49:39.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:50:09.706Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:50:39.707Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:51:09.707Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:51:39.707Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:52:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: mvtsaNZ5QVUEt0nKrZVNp userId: 695099320356ef030062423b messages: 16
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[2026-01-03T01:52:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:53:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:53:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:54:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:54:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:55:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:55:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:56:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:56:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:57:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:57:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:58:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:58:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:59:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T01:59:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 1 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[2026-01-03T02:00:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[2026-01-03T02:00:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 6
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[2026-01-03T02:01:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 8
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[2026-01-03T02:01:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:02:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 10
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[2026-01-03T02:02:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:03:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Jy1UxSyMDsl0R0s4n6-OV userId: 695099320356ef030062423b messages: 14
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[2026-01-03T02:03:39.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:04:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:04:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:05:09.710Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:05:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:06:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:06:39.710Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:07:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:07:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:08:09.708Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:08:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:09:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:09:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 2 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: Ix7Xk_rfDpCDwTJAwX8WR userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[2026-01-03T02:10:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:10:39.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:11:09.709Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:11:39.710Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:12:09.710Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:12:39.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:13:09.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:13:39.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:14:09.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:14:39.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:15:09.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:15:39.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:16:09.711Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:16:39.712Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:17:09.712Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:17:39.713Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:18:09.712Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:18:39.712Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 3 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 2
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 2
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[2026-01-03T02:19:09.712Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[CONVERSATION LIST] userId: 695099320356ef030062423b
 [CONVERSATION LIST] Found 4 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
 [CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
 [CONVERSATION LIST] userId: 695099320356ef030062423b
 [CONVERSATION LIST] Found 4 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
 [CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
+[2026-01-03T02:50:36.030Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 4
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[2026-01-03T02:19:39.712Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 4
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 4
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 5
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 6
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
+[2026-01-03T02:51:06.031Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 8
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 8
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
+[2026-01-03T02:51:36.031Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:52:06.031Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:52:36.033Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 8
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 6
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
+[2026-01-03T02:53:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
+[2026-01-03T02:53:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:54:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 2
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 3
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 4
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
+[2026-01-03T02:54:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 6
+[AUTO-SAVE] Saving conversation: rJlCYBe9ZS74IV2Ppp2FB userId: 695099320356ef030062423b messages: 6
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 8
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
+[2026-01-03T02:55:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:55:36.033Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:56:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[2026-01-03T02:20:09.713Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 5 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 5 sessions
+[AUTO-SAVE] Saving conversation: ltxS6_4H-sXYSXLGAFGlf userId: 695099320356ef030062423b messages: 1
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
+[2026-01-03T02:56:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:57:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:57:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: ltxS6_4H-sXYSXLGAFGlf userId: 695099320356ef030062423b messages: 1
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
+[2026-01-03T02:58:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
+[2026-01-03T02:58:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:59:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[2026-01-03T02:59:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
+[AUTO-SAVE] Saving conversation: ltxS6_4H-sXYSXLGAFGlf userId: 695099320356ef030062423b messages: 1
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
+[2026-01-03T03:00:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 10
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[CONVERSATION LIST] Found 6 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[CONVERSATION LIST] Found 6 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 1
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 7 sessions
+[2026-01-03T03:00:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 3
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 3
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 7 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 5
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 5
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 7
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 7
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 7
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[CONVERSATION LIST] Found 7 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 7
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 7
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 12
+[CONVERSATION LIST] Found 7 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
+[CONVERSATION LIST] Found 7 sessions
+[2026-01-03T03:01:06.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 9
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[2026-01-03T02:20:39.713Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:21:09.713Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 14
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 9
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 14
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 9
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 9
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 16
+[CONVERSATION LIST] Found 7 sessions
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[AUTO-SAVE] Saving conversation: GDkVLk12bv5WP9A6ETt6K userId: 695099320356ef030062423b messages: 16
+[CONVERSATION LIST] Found 7 sessions
+[AUTO-SAVE] Saving conversation: 287dJyQNgEBi0wYvhzVcv userId: 695099320356ef030062423b messages: 9
 [CONVERSATION LIST] userId: 695099320356ef030062423b
-[CONVERSATION LIST] Found 4 sessions
-[2026-01-03T02:21:39.713Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
-[2026-01-03T02:22:09.713Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
+[CONVERSATION LIST] Found 7 sessions
+[2026-01-03T03:01:36.032Z] [DEBUG] Embedding health check request { baseUrl: 'http://localhost:11434/v1', model: 'nomic-embed-text' }
